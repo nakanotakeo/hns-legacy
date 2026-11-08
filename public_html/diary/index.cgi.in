@@ -53,9 +53,9 @@ unless ($ENV{'SCRIPT_NAME'}) {
 
 ################################################################
 # access control
-my $acl = new HNS::AccessControl;
+my $acl = "HNS::AccessControl"->new();
 
-my $hns = new HNS;
+my $hns = HNS->new();
 my $keywords = param('keywords');
 
 # record log
@@ -142,11 +142,11 @@ unless ($HNS::Status->is_robot || $HNS::System::NoRedirect) {
 }
 ################################################################
 # auto cache clear
-my $cache = new HNS::Cache;
+my $cache = "HNS::Cache"->new();
 my $dirty = $cache->AutoClear;
 
 ################################################################
-my $col = new HNS::Collection;
+my $col = "HNS::Collection"->new();
 
 if (param('YEAR') && param('MONTH')){	# from direct calendar?
     if (param('DAY') eq "ALL") {
@@ -183,7 +183,7 @@ elsif ($keywords =~ /^(\d{4})(\d{2})(\d{2})S(.*)/){    # Y10K
         $col->ReadRecent($HNS::System::DefaultMax);
     } else {
         use HNS::Tools::HeadLine;
-        my $sectitle = new HNS::Tools::HeadLine;
+        my $sectitle = "HNS::Tools::HeadLine"->new();
         $sectitle->getFileListByPattern($sectitle->diaryDir($y),"$y$m$d");
         $sectitle->readHnf("d$y$m$d.hnf", 'side');
         my @new = @{$sectitle->title};
