@@ -19,7 +19,7 @@ use HNS::System;
 use HNS::Template;
 use HNS::Diary::Template;
 
-attributes qw(year month day);
+__PACKAGE__->attributes(qw(year month day));
 
 use vars qw(%DB $CatDir $TitleLabel $SubmitLabel 
 		$Template $Template_no_img $Categorize);
@@ -68,7 +68,7 @@ sub AsHTML($)
 	qq(<form action="title_wrapper.cgi" method="get">\n);
     $html .= qq(<input name="CAT" type="checkbox" value="ALL">$Categorize<br>\n);
 
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     for my $cat (sort keys %DB){
 	next unless $cat;
 	my $img = "$CatDir/$DB{$cat}";

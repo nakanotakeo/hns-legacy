@@ -8,7 +8,7 @@ HNS::PIM::Todo - Todo 管理クラス
 
 =head1 SYNOPSIS
 
- my $todo = new HNS::PIM::Todo(filename=>'diary/todo');
+ my $todo = HNS::PIM::Todo->new(filename=>'diary/todo');
  $todo->Read;
  print $todo->AsHTML;
 
@@ -25,7 +25,7 @@ use HNS::System;
 use HNS::Template;
 use HNS::Diary::Template;
 
-attributes qw(contents);
+__PACKAGE__->attributes(qw(contents));
 
 use vars qw($MaxNum $ContentTemplate $BeginTemplate $EndTemplate);
 use vars qw(%ContentTemplate %BeginTemplate %EndTemplate);
@@ -74,7 +74,7 @@ HTML変換して返す
 sub AsHTML ($)
 {
     my $self = shift;
-    my $templ = new HNS::Template;
+    my $templ = HNS::Template->new();
     my $html .= SelectTemplate($BeginTemplate, %BeginTemplate);
     my $cnt;    
 

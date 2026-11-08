@@ -30,7 +30,7 @@ use DateTime::Date;
 =cut
 
 
-attributes qw(month_all start_year);
+__PACKAGE__->attributes(qw(month_all start_year));
 ################################################################
 # configuration static variabes
 #
@@ -63,7 +63,7 @@ HTML 変換する
 sub AsHTML ($;$$$)
 {
     my ($self,  $year, $month, $day, $SubmitLabel) = @_;
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     my $html;
 
     # year

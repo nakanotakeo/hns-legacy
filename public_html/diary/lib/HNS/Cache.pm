@@ -24,14 +24,14 @@ use SimpleDB::Append;
 
 =cut
 
-attributes qw(status);
+__PACKAGE__->attributes(qw(status));
 
 ################################################################
 
 sub initialize($)
 {
     my $self = shift;
-    $self->status(new HNS::Status);
+    $self->status("HNS::Status"->new());
 }
 
 ################################################################
@@ -74,7 +74,7 @@ sub Clear($:$)
     my $date_time = sprintf(qq(%s), $self->status->date_time);
     my $cache_file = "$DiaryDir/log/cache_log";
     if ($HNS::System::CacheLog eq 'ON') {
-        my $cache_log = new SimpleDB::Append("$cache_file");
+        my $cache_log = SimpleDB::Append->new("$cache_file");
         if ($auto) {
             $cache_log->Append("$date_time clear system\n");
         }
@@ -142,7 +142,7 @@ sub AutoClear {
 	}
 
 	if ($dirty) {
-	    my $cache = new HNS::Cache;
+	    my $cache = HNS::Cache->new();
 	    $self->Clear(1);
 	}
 	return $dirty;

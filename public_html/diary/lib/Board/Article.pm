@@ -48,7 +48,7 @@ use vars qw(@ISA @EXPORT);
 @ISA = qw(ObjectTemplate);
 @EXPORT = qw(attributes);
 
-attributes qw(delete_key msgid refid ref_diary ruri_code time title name mail site addr body);
+__PACKAGE__->attributes(qw(delete_key msgid refid ref_diary ruri_code time title name mail site addr body));
 
 sub Set
 {

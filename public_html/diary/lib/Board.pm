@@ -77,7 +77,7 @@ sub read_boarddata()
 
   return if $read_done;
 
-  my $board = new Board::System;
+  my $board = Board::System->new();
   $board->LoadLightly();
   foreach my $article (@{$board->article_list}) {
       my $diary = $article->ref_diary;

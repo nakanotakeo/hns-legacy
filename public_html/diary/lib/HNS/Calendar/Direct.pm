@@ -19,7 +19,7 @@ use strict;
 use HNS::DateSelect;
 @HNS::Calendar::Direct::ISA = qw(HNS::DateSelect);
 
-attributes qw(year month day);
+__PACKAGE__->attributes(qw(year month day));
 use vars qw($SubmitLabel);
 
 $SubmitLabel = "Go!";

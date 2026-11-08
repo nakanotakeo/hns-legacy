@@ -30,7 +30,7 @@ use vars qw(@ISA @EXPORT);
 @ISA = qw(ObjectTemplate);
 @EXPORT = qw(attributes);
 
-attributes qw(agent referer);
+__PACKAGE__->attributes(qw(agent referer));
 
 use IO::Socket;
 

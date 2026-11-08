@@ -10,7 +10,7 @@ HNS::Diary - diary class
 
   use HNS::Diary;
 
-  my $diary = new HNS::Diary(filename=>'d19990331.hnf');
+  my $diary = HNS::Diary->new(filename=>'d19990331.hnf');
   $diary->Read;
   $diary->Print($reverse_sec);
 
@@ -60,8 +60,8 @@ use vars qw($YoteiHead $YoteiVal $YoteiFoot);
 
 =cut
 
-attributes qw(filename year month day tree user_var last_modified 
-	read_done has_user_var);
+__PACKAGE__->attributes(qw(filename year month day tree user_var last_modified
+	read_done has_user_var));
 	      
 
 # template
@@ -107,8 +107,8 @@ sub initialize($)
 {
     my $self = shift;
 
-    $self->tree(new HNS::Hnf::TreeBuilder);
-    $self->user_var(new HNS::Hnf::UserVar);
+    $self->tree(HNS::Hnf::TreeBuilder->new());
+    $self->user_var("HNS::Hnf::UserVar"->new());
 
     $self->SetFilename($self->filename)
 	if ($self->filename);
@@ -167,10 +167,10 @@ sub Read($)
 	# UseYoteiView 
     my $YoteiStr = "";
     if ($HNS::System::UseYoteiView) {
-        my $sch = new HNS::PIM::Schedule();
+        my $sch = HNS::PIM::Schedule->new();
         my @yoteis = $sch->get_yotei($year, $month, $day);
         my $val = "";
-        my $templ = new HNS::Template;
+        my $templ = HNS::Template->new();
         for my $y (@yoteis) {
             $templ->SetParamValues(value=>$y);
             $templ->SetTemplate($YoteiVal);
@@ -249,9 +249,9 @@ sub Print($$)
     my $dateDayHi = int($day/10);
     my $xhnf = "$HNS::System::CacheDir/$year/$year$month$day.xhnf";
 
-    my $date = new DateTime::Date(year=>$year, month=>$month, day=>$day);
+    my $date = "DateTime::Date"->new(year=>$year, month=>$month, day=>$day);
 
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     my $abc;
     if ($day < 11) {
         $abc = "a";
@@ -281,7 +281,7 @@ sub Print($$)
 		Display ($xhnf, $reverse_sec);
 		# hit logging
 		if ($HNS::System::CacheLog eq 'ON') {
-		    my $cache_log = new SimpleDB::Append("$cache_file"); 
+		    my $cache_log = SimpleDB::Append->new("$cache_file");
 		    $cache_log->Append("$date_time $year$month$day hit\n");
 		}
 
@@ -298,7 +298,7 @@ sub Print($$)
 
 	# miss logging
 	if ($HNS::System::CacheLog eq 'ON') {
-	    my $cache_log = new SimpleDB::Append("$cache_file");
+	    my $cache_log = SimpleDB::Append->new("$cache_file");
 	    $cache_log->Append("$date_time $year$month$day miss\n");
 	}
     }
@@ -410,7 +410,7 @@ sub Display ($$) {
             $section[$HNS::Diary::section] =~ 
 		s/^<!-- xhnf_grp (.*) -->$/<!-- xhnf_grp_p -->/m;
             my @grp = split (" ", $1);
-            unless (defined %GRP_DB){
+            unless (tied %GRP_DB){
                 tie %GRP_DB, 'SimpleDB::Hash',
                 "$HNS::System::DiaryDir/conf/group.txt", 1;
             }
@@ -447,7 +447,7 @@ sub Display ($$) {
 	    $tmp =~ s/^<!-- xhnf_grp (.*) -->$/<!-- xhnf_grp_p -->/m;
 	    my @grp = split (" ", $1);
 #print "grp: @grp<br>\n";
-	    unless (defined %GRP_DB){
+	    unless (tied %GRP_DB){
 		tie %GRP_DB, 'SimpleDB::Hash',
 		    "$HNS::System::DiaryDir/conf/group.txt", 1;
 	    }

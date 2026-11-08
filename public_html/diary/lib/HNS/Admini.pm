@@ -28,7 +28,7 @@ use HNS::System;
 
 =cut
 
-attributes qw(message_file ruri_map_file status auths);
+__PACKAGE__->attributes(qw(message_file ruri_map_file status auths));
 
 ################################################################
 

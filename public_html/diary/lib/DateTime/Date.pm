@@ -17,7 +17,7 @@ use vars qw(@ISA @EXPORT);
 @ISA = qw(ObjectTemplate);
 @EXPORT = qw(attributes);
 
-attributes qw(year month day zero_padding);
+__PACKAGE__->attributes(qw(year month day zero_padding));
 
 use Time::Local;
 use overload

@@ -14,7 +14,7 @@ use ObjectTemplate;
 use vars qw(@ISA %Templates %Aliases);
 
 @ISA = qw(ObjectTemplate);
-attributes qw(content);
+__PACKAGE__->attributes(qw(content));
 
 %Templates = (TENKI  => "[%value]",
 	      BASHO  => "(%value)",

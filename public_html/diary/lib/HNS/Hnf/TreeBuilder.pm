@@ -335,7 +335,7 @@ sub Print($$$$)
 sub get_category ($$)
 {
     my ($params, $arg_content) = @_;
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     $templ->SetParamValues(%$params);
   
     my $cat;
@@ -384,7 +384,7 @@ sub print ($$@)
 {
     my ($self, $params, @footnotes) = @_;
     
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     $self->ExpandTempl($templ);
     $templ->SetParamValues(%$params);
     # fn header

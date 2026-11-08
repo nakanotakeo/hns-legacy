@@ -29,7 +29,7 @@ Board::System - Boardシステムのライブラリ部分
 
 =head1 SYNOPSIS
 
- my $board = new Board::System;
+ my $board = Board::System->new();
  $board->Load();
  foreach my $article (@{$board->article_list}) { ... }
 
@@ -51,7 +51,7 @@ use vars qw(@ISA @EXPORT);
 @ISA = qw(ObjectTemplate);
 @EXPORT = qw(attributes);
 
-attributes qw(article_list msgid_hash refid_hash);
+__PACKAGE__->attributes(qw(article_list msgid_hash refid_hash));
 
 sub Error($$)
 {
@@ -75,7 +75,7 @@ sub Load
 	chomp($line);
 	my @list = split("\t", $line);
 	next if $#list == -1; # remove nothing line
-	my $article = new Board::Article;
+	my $article = Board::Article->new();
 	$article->Set(@list);
 	push(@article_list, $article);
     }
@@ -102,7 +102,7 @@ sub LoadLightly
 	next if ($#list == -1); # remove nothing line
 	next if ($list[0] eq ''); # deleted message
 	next if ($list[2] eq 'root' && $list[3] ne ''); # fake root message
-	my $article = new Board::Article;
+	my $article = Board::Article->new();
 	$article->Set(@list);
 	push(@article_list, $article);
     }
@@ -189,7 +189,7 @@ sub AddNewMsg
     my ($self, $delete_key, $refid, $diary, $ruri_code, $subject, $name, $email, $site, $host, $body) = @_;
     my $ref;
 
-    my $article = new Board::Article;
+    my $article = Board::Article->new();
 
     CodeConv::toeuc(\$subject);
     CodeConv::toeuc(\$name);

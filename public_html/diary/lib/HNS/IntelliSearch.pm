@@ -11,7 +11,7 @@ use CodeConv;
 
 use vars qw(@ISA %search_engines);
 
-attributes qw(referer keyword search_engine);
+__PACKAGE__->attributes(qw(referer keyword search_engine));
 
 ################################################################
 %search_engines = (

@@ -4,7 +4,7 @@ package HNS::AccessControl;
 # $Id: AccessControl.pm,v 1.15 2001/01/07 13:34:53 kenji Exp $
 ################################################################
 use ObjectTemplate;
-@HNS::Admini::ISA = qw(ObjectTemplate);
+@HNS::AccessControl::ISA = qw(ObjectTemplate);
 
 use strict;
 use CGI::Cookie;
@@ -12,13 +12,13 @@ use CGI::QueryString;
 use HNS::Status;
 use HNS::System;
 
-attributes qw(message_file ruri_map_file status);
+__PACKAGE__->attributes(qw(message_file ruri_map_file status));
 
 ################################################################
 sub initialize($)
 {
     my $self = shift;
-    $self->status(new HNS::Status);
+    $self->status("HNS::Status"->new());
 
     my $id = $self->status->id;
     my $count = $self->status->count;
@@ -183,7 +183,7 @@ sub initialize($)
 
             if (-w "$HNS::System::DiaryDir/log/denial_log") {
               my $denial_log = 
-		new SimpleDB::Append("$HNS::System::DiaryDir/log/denial_log");
+		SimpleDB::Append->new("$HNS::System::DiaryDir/log/denial_log");
               $denial_log->Append($self->status->AsDenialLog);
             }
 

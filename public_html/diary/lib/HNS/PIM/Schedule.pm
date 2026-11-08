@@ -8,7 +8,7 @@ HNS::PIM::Schedule - スケジュールクラス
 
 =head1 SYNOPSIS
 
- my $sch = new HNS::PIM::Schedule(dir=>'diary');
+ my $sch = HNS::PIM::Schedule->new(dir=>'diary');
  $sch->Read;
  print $sch->AsHTML;
 
@@ -27,7 +27,7 @@ use HNS::System;
 use HNS::Template;
 use HNS::Diary::Template;
 
-attributes qw(contents error);
+__PACKAGE__->attributes(qw(contents error));
 
 ################################################################
 use vars qw($MaxNum $ContentTemplate $PastContentTemplate $TodayContentTemplate $BeginTemplate $EndTemplate @WeekString @ABCString $Unfixed $Range $RRange $GraceDays $PrintOverMaxNum);
@@ -76,7 +76,7 @@ sub Read ($)
 {
     my $self = shift;
     use DateTime::Date;
-    my $date = new DateTime::Date;
+    my $date = DateTime::Date->new();
     $date->year($HNS::Status->start_time->year);
     $date->month($HNS::Status->start_time->month);
     $date->day($HNS::Status->start_time->day);
@@ -129,7 +129,7 @@ sub Read ($)
                 }
                 next;
             }
-            my $date = new DateTime::Date(year=>$y, month=>$m);
+            my $date = DateTime::Date->new(year=>$y, month=>$m);
             if ($num =~ m!^(\d+)/(\d+)$!){     # 03/31 content..
                 $date->month($1), $date->day($2);
             } elsif ($num =~ m!^(\d+)$!){      # 31 content..
@@ -225,7 +225,7 @@ sub Read ($)
     $date+='1M';
     foreach my $rplan (@repeats) {
         my ($num, $content, $brng, $erng) = @$rplan;
-        my $tmpd = new DateTime::Date(year=>$y, month=>$m, day=>1);
+        my $tmpd = DateTime::Date->new(year=>$y, month=>$m, day=>1);
         my $dmonth = $tmpd->DaysMonth();
         if (@$rplan == 4 && $num ne ''
          && ((sprintf("%04d%02d%02d", $y, $m, $dmonth) < $brng)
@@ -275,7 +275,7 @@ sub Read ($)
             if ($d >= 1 && $d <= $dmonth
              && (@$rplan == 2
               || ($s >= $brng && $s <= $erng))) {
-                my $tmpd2 = new DateTime::Date(year=>$y, month=>$m, day=>$d);
+                my $tmpd2 = DateTime::Date->new(year=>$y, month=>$m, day=>$d);
                 push(@{$self->contents}, {date=>$tmpd2, content=>$content});
             }
             }
@@ -285,7 +285,7 @@ sub Read ($)
             for (my $i = 1; $i <= $dmonth; $i++) {
             my $s = sprintf("%04d%02d%02d", $y, $m, $i);
             if ($s >= $brng && $s <= $erng) {
-                my $tmpd2 = new DateTime::Date(year=>$y, month=>$m, day=>$i);
+                my $tmpd2 = DateTime::Date->new(year=>$y, month=>$m, day=>$i);
                 push(@{$self->contents}, {date=>$tmpd2, content=>$content});
             }
             }
@@ -316,7 +316,7 @@ HTML変換して返す
 sub AsHTML($)
 {
     my $self = shift;
-    my $templ = new HNS::Template;
+    my $templ = HNS::Template->new();
     my $cnt;
     my $html;
     my $day;
@@ -324,13 +324,13 @@ sub AsHTML($)
     my $prev;
 
     my $now_date = $HNS::Status->start_time;
-    my $limit_date = new DateTime::Date(year=>$now_date->year,
+    my $limit_date = DateTime::Date->new(year=>$now_date->year,
                     month=>$now_date->month,
                     day=>$now_date->day);
     $limit_date -= "${GraceDays}D";
     $html .= SelectTemplate($BeginTemplate, %BeginTemplate);
     
-    my $until_date = new DateTime::Date(year=>$now_date->year,
+    my $until_date = DateTime::Date->new(year=>$now_date->year,
                     month=>$now_date->month,
                     day=>$now_date->day);
     $until_date += $Range . 'M';
@@ -414,7 +414,7 @@ sub set_error($$){
 #指定年月の第$n$dow曜日($n<0なら月末から数える, $n=-1なら最終)
 sub get_nth_dow($$$$) {
     my ($y, $m, $n, $dow) = @_;
-    my $dtmp = new DateTime::Date(year=>$y, month=>$m, day=>1);
+    my $dtmp = DateTime::Date->new(year=>$y, month=>$m, day=>1);
     my $days = $dtmp->DaysMonth();
     my $d;
     if ($n > 0) {
@@ -464,7 +464,7 @@ sub parse_range($) {
     } elsif ($e =~ /^\d{4}$/) {
         @ea = ($e, 12, 31);
     } elsif ($e =~ m!^(\d{4})/(\d+)$!) {
-#       my $tmpd = new DateTime::Date(year=>$y, month=>$m, day=>1);
+#       my $tmpd = DateTime::Date->new(year=>$y, month=>$m, day=>1);
 #       my $dmonth = $tmpd->DaysMonth();
 #       @ea = ($1, $2, $dmonth);
         @ea = ($1, $2, 31);
@@ -482,7 +482,7 @@ sub parse_range($) {
 sub get_yotei($$$$)
 {
     my ($self,$year, $month, $day) = @_;
-    my $tmpdate = new DateTime::Date;
+    my $tmpdate = DateTime::Date->new();
     $tmpdate->year($year);
     $tmpdate->month($month);
     $tmpdate->day($day);
@@ -512,7 +512,7 @@ sub get_yotei($$$$)
             next if /^$/;
             CodeConv::toeuc(\$_);
             my ($num, $content) = /^(\S+)\s+(.*)$/;
-            my $date = new DateTime::Date(year=>$y, month=>$m);
+            my $date = DateTime::Date->new(year=>$y, month=>$m);
             if ($num =~ m!^(\d+)/(\d+)$!){     # 03/31 content..
                 $date->month($1), $date->day($2);
                 next if ($tmpdate->day != $date->day);

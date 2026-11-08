@@ -16,9 +16,9 @@ use DateTime::Time;
 use CGI::Cookie;
 use HNS::System;
 
-attributes qw(id count date_time uri user_agent remote_host referer
+__PACKAGE__->attributes(qw(id count date_time uri user_agent remote_host referer
 	script_name accept jphone is_robot is_mobile style_type 
-	calendar_type start_time is mode);
+	calendar_type start_time is mode));
 ################################################################
 sub initialize($)
 {
@@ -34,7 +34,7 @@ sub initialize($)
     $self->jphone($ENV{'HTTP_X_JPHONE_MSNAME'});
 
     # start time
-    $self->start_time(new DateTime::Time);
+    $self->start_time("DateTime::Time"->new());
     $self->start_time->SetTime(time() + $HNS::System::TZ*3600);
     
     # robot check
@@ -174,7 +174,7 @@ sub initialize($)
     # intelle search
     if ($HNS::Style::UnagiUse eq "ON") {
 	    use HNS::IntelliSearch;
-	    $self->is(new HNS::IntelliSearch(referer => $self->referer));
+	    $self->is(HNS::IntelliSearch->new(referer => $self->referer));
 	    $self->is->GetKeyword();
     }
 

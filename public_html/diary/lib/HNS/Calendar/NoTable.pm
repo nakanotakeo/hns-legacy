@@ -9,7 +9,7 @@ HNS::Calendar::NoTable;
 
 =head1 SYNOPSIS
 
-  my $cal = new HNS::Calendar::NoTable(year=>$y, month=>$m, col=>$col);
+  my $cal = HNS::Calendar::NoTable->new(year=>$y, month=>$m, col=>$col);
   print $cal->AsHTML;
 
 
@@ -19,7 +19,7 @@ use strict;
 use ObjectTemplate;
 @HNS::Calendar::NoTable::ISA = qw(ObjectTemplate HNS::Diary::Template);
 
-attributes qw();
+__PACKAGE__->attributes(qw());
 
 use Time::Local;
 use DateTime::Date;
@@ -51,10 +51,10 @@ sub AsHTML ($)
     ($year, $month) = (sprintf("%04d", $year), sprintf("%02d", $month));
 
     my $html;
-    my $templ = new HNS::Template;
+    my $templ = HNS::Template->new();
     
     # month
-    my $date = new DateTime::Date(year=>$year, month=>$month, day=>1);
+    my $date = DateTime::Date->new(year=>$year, month=>$month, day=>1);
     $html .= "\n";
     $html .= $templ->Expand(SelectTemplate($ThisTemplate, %ThisTemplate),
 			    {year=>$date->year,

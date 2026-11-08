@@ -10,7 +10,7 @@ HNS::Collection   :  diary collection class
 
   use HNS::Collection;
 
-  my $col = new HNS::Collection;
+  my $col = HNS::Collection->new();
   $col->Read($y);
   $col->Print($y, $m, $d);
   #$col->PrintRecent;   # recent
@@ -42,8 +42,8 @@ use HNS::Diary::Template;
 
 =cut
 
-attributes qw(diarys last_modified mode start_time end_time year month day
-		prev next);
+__PACKAGE__->attributes(qw(diarys last_modified mode start_time end_time year month day
+		prev next));
 use vars qw(%FootMessages);
 
 
@@ -121,7 +121,7 @@ sub ReadDay($$$)
     closedir DIR;
 
     foreach my $file (@files) {
-        my $diary = new HNS::Diary(filename=>"$DiaryDir/$file");
+        my $diary = HNS::Diary->new(filename=>"$DiaryDir/$file");
         $file =~ /^d(.*)\.hnf$/;
         $self->diarys->{$1} = $diary;
     }
@@ -133,7 +133,7 @@ sub ReadDay($$$)
         my $ymd = $year . $month . $day;
         if ((-f "$DiaryDir/$year/d$ymd.hnf") && 
 	(!$self->diarys->{$ymd})) { 
-            my $diary = new HNS::Diary(filename=>
+            my $diary = HNS::Diary->new(filename=>
 		"$DiaryDir/$year/d$ymd.hnf"); 
 	    $self->diarys->{$ymd} = $diary;
 	}
@@ -149,7 +149,7 @@ sub ReadDay($$$)
             my $ymd = $year . $month . $day;
             if ((-f "$DiaryDir/$year/d$ymd.hnf") &&
             (!$self->diarys->{$ymd})) {
-                my $diary = new HNS::Diary(filename=>
+                my $diary = HNS::Diary->new(filename=>
                   "$DiaryDir/$year/d$ymd.hnf");
                 $self->diarys->{$ymd} = $diary;
             }
@@ -249,7 +249,7 @@ sub collect_yearly ($$)
 	    next unless (-f "$dir/$file" &&	# normal file
 			 $file =~ /^d($year\d{4})\.hnf$/ &&
 			 !$self->diarys->{$1});
-	    my $diary = new HNS::Diary(filename=>"$dir/$file");
+	    my $diary = "HNS::Diary"->new(filename=>"$dir/$file");
 	    $self->diarys->{$1} = $diary;
 	}
     }
@@ -263,7 +263,7 @@ sub collect_yearly ($$)
             next unless (-f "$dir/$file" &&	# normal file
                          $file =~ /^($year\d{4})\.xhnf$/ &&
                          !$self->diarys->{$1});
-            my $diary = new HNS::Diary(filename=>
+            my $diary = HNS::Diary->new(filename=>
 			"$HNS::System::DiaryDir/$year/d$1.hnf");
             $self->diarys->{$1} = $diary;
         }
@@ -277,8 +277,8 @@ sub seek_prev_next_month($$$) {
     my $DiaryDir = $HNS::System::DiaryDir;
     my @years;
 
-    my $date_prev = new DateTime::Date(year=>$year, month=>$month, day=>1);
-    my $date_next = new DateTime::Date(year=>$year, month=>$month, day=>1);
+    my $date_prev = "DateTime::Date"->new(year=>$year, month=>$month, day=>1);
+    my $date_next = "DateTime::Date"->new(year=>$year, month=>$month, day=>1);
     $date_prev -= '1M';
     $date_next += '1M';
 
@@ -401,7 +401,7 @@ sub Print($)
     }
     # Footer
     my $msg_type = $num ? 'HasContent' : 'NoContent';
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     print $templ->Expand(SelectTemplate($FootMessages{$msg_type},
 					%{$FootMessages{$msg_type}}),
 			 { num => $num});

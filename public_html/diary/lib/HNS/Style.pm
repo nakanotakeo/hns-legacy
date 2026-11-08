@@ -9,7 +9,7 @@ HNS::Style
 
 =head1 SYNOPSIS
 
- my $style = new HNS::Style;
+ my $style = HNS::Style->new();
  $style->Print($col, $is_no_table_browser); # $mode : 'RECENT' or not
 
 =cut
@@ -33,8 +33,8 @@ use HNS::CategoryList;
 use HNS::Diary::Template;
 use CGI::QueryString;
 
-attributes qw(col
-	      pim_html calendar_html unagi_html direct_html category_html);
+__PACKAGE__->attributes(qw(col
+	      pim_html calendar_html unagi_html direct_html category_html));
 
 ################################################################
 # unagi
@@ -138,7 +138,7 @@ sub initialize($)
 {
     my $self = shift;
     my $html;
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
 
     my $template = $Templates{$HNS::Status->style_type};
     if (!defined $template){
@@ -148,15 +148,15 @@ sub initialize($)
     ## PIM ##
     if ($self->col->mode eq 'RECENT' && $PIMUse eq "ON"){
 	# Schedule
-	my $schedule = new HNS::PIM::Schedule;
+	my $schedule = HNS::PIM::Schedule->new();
 	$schedule->Read;
 	
 	# TODO
-	my $todo = new HNS::PIM::Todo;
+	my $todo = HNS::PIM::Todo->new();
 	$todo->Read;
 
 	# Link
-	my $link = new HNS::PIM::Link;
+	my $link = HNS::PIM::Link->new();
 	$link->Read;
 	# PIM
 	$self->pim_html($templ->Expand(SelectTemplate($template->{pim},
@@ -184,7 +184,7 @@ sub initialize($)
         }
 
 	my $calendar_type = $HNS::Status->calendar_type;
-	my $code = "\$calendar = new HNS::Calendar::$calendar_type;";
+	my $code = "\$calendar = HNS::Calendar::$calendar_type->new();";
 	eval($code);
 	if ($@){
 	    Warning("illegal calendar type :" . $calendar_type);
@@ -206,14 +206,14 @@ sub initialize($)
 		      : SelectTemplate($NoUnagiTemplate, %NoUnagiTemplate));
     # direct calendar
     if ($DirectCalendarUse eq 'ON'){
-	my $direct = new HNS::Calendar::Direct(year=>$self->col->year,
+	my $direct = "HNS::Calendar::Direct"->new(year=>$self->col->year,
 					       month=>$self->col->month,
 					       day=>$self->col->day);
 	$self->direct_html($direct->AsHTML);
     }
     # Title List
     if ($TitleListUse eq 'ON'){
-        my $category_list = new HNS::CategoryList(year=>$self->col->year,
+        my $category_list = "HNS::CategoryList"->new(year=>$self->col->year,
                                                month=>$self->col->month,
                                                day=>$self->col->day);;
 	$self->category_html($category_list->AsHTML);
@@ -232,7 +232,7 @@ sub PrintFoot($)
 sub print($$)
 {
     my ($self, $head_or_foot) = @_;
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     my $recent;
     $recent = "_recent" if ($self->col->mode eq 'RECENT');
  

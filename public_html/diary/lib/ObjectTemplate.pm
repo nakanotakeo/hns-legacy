@@ -65,10 +65,8 @@ sub get_attribute_names {
     my $pkg = shift;
     $pkg = ref($pkg) if ref($pkg);
     my @result = @{"${pkg}::_ATTRIBUTES_"};
-    if (defined (@{"${pkg}::ISA"})) {
-        foreach my $base_pkg (@{"${pkg}::ISA"}) {
-           push (@result, get_attribute_names($base_pkg));
-        }
+    foreach my $base_pkg (@{"${pkg}::ISA"}) {
+       push (@result, get_attribute_names($base_pkg));
     }
     @result;
 }

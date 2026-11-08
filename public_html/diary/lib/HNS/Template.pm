@@ -31,7 +31,7 @@ use strict;
 use ObjectTemplate;
 $HNS::Template::ISA = qw(ObjectTemplate);
 
-attributes qw(content template);
+__PACKAGE__->attributes(qw(content template));
 
 sub initialize($)
 {

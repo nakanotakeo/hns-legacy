@@ -80,8 +80,8 @@ sub Parse($$@) {
     my $id;
     my @title = @{$self->title};
 
-    my $templ = new HNS::Template;
-    my $newHtml = new HNS::Tools::HeadLine::New;
+    my $templ = HNS::Template->new();
+    my $newHtml = HNS::Tools::HeadLine::New->new();
 
     $self->ExpandTempl($templ, $params);
     push(@title,

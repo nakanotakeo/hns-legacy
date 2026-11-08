@@ -16,7 +16,7 @@ use vars qw(@ISA @EXPORT);
 @ISA = qw(DateTime::Date);
 @EXPORT = qw(attributes);
 
-attributes qw(hour min sec);
+__PACKAGE__->attributes(qw(hour min sec));
 
 ################################################################
 

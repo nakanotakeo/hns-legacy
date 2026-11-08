@@ -8,7 +8,7 @@ HNS - total management of HNS
 
 =head1 SYNOPSIS
 
- my $hns = new HNS;
+ my $hns = HNS->new();
  $hns->Read($y, $m, $d);
  #$hns->Read;                # recent
  $hns->Print;
@@ -39,7 +39,7 @@ use HNS::ExtHTML;
 use HNS::Style;
 use HNS::Diary::Template;
 ################################################################
-attributes qw(); # status);
+__PACKAGE__->attributes(qw()); # status);
 
 =head1 STATIC VARIABLES
 
@@ -68,7 +68,7 @@ sub initialize($)
 {
     my $self = shift;
 #    $self->status(new HNS::Status);
-    $HNS::Status = new HNS::Status;
+    $HNS::Status = "HNS::Status"->new();
 }
 ################################################################
 # public:
@@ -99,7 +99,7 @@ sub Print($$) #($$$$$)
 			use LIRS;
 			use HTTP;
 
-			my $lirs = new LIRS;
+			my $lirs = LIRS->new();
 			my $r = $lirs->getLirs($last_modified, time,
 				       $HNS::System::TZ * 60 * 60, 0,
 				       $HNS::System::MyDiaryURI,
@@ -111,7 +111,7 @@ sub Print($$) #($$$$$)
 			my $content = "lirs=$r";
 
 			foreach my $antenna (@HNS::System::antenna) {
-				my $h = new HTTP(agent => "HNS update reporter/$VERSION",
+				my $h = HTTP->new(agent => "HNS update reporter/$VERSION",
 					 referer => $HNS::System::MyDiaryURI);
 				$h->POST($antenna, 
 					{'Content-Type' => 'application/x-www-form-urlencoded'},
@@ -121,12 +121,12 @@ sub Print($$) #($$$$$)
 
 		# RSS update
 		use HNS::Tools::RSS;
-		my $rss = new HNS::Tools::RSS;
+		my $rss = HNS::Tools::RSS->new();
 		$rss->Update();
     }
     ################################################################
     # if group member comes, set no-cache header
-    unless (defined %GRP_DB) {
+    unless (tied %GRP_DB) {
         tie %GRP_DB, 'SimpleDB::Hash',
         "$HNS::System::DiaryDir/conf/group.txt", 1;
     }
@@ -211,7 +211,7 @@ sub Print($$) #($$$$$)
     {
 	   
 	my $version_message_type = $VERSION eq $PUBLIC_VERSION ? 'Public' : 'NonPublic';
-	my $templ = new HNS::Template;
+	my $templ = "HNS::Template"->new();
 	print $templ->Expand(SelectTemplate($VersionMessages{$version_message_type},
 					    %{$VersionMessages{$version_message_type}}),
 			     {public=>$PUBLIC_VERSION,
@@ -220,7 +220,7 @@ sub Print($$) #($$$$$)
 		if !($HNS::System::LessOutput);
     }
     # print head style
-    my $style = new HNS::Style(col=>$col);
+    my $style = "HNS::Style"->new(col=>$col);
     $style->PrintHead if !($HNS::System::LessOutput);
     # diary content
     $col->Print;
@@ -285,7 +285,7 @@ sub RecordLog ($;$$)
     # link log
     if ($HNS::System::LinkLog eq 'ON' && ($ref && $to)){
 	my $link_log = 
-	    new SimpleDB::Append("$LogDir/link_log");
+	    SimpleDB::Append->new("$LogDir/link_log");
 	$link_log->Append("$to $ref\n");
     }
 }

@@ -71,7 +71,7 @@ sub InsertCommand($$)
 {
     my ($self, $elem) = @_;
     unless (ref $elem){
-	$elem = new HNS::Hnf::Command($elem);
+	$elem = HNS::Hnf::Command->new($elem);
     }
     my $pos = $self->{pos} || $self;
     $pos->PushContent($elem);
@@ -215,7 +215,7 @@ sub AsHTML ($$$)
 			   ($start)?'':'End');
     my $comment = ($start) ? "<!-- $cmd_name -->": "";
 
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     $params->{content} = $self->{arg_content};
     for (1..3){
 	$params->{$_} = $self->{attr}->[$_];
@@ -244,7 +244,7 @@ sub AsHTML ($$$)
 			   ($start)?'':'End');
     my $comment = ($start) ? "<!-- $cmd_name -->": "";
 
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
     $params->{content} = $self->{arg_content};
     $self->ExpandTempl($templ, $params);
     for (1..3){
@@ -276,7 +276,7 @@ sub ConvUrl($;$)
 {
     my $self = shift;
     my $attr = shift || \$self->{attr}->[1];
-    my $templ = new HNS::Template;
+    my $templ = "HNS::Template"->new();
 
     if ($$attr =~ /^#(\d{4})(\d{2})(\d{2})((\d+)(S(\d+))?)?$/ ||
 	$$attr =~ /^#\{(\d{4}),(\d+),(\d+)(,(\d+)(,(\d+))?)?\}$/ ||
@@ -288,7 +288,7 @@ sub ConvUrl($;$)
 			        'abc' => $3 < 11 ? 'a' : $3 < 21 ? 'b' : 'c',
 			        'new' => $new,
 			        'sub' => $sub};
-	my $tmp = new HNS::Hnf::Command::ConvUrl;
+	my $tmp = "HNS::Hnf::Command::ConvUrl"->new();
 
 	if (! $new) {
 	    @ISA = qw(HNS::Diary);
@@ -435,7 +435,7 @@ sub AsHTML($$$)
 {
     my ($self, $start, $params) = @_;
 
-    unless (defined %DB){
+    unless (tied %DB){
 	tie %DB, 'SimpleDB::Hash',
 	"$HNS::System::DiaryDir/conf/rlink.txt", 1;
     }
@@ -528,7 +528,7 @@ sub AsHTML($$$)
 {
     my ($self, $start, $params) = @_;
 
-    unless (defined %DB) {
+    unless (tied %DB) {
 	tie %DB, 'SimpleDB::Hash',
 	"$HNS::System::DiaryDir/conf/rlink.txt", 1;
     }
@@ -591,7 +591,7 @@ sub AsHTML($$$)
 {
     my ($self, $start, $params) = @_;
 
-    unless (defined %DB){
+    unless (tied %DB){
 	tie %DB, 'SimpleDB::Hash',
 	"$HNS::System::DiaryDir/conf/rlink.txt", 1;
     }
@@ -808,7 +808,7 @@ sub AsHTML ($$$)
 {
     my ($self, $start, $params) = @_;
     my $term = $self->{arg_content};
-    unless (defined %DB) {                             # if first use
+    unless (tied %DB) {                             # if first use
 	tie %DB, 'SimpleDB::Hash',                     # then tie hash
 	"$HNS::System::DiaryDir/conf/alias.txt", 1;
     }

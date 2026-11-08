@@ -8,7 +8,7 @@ HNS::Calendar::Table - class of calender with html table tag
 
 =head1 SYNOPSIS
 
-  my $cal = new HNS::Calendar::Table(year=>$y, month=>$m, col=>$col);
+  my $cal = HNS::Calendar::Table->new(year=>$y, month=>$m, col=>$col);
   print $cal->AsHTML;
 
 =cut
@@ -25,7 +25,7 @@ use vars qw($BaseTemplate $NameTemplate $HrefTemplate
 	    %BaseTemplate %NameTemplate %HrefTemplate);	# HNS::Diary::Template
 @ISA = qw(ObjectTemplate HNS::Diary::Template);
 
-attributes qw();
+__PACKAGE__->attributes(qw());
 
 use Time::Local;
 use DateTime::Date;
@@ -54,12 +54,12 @@ sub AsHTML ($$$$)
     my ($self, $year, $month, $col, $cat_arg) = @_;
     ($year, $month) = (sprintf("%04d", $year), sprintf("%02d", $month));
     my $html;
-    my $templ = new HNS::Template;
+    my $templ = HNS::Template->new();
     
     # table start
     $html .= qq(<table border="$TableBorder" summary="calendar">\n);
     # month
-    my $date = new DateTime::Date(year=>$year, month=>$month, day=>1);
+    my $date = DateTime::Date->new(year=>$year, month=>$month, day=>1);
     $html .= "<tr>\n";
     # prev
     $html .= qq( <th colspan="2" align="left">);

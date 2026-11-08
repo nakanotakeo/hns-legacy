@@ -29,7 +29,7 @@ use vars qw(@ISA @EXPORT);
 @ISA = qw(ObjectTemplate);
 @EXPORT = qw(attributes);
 
-attributes qw(lastmodified lmd lag contentlength url title author remote optional);
+__PACKAGE__->attributes(qw(lastmodified lmd lag contentlength url title author remote optional));
 
 sub getLirs($;@)
 {

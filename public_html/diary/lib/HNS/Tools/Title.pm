@@ -31,7 +31,7 @@ use vars qw($NKF $NKF_USE);
 use vars qw($Version);
 
 @ISA = qw(HNS::Diary::Template ObjectTemplate);
-attributes qw(arg mode files title cat_title start_time);
+__PACKAGE__->attributes(qw(arg mode files title cat_title start_time));
 
 # customizable variables at config.ph.
 $Range = 3;
@@ -163,7 +163,7 @@ sub getFileList($;$) {
 
     $self->mode('recent');
 
-    if (defined(@Selected)) { # ?2001, ?200105, ?2001050, ?200105a
+    if (@Selected) { # ?2001, ?200105, ?2001050, ?200105a
 	$self->mode(undef);
 
 	foreach my $selected (@Selected) {
@@ -359,11 +359,11 @@ sub readHnf1($$) {
 sub Parse($$@) {
     my ($self, $params, @hnf) = @_;
     my ($grpCount, $newCount, $subCount);
-    my $templ = new HNS::Template;
+    my $templ = HNS::Template->new();
     my $id;
 
-    my $newHtml = new HNS::Tools::Title::New;
-    my $subHtml = new HNS::Tools::Title::Sub;
+    my $newHtml = HNS::Tools::Title::New->new();
+    my $subHtml = HNS::Tools::Title::Sub->new();
 
     my @new = @{$self->title};
     my %cat = %{$self->cat_title};
@@ -437,7 +437,7 @@ sub Parse($$@) {
 
 sub html_body($) {
     my $self = shift;
-    my $templ = new HNS::Template;
+    my $templ = HNS::Template->new();
     my %CAT_DB;
     my %selected_cat;
     my %cat = %{$self->cat_title};
@@ -460,7 +460,7 @@ sub html_body($) {
 	}
     }
 
-    if (defined(%selected_cat)) {
+    if (%selected_cat) {
 	tie %CAT_DB, 'SimpleDB::Hash', "$HNS::CategoryList::CatDir/cat.txt";
 	foreach my $cat (keys(%selected_cat)) {
 	    # fix Cross Site Scripting bug
@@ -492,7 +492,7 @@ sub check_grp($$) {
     my ($self, $content) = @_;
 
     if ($content =~ /^<!-- GRP:(.*) -->/) {
-	unless (defined %GRP_DB) {
+	unless (tied %GRP_DB) {
 	    tie %GRP_DB, 'SimpleDB::Hash',
 	      "$HNS::System::DiaryDir/conf/group.txt", 1;
 	}
@@ -545,7 +545,7 @@ sub ConvUrl($$)
 {
     my $self = shift;
     my ($tmp, $cmd_arg) = split(' ', shift, 2);
-    my $ConvUrl = new HNS::Hnf::Command::ConvUrl;
+    my $ConvUrl = HNS::Hnf::Command::ConvUrl->new();
 
     $ConvUrl->ConvUrl(\$tmp);
     qq(<a href="$tmp">$cmd_arg</a>);
@@ -556,7 +556,7 @@ sub ConvRlink($$)
     my $self = shift;
     my ($rlink, $add, $cmd_arg) = split(' ', shift, 3);
 
-    unless (defined %RLINK_DB){
+    unless (tied %RLINK_DB){
 	tie %RLINK_DB, 'SimpleDB::Hash',
 	  "$HNS::System::DiaryDir/conf/rlink.txt", 1;
     }

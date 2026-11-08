@@ -52,7 +52,7 @@ sub Message($;$$$)    # static function
 	return "$Head No such Warning Message: $kind $Foot";
     }
     if ($template){
-	my $templ = new HNS::Template;
+	my $templ = "HNS::Template"->new();
 	$template = "$Head$template$Foot";
 	return $templ->Expand($template,
 			      {c=>$cmd_name, p=>$pos_name,t=>$term});
