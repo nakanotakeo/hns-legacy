@@ -1,0 +1,73 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem View Message
+# version 0.0.1
+# 1999/4/14 TANAKA Tomonari <tom@morito.mgmt.waseda.ac.jp>
+# this code is based on php version.
+
+my $version = "0.0.1";
+
+# Copyright (C) 1999 TANAKA Tomonari, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: view.cgi.in,v 1.5 2002/12/28 09:26:41 bonaim Exp $
+
+use strict;
+use lib qw(lib);
+
+use CGI::QueryString;
+use CGI::Tools;
+use SimpleDB::Scalar;
+use HNS::Admini;
+
+require './config.ph';
+
+my $admini = new HNS::Admini;
+
+################################################################
+# header
+$admini->PrintHeader("ユーザメッセージ表示ツール");
+
+# check authorized
+$admini->CheckAuthorized;
+
+# print requested data file
+my $type = param('type');
+
+print "<pre>";
+if ($type eq 'mesg'){
+    my $msg;
+    print "<h1>ユーザからのメッセージ</h1>";
+    tie $msg, 'SimpleDB::Scalar', $admini->message_file;
+    print Escape($msg);
+} elsif ($type eq 'ruri'){
+    print "<h1>ruri-map</h1>";
+    my $map;
+    tie $map, 'SimpleDB::Scalar', $admini->ruri_map_file;
+    print Escape($map);
+} else {
+    print "parameter 'type' must be 'mesg' or 'ruri'";
+}
+print qq(<a name="last">EOF</a>);
+print "</pre>";
+
+# footer
+$admini->PrintFooter("HNS View Message-$version, ");
+
+exit 0;
+# end of view.cgi
+################################################################
+    

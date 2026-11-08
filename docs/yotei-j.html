@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>簡易予定機能の使い方</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>簡易予定機能の使い方</h1>
+    </div>
+    <hr>
+
+    <h3>簡易予定機能とは?</h3>
+
+    <p>当面の予定を日付順に日記の先頭に表示するものです。
+    nか月先(デフォルトは 1か月。<a href=
+    "config-j.html">設定</a> で変更できます)
+    までの予定が表示されます。</p>
+    <hr>
+
+    <h3>簡易予定機能の利用方法</h3>
+
+    <p>日記ディレクトリ(~/diary/)
+    に予定を記述した予定ファイルを作成するだけです。
+    予定ファイルは月別予定ファイルと繰り返し予定ファイルの
+    2種類が あります。</p>
+
+    <h4>月別予定ファイル</h4>
+
+    <p>月別予定ファイルのファイル名は yYYYYMM
+    です。2002年1月の 場合は，y200201
+    となります。y200201 は ~/diary/2002/
+    に置きます。
+    予定ファイルはテキスト・ファイルです。</p>
+
+    <blockquote>
+<pre>
+月/日[スペース]予定
+</pre>
+    </blockquote>
+
+    <p>
+    という形式で記載します。予定は日付順にソートして表示されますので，
+    予定ファイルでの記載順序は気にしなくて OK
+    です。日付が未定の場合は、a, b, c (上旬,
+    中旬, 下旬) が利用できます。</p>
+
+    <p>予定の表示件数は，<code>package HNS::PIM::Schedule;
+    $MaxNum</code> を <a href="config-j.html">config.ph</a>
+    で 設定することで変更可能です。デフォルトは
+    8件です。</p>
+
+    <p>例:</p>
+
+    <blockquote>
+<pre>
+1/1 元日
+1/15 成人式
+1/7 人日
+1/31 晦日
+1/c 1月下旬
+</pre>
+    </blockquote>
+    <hr>
+
+    <h4>繰り返し予定ファイル</h4>
+
+    <p>繰り返す予定は，~/diary/repeat に記載します。
+    repeat には以下の形式での予定の記述ができます。</p>
+
+    <blockquote>
+<pre>
+日付指定[範囲指定][スペース]予定の内容
+</pre>
+    </blockquote>
+
+    <p>範囲指定は []
+    で囲んで下さい。範囲指定はオプションです。
+    なくても構いません。</p>
+
+    <blockquote>
+<pre>
+# 年間予定
+1/1 元旦
+1/2mon 成人の日
+1/b 1月中旬
+10/2月 体育の日
+
+# 毎月予定
+23 ふみの日
+e 月末
+1日 第一日曜日
+-1sun 最終日曜日
+
+# 毎週予定
+wed マガジン
+月 ビッグスピリッツ
+</pre>
+    </blockquote>
+
+    <p>範囲指定の記載方法は、以下のようになります。</p>
+
+    <blockquote>
+<pre>
+[2002]                2002年中
+[2001-2002]           2001から2002年中
+[2002/1]              2002年1月中
+[2002/1-2002/3]       2002年1月から3月中
+[2002/1/10-2002/3/25] 2002年1月10日から2002年3月25日
+</pre>
+    </blockquote>
+
+    <p>範囲指定した繰り返し予定の例</p>
+
+    <blockquote>
+<pre>
+1火[2002/4-2002/3] 資源ごみ
+土[1996/10/1-1997/3/25] ナデシコ
+E-1[2002] 月末ホゲ
+</pre>
+    </blockquote>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: yotei-j.html,v 1.15 2001/11/17 02:36:54 kenji Exp $ -->
+  </body>
+</html>
+

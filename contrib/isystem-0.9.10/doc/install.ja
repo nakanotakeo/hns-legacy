@@ -1,0 +1,160 @@
+   i system install manual    yar-3
+
+
+   i system のインストール方法
+             目次
+  1)必要なリソース
+  2)必要なファイル
+  3)ファイルの設置
+  4)index.cgiの設定
+  5)config.phの設定
+  6)すでにインストールは終わっている!
+  7)setup
+
+----------------------------------------------------
+!!! 重要なお知らせ !!!
+ hns利用者の皆さんは、
+
+	install.sh
+
+ を実行するだけで簡単にsetupが可能です!
+ 7)setup へ進んでください。
+
+
+
+ [install.sh を使わずにインストールを行なう方法]
+ 
+1)必要なリソース
+・www server
+・perl 5
+
+
+2)必要なファイル
+・index.cgi (EUC/LF)
+・config.ph (EUC/LF)
+・jcode.pl
+ (jcode.plはftp://ftp.iij.ad.jp/pub/IIJ/dist/utashiro/perl/ から入手できます)
+・onccnv.pl (EUC/LF) by masato-3
+
+
+3)ファイルの設置
+ インストールディレクトリを、 /home/public_html/i/ とすると
+ (数字はpermission)
+ /home
+	/public_html
+		i/
+			index.cgi   755
+			config.ph   644
+			jcode.pl    644
+			onccnv.pl   644
+			----------------- 以下はlog採取時のみ必要
+			isystem.acc 666
+			isystem.cnt 666
+			isystem.dat 666
+			lock/ 777
+			
+ このようにファイルを設置してください。
+ log採取用のファイル/ディレクトリは isystem.sh で設定可能です。
+ 設置ディレクトリにて
+    $ sh ./isystem.sh
+ を実行してください。
+
+
+4)index.cgiの設定
+  1行目の
+  #!/usr/local/bin/perl
+  を適切なpathに書きなおす。
+  
+
+5)config.phの設定
+ 最低限の設定項目を列記
+ $nkf           = 2;
+ $log           = 0;
+ $hnfconv       = 1;
+ $baseuri       = "設置するuri";
+ $diarydir      = "hnfファイルの置いてあるディレクトリ(西暦を含めない)";
+ $confdir       = "config.phファイルのあるディレクトリ";
+ $title         = "HTMLのtitle属性";
+ $head          = "日記の冒頭に表示されるタイトル";
+ $headfile      = "headerに使うファイル名";
+ $titleheadfile = "タイトル表示時に使うheaderファイル名";
+ $footfile      = "footerに使うファイル名";
+ $address       = 'あなたのメイルアドレス';
+
+
+
+記入例
+ $nkf           = 2;
+ $log           = 0;
+ $hnfconv       = 1;
+ $baseuri       = "http://yar-3.net/i/";
+ $diarydir      = "/home/yar-3/diary/";
+ $confdir       = "/home/public_html/i/";
+ $title         = "i system yar-3";
+ $head          = "君は人のために死ねるか";
+ $headfile      = "ihead.txt";
+ $titleheadfile = "iheadtitle.txt";
+ $footfile      = "ifoot.txt";
+ $address       = 'miomio@yar-3.net';
+
+
+その他に$newmarkや$sublineなどがあります。
+ # NEW関係の設定
+ $newline = "<hr width=\"50%\">";  #sectionの区切り
+ $newmark = "☆"; #セクションの冒頭記号
+ $new1 = '<font size="+1">'; #セクションのタイトル表示属性
+ $new2 = '</font>';
+
+ # SUB関係の設定
+ $subline = "<br>"; #sub sectionの区切り
+ $submark = "\@"; #sub sectionの冒頭記号
+ $sub1 = '<b>'; #sub section
+ $sub2 = ':</b><br>';
+
+
+6)すでにインストールは終わっている!
+ さっそく動作試験をしましょう。
+ shellの使える環境ならば、
+
+   $ perl ./index.cgi | less
+
+ でエラーが出ないか確認してください。
+
+ http経由でも確認しましょう。
+ PCのweb browserでuriをたたいて、本日のタイトル一覧が表示される
+ ことを確認してください。
+ 本日の日記がない場合は日付だけが表示されます。
+
+ 続いてお手持ちの携帯端末などでアクセスしてみましょう。
+ 
+ すべてうまくいけば完了です。
+ 日記リンクやメール、BBSなどでyar-3に動作報告をしてください。
+ 
+ MIOMIO antenna iMODE   http://yar-3.net/mi/
+ i system home page     http://yar-3.net/isystem/
+ 
+ で紹介します。
+
+
+7)setup
+ ver0.9より theme機能 が使えますのでこれを有効活用しましょう。
+ 
+ a)config.ph を自分好みに書き換える
+ b)うまくいったら書き換えた部分のみを抜き出し、
+   default.ph というファイルにコピーする
+ 
+ これ以降はversion upをおこなっても、default.phの内容で設定が上書き
+ されますので、安心です。
+ 
+ 
+ install.sh がインストールするディレクトリが気にいらない場合は
+ インストールディレクトリは変えずに、
+ シンボリックリンクで対応すると楽です。
+ 
+
+
+
+以上
+2000/07/04 yar-3@yokohama
+2000/05/10 yar-3@yokohama
+2000/02/22 yar-3@yokohama

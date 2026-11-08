@@ -1,0 +1,58 @@
+* Changes in v2.5
+
+** hnf-mode.el changes.
+*** hnf コマンドを挿入する関数が導入されました。以下のコマンドがバインドされています。
+	CAT	\C-c\C-cc
+	NEW	\C-c\C-cn
+	SUB	\C-c\C-cs
+	P	\C-c\C-cp
+	LINK	\C-c\C-cl
+	OL	\C-c\C-co
+	DL	\C-c\C-cd
+*** DIV, RT コマンドに対応しました。
+
+* Changes in v2.4
+
+** hnf-mode.el changes.
+*** hnf-get-link-name-function は廃止されました。フォーマットのカスタマイズは
+hnf-new-link-name-format 及び hnf-sub-link-name-format で行ってください。
+*** background が dark の場合の色の設定が変更されました。
+
+* Changes in v2.3
+
+** hnf-mode.el changes.
+*** GRP, SPAN の引数の補完に対応しました。
+*** RLNEW, RLSUB を使用時に `hnf-get-link' が正しい値を返すようになりました。
+*** 予約語のチェックを行う `hnf-check' を追加しました。
+
+* Changes in v2.2
+
+** hnf-mode.el changes.
+*** speedbar に対応しました。
+*** outline-minor-mode に対応しました。
+*** コマンドがネストされていた場合も、"/[TAB]" で正しい補完を行うようになりました。
+*** IMG のファイルの補完に対応しました。
+*** hns-2.10 で追加されたコマンドに対応しました。
+
+* Changes in v2.1
+
+** hnf-mode.el changes.
+*** Mule-2.3@Emacs-19.28 に対応しました。
+APEL-10.2 をインストールしてください。
+*** namazu-1.3.0.11/namazu-2.0 に附属の namazu.el に対応しました。
+
+* Changes in v2.0
+
+** hnf-mode.el changes.
+*** APEL を要するようになりました。
+<URL:http://www.m17n.org/APEL/>
+*** httpd を経由せずに、プレビューできるようになりました。
+*** 変数名や関数名を変更しました。
+*** キーバインドを変更しました。
+
+** mail2nikki.el changes. 
+*** Wanderustに対応しました。
+*** 変数名や関数名を変更しました。
+
+** hnf-yotei.el changes.
+*** 変数名や関数名を変更しました。

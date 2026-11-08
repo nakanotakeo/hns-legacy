@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" type="text/css" href="hns.css">
+
+    <title>簡易 To Do 機能の使い方</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>簡易 To Do 機能の使い方</h1>
+    </div>
+    <hr>
+
+    <h3>簡易 To Do 機能とは?</h3>
+
+    <p>To Do(すること)
+    を優先度順に表示する機能です．</p>
+    <hr>
+
+    <h3>簡易 To Do 機能の利用方法</h3>
+
+    <p>日記ディレクトリ(~/diary/ または
+    ~/diary/YYYY/)に To Do を記述した To Do
+    ファイルを作成する だけです． To Do
+    ファイルは todo というファイル名です． To Do
+    ファイルはテキスト・ファイルです．<br>
+    </p>
+<pre>
+優先度[スペース]すること
+</pre>
+
+    <p>という形式で記載します．優先度は
+    99以下の正の整数 で指定します．
+    マイナスの数や小数点以下のある数，無理数，虚数や複素数などを
+    指定してはいけません．
+    大きい順にソートして表示されますので，
+    記載順序は気にしなくて OK です．<br>
+    <br>
+     予定の表示件数は，<code>package HNS::PIM::Todo;
+    $MaxNum</code> を <a href="config-j.html">config.ph</a>
+    で 設定することで変更可能です．デフォルトは
+    8件です．<br>
+    <br>
+     例:</p>
+<pre>
+99 日記を書く
+50 日記をつける
+30 日記を続ける
+</pre>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: todo-j.html,v 1.9 2001/12/01 04:59:08 kenji Exp $ -->
+  </body>
+</html>
+

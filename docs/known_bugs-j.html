@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 July 2005), see www.w3.org">
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=iso-2022-jp">
+  <link rel="stylesheet" type="text/css" href="hns.css">
+  <meta http-equiv="content-style-type" content="text/css">
+
+  <title>既知のバグ</title>
+</head>
+
+<body>
+  <div class="c1">
+    <img src="hns-logo.png" width="200" height="40" alt=
+    "[hnsドキュメント]">
+
+    <h3>ハイパー日記システム Version 2.20</h3>
+
+    <h1>既知のバグ</h1>
+  </div>
+  <hr>
+
+  <p>最新のバグの状況につきましては、 <a href=
+  "http://bug-track.h14m.org/hns-bug.cgi">バグ報告システム</a>
+  をご覧下さい。</p>
+
+  <dl>
+    <dt class="c2"><a name="webif_csrf" id="webif_csrf"></a>
+    <strong>webif direct モード CSRF脆弱性</strong></dt>
+
+    <dd>webif.cgi を direct
+    モードで動作させている場合、悪意ある第三者が特殊なURLや外部ウェブページを生成することで，日記の改竄や
+    削除などを，日記管理者に不正に行わせることができる可能性があり，
+    また，日記本文内にスクリプトを埋め込めます．<br>
+    <br>
+    これにより，クロスサイトスクリプティング (XSS)
+    の要領で 管理者のID (cookie)
+    を窃取でき，管理者権限を奪えます．<br>
+    <br>
+    管理者権限が奪取された場合，日記の改竄や削除，秘密日記の閲覧
+    などが可能となります．<br>
+    <br>
+    バグです。hns-2.19.6 で修正されました。<br>
+    (2005/9/1)</dd>
+  </dl>
+
+  <dl>
+    <dt class="c2"><a name="webif_direct_security" id=
+    "webif_direct_security"></a> <strong>webif direct
+    モード・セキュリティ・バグ</strong></dt>
+
+    <dd>webif.cgi を direct
+    モードで動作させている場合、任意の攻撃者が
+    日記を書き換える事ができます。<br>
+    <br>
+    バグです。hns-2.19.3 で修正されました。<br>
+    (2002/2/11)</dd>
+  </dl>
+
+  <dl>
+    <dt class="c2"><a name="css-vulnerability" id=
+    "css-vulnerability"></a>
+    <strong>クロス・サイト・スクリプティング(CSS)
+    脆弱性</strong></dt>
+
+    <dd>log.cgi および title.cgi
+    にクロス・サイト・スクリプティング(CSS) 脆弱性
+    が存在しています。悪意のある、リモート・ユーザが日記管理者や読者の
+    RURIコード(クッキー)を盗むことができます。<br>
+
+    <br>
+    バグです。hns-2.19.3 で修正されました。<br>
+    (2002/2/11)</dd>
+  </dl>
+
+  <dl>
+    <dt class="c2"><a name="webif_new_year" id=
+    "webif_new_year"></a> <strong>webif
+    ニューイヤー・バグ</strong></dt>
+
+    <dd>
+    webifから日記・予定を更新した時に、その年のディレクトリが
+    存在しない場合、モードによっては更新した内容が破棄されてしまう。<br>
+
+    <br>
+    バグです。hns-2.19.3以降で修正されています。<br>
+    (2001/12/27)</dd>
+  </dl>
+
+  <dl>
+    <dt class="c2"><a name="webif_linefeed" id=
+    "webif_linefeed"></a> <strong>webif
+    改行コード・バグ</strong></dt>
+
+    <dd>webif
+    から日記を更新すると、改行コードが変更されてしまい、
+    日記の表示がおかしくなる場合がある。<br>
+    <br>
+    ブラウザの問題ともいえますが、現在調査中です。<br>
+    (2001/9/9)</dd>
+  </dl>
+
+  <dl>
+    <dt class="c2"><a name="index.cgi_hard_code" id=
+    "index.cgi_hard_code"></a> <strong>index.cgi
+    ハード・コード・バグ</strong></dt>
+
+    <dd>ソースの至るところに index.cgi
+    とハード・コードされている。<br>
+    <br>
+    index.cgi
+    のファイル名を変更しない限り、問題はありません。<br>
+    (2001/8/15)</dd>
+  </dl>
+  <hr>
+
+  <div class="c1">
+    <h3>ハイパー日記システム Version 2.20</h3>
+  </div>
+  <hr>
+
+  <p><a href="index-j.html">Index</a></p>
+  <!-- $Id: known_bugs-j.html,v 1.30 2005/09/01 02:36:30 kenji Exp $ -->
+</body>
+</html>

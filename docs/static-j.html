@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" type="text/css" href="hns.css">
+
+    <title>日記の静的生成</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>日記の静的生成</h1>
+    </div>
+    <hr>
+
+    <h3>日記の静的生成とは?</h3>
+
+    <p>hns
+    は本来、動的なシステムです。ウェブ・サーバにアクセスがある度に
+    hnf から HTML
+    を動的に生成して日記を表示します。動的生成であるため
+    様々な表示の仕方や豊富な機能が利用可能となっています。</p>
+
+    <p>これに対して静的生成とは、あらかじめ
+    HTMLファイル を用意しておくという
+    方法です。</p>
+
+    <p>プロバイダによっては CGI が使えないことがあり、
+    また、動的生成はアクセスの度に HTML を生成するため
+    サーバへの負荷が、静的生成に比較してどうしても大きくなります。
+    このような制限を回避する方法として、日記の静的生成があります。</p>
+    <hr>
+
+    <h3>静的生成の方法</h3>
+
+    <p>静的生成スクリプトを実行して下さい。</p>
+<pre>
+$ <span class="c3">cd ~/diary/bin</span>
+$ <span class="c3">./make-diary</span>
+creating /home/hoge/public_html/diary/recent.html ... 
+ done.
+creating /home/hoge/public_html/diary/200001.html ... 
+ done.
+
+6 seconds.
+</pre>
+
+    <p>make-diary は、使用しているテーマのディレクトリに
+    theme-static.ph があれば、それを使用して
+    HTMLファイルを生成しますが、これは過去との互換性のためのものです。
+    hns-2.20 からは、theme.ph
+    に静的・動的両方のテンプレートを定義する
+    ようになりました。詳しくは、標準のテーマjapanese の
+    theme.ph を 参照してください。</p>
+
+    <p>上記の例では、最近の日記(recent.html)
+    と今月の日記(200001.html) が生成されました。</p>
+    <hr>
+
+    <h3>静的生成の場合の制限</h3>
+
+    <p>
+    静的生成の場合は、動的生成では利用可能な以下の機能などが
+    利用できません。</p>
+
+    <ul>
+      <li>アクセス・ログ機能</li>
+
+      <li>クッキーによる読者の追跡</li>
+
+      <li>ブラウザによるスタイルの動的変更</li>
+
+      <li>アクセス制御機能</li>
+
+      <li>最近の日記と過去の日記でスタイルを動的に変更</li>
+
+      <li>ひみつ交換日記機能</li>
+
+      <li>i system への自動切り換え</li>
+    </ul>
+
+    <p>だだし SSI でコマンド実行が可能なら、附属の
+    logging.pl を実行することで、
+    アクセス・ログの取得とクッキーによる読者の追跡は可能です。
+    デフォルトのテーマjapanese では、SSI により
+    logging.pl を
+    実行するように記述されています。ウェブ・サーバの設定で
+    SSI でコマンド実行可能なら、
+    これらの機能は自動的に使えます。</p>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: static-j.html,v 1.13 2001/11/11 08:16:23 kenji Exp $ -->
+  </body>
+</html>
+

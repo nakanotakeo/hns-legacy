@@ -1,0 +1,101 @@
+: # use perl
+    eval 'exec perl -S $0 "$@"'
+        if $runnning_under_some_shell;
+
+# static diary html maker for hns
+# Version: 0.0.4
+# 2000/10/15  Kenji Suzuki <kenji@h14m.org>
+
+# Copyright (C) 2000  Kenji Suzuki, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: make-diary.pl.in,v 1.6 2003/10/17 11:39:50 togawa Exp $
+
+# This file must be encoded in EUC-JP encoding
+
+use strict;
+use Getopt::Std;
+
+use vars qw / $opt_f $opt_h $opt_s /;
+
+my $html_dir = "%HTMLDIR%";
+my $hns = $html_dir . "/index.cgi";
+my $default_suffix = ".html";
+
+require "$html_dir/config.ph";
+
+getopts('fhs:') || usage();
+usage() if ($opt_h);
+
+my $suffix = $opt_s || $default_suffix;
+my $recent_file_name = "recent$suffix";
+my $recent = $html_dir . "/" . $recent_file_name;
+
+my $start = time;
+my $year = (localtime($start))[5] + 1900;
+
+$| = 1;
+
+my $lastmod;
+chdir ($html_dir);
+foreach my $yy ($HNS::System::StartYear .. $year) {
+        my @lastmod;
+
+        for my $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$yy"){
+                opendir(DIR, $dir) || next;
+                foreach my $file (readdir(DIR)) {
+                        if ($file =~ /^d$yy(\d\d)\d\d.hnf$/) {
+                                my $l= (stat("$dir/$file"))[9];
+                                $lastmod[$1] = $l if ($lastmod[$1] < $l);
+                                $lastmod = $l if ($lastmod < $l);
+                        }
+                }
+        }
+        foreach my $mm (1 .. 12) {
+                $mm = "0" . int($mm) if ($mm < 10);
+                my $monthly_file_name = "$yy$mm$suffix";
+                my $monthly = $html_dir . "/" . $monthly_file_name;
+                next unless ($lastmod[$mm]);
+                if ($opt_f ||
+                    ! -f $monthly || (stat($monthly))[9] < $lastmod[$mm]) {
+                        print "creating $monthly ...";
+                        system ("REQUEST_URI=$monthly_file_name; export REQUEST_URI; $hns $yy$mm >$monthly");
+                        utime(time(), $lastmod[$mm], $monthly);
+                        print " done.\n";
+                }
+        }
+}
+
+if ($opt_f || ! -f $recent || (stat($recent))[9] < $lastmod) {
+        print "creating $recent ...";
+        system ("REQUEST_URI=$recent_file_name; export REQUEST_URI; $hns >$recent");
+        utime(time(), $lastmod, $recent);
+        print " done.\n";
+}
+
+my $end = time;
+my $elapse = $end - $start;
+print "\n$elapse seconds.\n";
+
+sub usage () {
+        die <<"EOT";
+Usage: $0 [-h] [-s suffix]
+    -f          force update.
+    -h          Print this help.
+    -s <suffix> Set suffix. (default is '$default_suffix')
+EOT
+}
+

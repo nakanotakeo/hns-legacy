@@ -1,0 +1,89 @@
+#!%PERL_PATH%
+
+# rotate_log.cgi - log rotater for hns 2.00
+# Version  0.0.4
+# 2000/4/25  Kenji Suzuki <kenji@h14m.org>
+
+my $version = "0.0.4";
+
+# Special Thanks:
+# Satoru Takabayashi <ccsatoru@vega.aichi-u.ac.jp>
+
+# Copyright (C) 1999,2000  Kenji Suzuki, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: rotate_log.cgi.in,v 1.11 2002/12/28 09:19:50 bonaim Exp $
+
+use strict;
+use File::Copy;
+use lib qw(lib);
+use HNS::Admini;
+
+require './config.ph';
+
+my $diaryDir = $HNS::System::DiaryDir;
+my $current_log = "$diaryDir/log/referer_log";
+my $oldDir = "$diaryDir/log/OLD";
+my $old_log = "$oldDir/referer_log.old";
+my $admini = new HNS::Admini;
+
+
+# program start
+$admini->PrintHeader('HNS Rotate Log');
+$admini->CheckAuthorized;
+
+if ((-e $old_log) && (! -w $old_log)) {
+  print  "Error: can't write to $old_log";
+  &html_footer;
+  exit;
+}
+
+if ((-e $old_log) && (! -z $old_log)) {
+  print "Error: $old_log is not empty!";
+  &html_footer;
+  exit;
+}
+
+if (! -w $current_log) {
+  print  "Error: can't write to $current_log!";
+  &html_footer;
+  exit;
+}
+
+if (! -w $oldDir) {
+  print "Error: can't write to $oldDir!";
+  &html_footer;
+  exit;
+}
+ 
+copy("$current_log", "$old_log");
+clear($current_log);
+
+print "$current_log was moved to $old_log.";
+
+$admini->PrintFooter("HNS Rotate Log-$version, ");
+exit;
+
+
+sub clear ($) {
+  my ($file) = @_;
+
+  open(F, ">$file") || die "$file: $!\n";
+    print F;
+  close(F);
+}
+
+

@@ -1,0 +1,57 @@
+Icon set "usaicon"
+------------------
+
+Introduction:
+  This package is a mark icon set for hns (HyperNikkiSystem).
+  For about hns, please see http://www.h14m.org/.
+
+Icon list:
+  Icons which are included in this package are listed below, order of
+  argument to MARK command, file name.
+  All icons are saved in PNG format.
+
+  (^^)     usaniko.png
+  (-_-)    usamesen.png
+  (^^;     usaase.png
+  (;_;)    usauru.png
+  (T_T)    usauru2.png
+  v(^^)    usav.png
+  m(__)m   usapeko.png
+  !!       usadoki.png
+  ??       usahatena.png
+  !?       usanaze.png
+  (laugh)  usasho.png
+  :-)      usasmile.png, usasmile2.png
+  :-(      usaheno.png, usaheno2.png
+  :-P      usabe.png, usabe2.png
+  /(._.)   usamemo.png
+  back     usaback.png
+  fool     usabaka.png
+
+Usage:
+  I show an example which built marks into theme.ph in the following.
+  This is a case having put icons in ~/public_html/diary/usaicon/.
+
+# Mark
+package HNS::Hnf::Command::MARK;
+# image size is automatically set
+$List{"(^^)"} =  "usaicon/usaniko.png";
+$List{"(-_-)"} =  "usaicon/usamesen.png";
+$List{"(^^;"} = "usaicon/usaase.png";
+$List{"(;_;)"} = "usaicon/usauru.png";
+$List{"(T_T)"} = "usaicon/usauru2.png";
+$List{"v(^^)"} = "usaicon/usav.png";
+$List{"m(__)m"} = "usaicon/usapeko.png";
+$List{"!!"} = "usaicon/usadoki.png";
+$List{"??"} = "usaicon/usahatena.png";
+$List{"!?"} = "usaicon/usanaze.png";
+$List{"(laugh)"} = "usaicon/usasho.png";
+$List{":-)"} = "usaicon/usasmile2.png";
+$List{":-("} = "usaicon/usaheno2.png";
+$List{":-P"} = "usaicon/usabe2.png";
+$List{"/(._.)"} = "usaicon/usamemo.png";
+$List{"back"} = "usaicon/usaback.png";
+$List{"fool"} = "usaicon/usabaka.png";
+
+
+Tatsuya Maruyama <paz@mapletown.net>, Thu,  8 Jun 2000 20:52:52 +0900

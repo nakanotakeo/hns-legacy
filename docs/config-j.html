@@ -1,0 +1,463 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>設定ファイルの記載方法</title>
+  </head>
+  <!--   ################ BODY ################-->
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>設定ファイルの記載方法</h1>
+    </div>
+    <hr>
+
+    <h3>config.ph の設定</h3>
+
+    <p>設定ファイルconfig.ph で最低限必要な項目は，
+    Makefile または hns-setup
+    で設定すれば，自動的に反映されます．</p>
+
+    <p>設定ファイルconfig.ph はウェブ日記ディレクトリ
+    (~/public_html/diary/) にインストールされます．</p>
+
+    <p>config.ph では、システム設定、すなわち日記のタイトル
+    やデフォルトの表示日数，カレンダーなどの表示の on/off
+    などを指定します。出力される HTML
+    についてのカスタマイズは、 <a href="theme-j.html">
+    テーマ機能</a> を用いて行います。</p>
+
+    <p>以下では，Makefile / hns-setup
+    で設定できない項目の内容を説明します．</p>
+    <hr>
+
+    <h3>package HNS::System;</h3>
+
+    <p>システムに関する設定を行います。</p>
+
+    <dl>
+      <dt><a name="DefaultMax"><strong>
+      $DefaultMax</strong></a></dt>
+
+      <dd>日記URL
+      に引数なしでアクセスしたときに表示する
+      最近の日記の日数．デフォルトは 5日分．</dd>
+
+      <dt><a name="CookieFlag"><strong>
+      $CookieFlag</strong></a></dt>
+
+      <dd>クッキーによるユーザ追跡を使用しない時には OFF
+      に設定してください。 デフォルトは ON。</dd>
+
+      <dt><a name="AdminCookieFlag"><strong>
+      $AdminCookieFlag</strong></a></dt>
+
+      <dd>管理ページでクッキーを発行するかを設定します。
+      この設定を変更する必要はありません。 デフォルトは
+      ON。</dd>
+
+      <dt><a name="CookieExpires"><strong>
+      $CookieExpires</strong></a></dt>
+
+      <dd>送信するクッキーの有効期限を指定します。
+      書式は '[+-][0-9]+[yMdhms]' 。 デフォルトは
+      1か月 '+1M'。</dd>
+
+      <dt><a name="NoRedirect"><strong>
+      $NoRedirect</strong></a></dt>
+
+      <dd>クッキーによる読者の追跡を確実にするため、hns
+      はデフォルトでは、 リクエストに %7E
+      が含まれる場合、~ へ変換した URL
+      へ転送します。この 転送をしたくない場合は、1
+      を設定して下さい。デフォルトは 1。</dd>
+
+      <dt><a name="CacheDir"><strong>$CacheDir</strong></a></dt>
+
+      <dd>キャッシュ・ファイル(xhnf)
+      を保存するディレクトリを 指定します。デフォルトは
+      ~/diary/cache です。httpd の実行権限で
+      書き込み可能である必要があります。通常この値を変更する必要は
+      ありません。</dd>
+
+      <dt><a name="Caching"><strong>$Caching</strong></a></dt>
+
+      <dd>キャッシュ機能を使用するかどうかです。デフォルトは
+      1 で 使用します。キャッシュを使用する場合は、hnf
+      の 1.5倍程のディスク容量が
+      キャッシュ・ファイルのために必要です(つまりキャッシュを使用しない場合の
+      2.5倍程のディスク容量が必要になります)。ディスク容量が少ない場合は、
+      次の $AllowCacheOnly
+      を使用することを検討して下さい。</dd>
+
+      <dt><a name="AllowCacheOnly"><strong>
+      $AllowCacheOnly</strong></a></dt>
+
+      <dd>この項目を 1 に設定すると、hnf
+      がサーバ上になくても
+      キャッシュ・ファイルがすでに作成されていれば、キャッシュ・ファイル
+      のみから日記を表示できるようになります。
+      つまり確定した過去の hnf
+      をサーバ上から削除することが
+      可能となります。このためキャッシュ機能による高速な日記表示と
+      ディスク容量の節約の両方を達成できます。なお、hnf
+      はあくまで
+      サーバ上で削除できるだけであり、必ずバックアップを別に
+      用意しておいて下さい。デフォルトは 0。</dd>
+
+      <dt><a name="AutoCacheClear"><strong>
+      $AutoCacheClear</strong></a></dt>
+
+      <dd>theme.ph, config.ph, alias.txt, rlink.txt
+      を変更した場合は、
+      過去の日記の表示に影響します。hns
+      ではデフォルトでは、
+      これらのファイルを監視して変更された場合は、キャッシュ・ファイルを
+      全て消去してこれらの変更が反映されていない古いキャッシュを表示することは
+      ありません。この項目を 0
+      に設定すると、このキャッシュの自動消去機能
+      をオフにします。デフォルトは 1。</dd>
+
+      <dt><a name="RefererLog"><strong>
+      $RefererLog</strong></a></dt>
+
+      <dd>アクセス・ログを取らない時には OFF
+      に設定して下さい。 デフォルトは ON。</dd>
+
+      <dt><a name="LinkLog"><strong>
+      $LinkLog</strong></a></dt>
+
+      <dd>リンク・ログを取らない時には OFF
+      に設定して下さい。 デフォルトは ON。</dd>
+
+      <dt><a name="CacheLog"><strong>
+      $CacheLog</strong></a></dt>
+
+      <dd>キャッシュを呼び出された時にもアクセス・ログを取る時には ON
+      に設定して下さい。 デフォルトは OFF。</dd>
+
+      <dt><a name="RefererBATTALog"><strong>
+      $RefererBATTALog</strong></a></dt>
+
+      <dd><a href="log_ana-j.html#RURI_code">BATTA</a>
+      のアクセス・ログを別ファイル(referer_batta_log)
+      に分離したい時は 1 に設定して下さい。
+      デフォルトは 0。</dd>
+
+      <dt><a name="TZ"><strong>$TZ</strong></a></dt>
+
+      <dd>タイム・ゾーンです．通常は日本時間ですので，9
+      です． サーバのタイム・ゾーンにあわせて GMT
+      との時間差を設定します．</dd>
+
+      <dt><a name="Lang"><strong>$Lang</strong></a></dt>
+
+      <dd>日記を記述する言語です。デフォルトは ja
+      (日本語) です。</dd>
+
+      <dt><a name="IgnoreReserved"><strong>
+      $IgnoreReserved</strong></a></dt>
+
+      <dd>行頭の単語が大文字のみで構成されている場合、
+      システムはそれをコマンドと見做し、
+      もしそれがコマンドとして定義されていなかったら予約されているとして
+      警告を発します。
+      この警告を表示しないようにする場合は ON
+      に設定して下さい。 デフォルトは OFF。</dd>
+
+      <dt><a name="AlwaysReverse"><strong>
+      $AlwaysReverse</strong></a></dt>
+
+      <dd>ON
+      に設定すると絶えず日記を最近のものから表示します。
+      デフォルトは OFF。</dd>
+
+      <dt><a name="StrictCalendarLink"><strong>
+      $StrictCalendarLink</strong></a></dt>
+
+      <dd>1にすると、カレンダー部分で、hnfが存在しない月へのリンクを
+      生成しないようにします。0にすると、hnfが存在しない月へのリンクも
+      生成します。デフォルトは 1。
+      </dd>
+
+      <dt><a name="ImgWidthMaxSize"><strong>
+      $ImgWidthMaxSize</strong></a></dt>
+
+      <dd>
+      あまり大きな画像を日記に張りつけた場合レイアウトが崩れて
+      しまいます．それを防ぐため，ここで設定したピクセル以上の画像は，
+      width をここで設定した値に指定されます．
+      デフォルトは 300 となっています．</dd>
+
+      <dt><a name="FNCountStyle"><strong>
+      $FNCountStyle</strong></a></dt>
+
+      <dd>1 にすると、脚注のカウントを
+      1日毎に行います。0 に設定すると
+      脚注のカウントがセクション(NEW)毎になります。デフォルトは
+      1。</dd>
+
+      <dt><a name="isystem"><strong>$isystem</strong></a></dt>
+
+      <dd><a href="http://yar-3.net/isystem/">i system</a>
+      のインストールされたディレクトリを指定します。 i system
+      への自動切換を行いたくない場合は、コメント・アウトして下さい。</dd>
+
+      <dt><a name="antenna"><strong>$antenna</strong></a></dt>
+
+      <dd>
+      なつみかんへの更新時刻通知を行いたい場合、情報を送信する
+      URL を記載します。
+      デフォルトは空(とこにも通知しない)です。通知を行う場合、
+      なつみかん側で受信を許可する設定が必要になります。</dd>
+
+      <dt><a name="IntelliSearch"><strong>
+      $IntelliSearch</strong></a></dt>
+
+      <dd>IntelliSearch機能を有効にしたい場合は、1
+      にして下さい。 デフォルトは 0 です。</dd>
+
+      <dt><a name="Mode"><strong>
+      $Mode</strong></a></dt>
+
+      <dd>日記生成のテンプレートに、動的生成用(dynamic)、
+      静的生成用(static)、自動判別(auto)のいずれを使うかを設定します。
+      デフォルトは auto。</dd>
+
+      <dt><a name="UseYoteiView"><strong>
+      $UseYoteiView</strong></a></dt>
+
+      <dd>1にすると、<a
+      href="yotei-j.html">簡易予定表</a>
+      に記載されている当日の予定を、その日の日記冒頭に表示します。
+       デフォルトは 0 です。</dd>
+    </dl>
+    <hr>
+
+    <h3>package HNS::Style;</h3>
+
+    <p>スタイルに関する設定です。</p>
+
+    <dl>
+      <dt><strong>$UnagiURL</strong></dt>
+
+      <dd>Namazu for hns の検索プログラム(namazu.cgi)
+      の URL を記述します。 デフォルトは
+      "namazu.cgi"</dd>
+
+      <dt><strong>$NamazuURL</strong></dt>
+
+      <dd>Namazu のホームページの URL を記述します。
+      デフォルトは "http://www.namazu.org/"。</dd>
+
+      <dt><strong>$CalendarUse</strong></dt>
+
+      <dd>カレンダーを使用しない場合は OFF
+      に設定してください。 デフォルトは ON。</dd>
+
+      <dt><strong>$DirectCalendarUse</strong></dt>
+
+      <dd>日付ジャンプ・ボタンを使用しない場合は OFF
+      に設定して下さい。 デフォルトは ON。</dd>
+
+      <dt><strong>$PIMUse</strong></dt>
+
+      <dd>PIM機能(予定表、TODO)を使用しない場合は
+      OFF に設定して下さい。 デフォルトは
+      ON。</dd>
+
+      <dt><strong>$TitleListUse</strong></dt>
+
+      <dd>タイトル一覧フォームを使用しない場合には OFF
+      に設定して下さい。 デフォルトは ON。</dd>
+    </dl>
+    <hr>
+
+    <h3>package HNS::PIM::Schedule;</h3>
+
+    <p>予定表示に関する設定です。</p>
+
+    <dl>
+      <dt><strong>$MaxNum</strong></dt>
+
+      <dd>表示する最大件数です．デフォルトは 8件．</dd>
+
+      <dt><strong>$Range</strong></dt>
+
+      <dd>
+      表示対象となる予定の範囲(月)を指定します。
+      デフォルトは 1
+      (1か月先までの予定を表示対象とする) です。</dd>
+
+      <dt><strong>$RRange</strong></dt>
+
+      <dd>
+      繰り返し予定の表示対象となる予定の範囲(月)を指定します。
+      デフォルトは $Rangeの値です。</dd>
+
+      <dt><strong>$GraceDays</strong></dt>
+
+      <dd>
+      過去の予定を遡って表示する日数を指定します。
+      デフォルトは 0 (遡らない)です。</dd>
+
+      <dt><strong>$PrintOverMaxNum</strong></dt>
+
+      <dd>
+      $MaxNum 番目の予定と同じ日に別の予定があった場合の動作を指定します。
+      1 にすると、同じ日の予定を全て表示します。
+      その場合、表示件数は $MaxNum 件を越える事もありえます。
+      デフォルトは 0
+      (上から優先して表示し、全部で $MaxNum 件を越えないようにする) です。
+    </dl>
+    <hr>
+
+    <h3>package HNS::PIM::Todo;</h3>
+
+    <p>To Do 表示に関する設定です。</p>
+
+    <dl>
+      <dt><strong>$MaxNum</strong></dt>
+
+      <dd>表示する最大件数です．デフォルトは 8件．</dd>
+    </dl>
+    <hr>
+
+    <h3>package HNS::Hnf::Command::Image;</h3>
+
+    <p>画像コマンドに関する設定です。</p>
+
+    <dl>
+      <dt><strong>$AllowRemoteImage</strong></dt>
+
+      <dd>1にすると、他のサーバにある画像も表示する事ができます。
+      デフォルトは 0。</dd>
+    </dl>
+    <hr>
+
+    <h3>package HNS::Tools::Title;</h3>
+
+    <p>タイトル一覧に関する設定です。</p>
+
+    <dl>
+      <dt><a name="Title::Range"><strong>$Range</strong></a></dt>
+
+      <dd>
+      タイトル一覧に引数なしでアクセスした場合の表示する期間(月)。
+      デフォルトは 1か月。</dd>
+    </dl>
+    <hr>
+
+    <h3>package Board;</h3>
+
+    <p>掲示板機能に関する設定です。</p>
+
+    <dl>
+      <dt><a name="UseBoard"><strong>$UseBoard</strong></a></dt>
+      <dd>
+      1 にすると、掲示板機能を使います。
+      デフォルトは 0 (使わない)。</dd>
+    </dl>
+    <dl>
+      <dt><a name="BoardData"><strong>$BoardData</strong></a></dt>
+
+      <dd>
+      掲示板データの保存場所を指定します。
+      デフォルトは "${HNS::System::DiaryDir}/data/boarddata.txt"。
+      </dd>
+    </dl>
+    <dl>
+      <dt><a name="ThreadsPerPage"><strong>$ThreadsPerPage</strong></a></dt>
+
+      <dd>
+      掲示板で、1ページに何スレッド表示するかを指定します。
+      デフォルトは 5。</dd>
+    </dl>
+    <dl>
+      <dt><a name="MaxArticle"><strong>$MaxArticle</strong></a></dt>
+
+      <dd>
+      掲示板が保存する記事数を指定します。
+      デフォルトは 100。</dd>
+    </dl>
+    <dl>
+      <dt><a name="RecentView"><strong>$RecentView</strong></a></dt>
+
+      <dd>
+      掲示板で記事を一覧表示したときに表示される個数を設定します。
+      デフォルトは 10。</dd>
+    </dl>
+    <dl>
+      <dt><a name="RecentTime"><strong>$RecentTime</strong></a></dt>
+
+      <dd>
+      掲示板の記事タイトルで何秒前まで[NEW!]の表示をするか指定します。
+      0を指定した場合は、表示されません。 
+      0以外の場合でも日記本文には表示されません。
+      デフォルトは 2 * 24 * 60 * 60。</dd>
+    </dl>
+    <dl>
+      <dt><a name="Title"><strong>$Title</strong></a></dt>
+
+      <dd>
+      掲示板タイトルを指定します。
+      デフォルトは 'Web Board'。
+      </dd>
+    </dl>
+    <dl>
+      <dt><a name="HnsPath"><strong>$HnsPath</strong></a></dt>
+      <dd>
+      掲示板上でリンクする日記のURIを指定します。
+      デフォルトは $HNS::System::MyDiaryURI。
+      </dd>
+    </dl>
+    <dl>
+      <dt><a name="BoardOnHNS"><strong>$BoardOnHNS</strong></a></dt>
+      <dd>
+      日記上に掲示板の記事を表示するか指定します。
+      0 = 無効、10 = 本文以外を表示、20 = 本文も表示です。
+      デフォルトは 10。
+      </dd>
+    </dl>
+    <dl>
+      <dt><a name="BodyLenOnHNS"><strong>$BodyLenOnHNS</strong></a></dt>
+      <dd>
+      <a href="#BodyOnHNS">$BoardOnHNS</a>で20を指定した場合に、本文を何文字まで表示するか指定します(タグも含む)。
+      0を指定した場合、文字数制限をしません。
+      0でない場合、<br>は取り除かれます。
+      デフォルトは 80。
+      </dd>
+    </dl>
+    <dl>
+      <dt><a name="HideReadLinkWhenNoMsg"><strong>$HideReadLinkWhenNoMsg</strong></a></dt>
+      <dd>
+      1を指定した場合、日記記事に対する掲示板記事が存在しない場合、コメントを読むためのリンク文字列が表示されません。
+      0を指定した場合、掲示板記事が存在しなくてもリンク文字列を表示します。
+      デフォルトは 1。
+      </dd>
+    </dl>
+
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: config-j.html,v 1.35 2003/10/27 16:40:11 togawa Exp $ -->
+  </body>
+</html>
+

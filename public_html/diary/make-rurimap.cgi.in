@@ -1,0 +1,104 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem RuriMap Maker
+# version 0.0.5
+# 2000/9/26  TANAKA Tomonari <tom@morito.mgmt.waseda.ac.jp>
+# this code is based on php version.
+
+my $version = "0.0.5";
+
+# Copyright (C) 1999,2000 TANAKA Tomonari, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: make-rurimap.cgi.in,v 1.16 2006/03/06 12:52:54 kenji Exp $
+
+use strict;
+use lib qw(lib);
+
+use SimpleDB::Scalar;
+use SimpleDB::Hash;
+use SimpleDB::Append;
+use CGI::QueryString;
+use CGI::Cookie;
+use CGI::Tools;
+use CodeConv;
+use HNS::System;
+use HNS::Status;
+use HNS::Admini;
+
+require './config.ph';
+
+my $admini = new HNS::Admini;
+
+################################################################
+# form values
+my ($name, $mail, $email, $url, $msg) =
+    (param('NAME'), param('MAIL'), param('EMAIL'), param('URL'), 
+    param('MSG'));
+
+#kanji convert and escape
+for ($name, $msg){
+    CodeConv::toeuc(\$_);
+}
+$msg =~ s/\r\n/\n/g;
+
+# if name is set, record to ruri_map
+if ($name){
+    my $file = sprintf("%s", $admini->ruri_map_file);
+    my $ruri_map_file = new SimpleDB::Append("$file");
+    my $id = sprintf("%s", $admini->status->id);
+    $ruri_map_file->Append("$id $name\n");
+}
+
+# if any message is written, record it to user_message.txt
+if ($msg || $email || $url){
+    my $user_msgs;
+    tie $user_msgs, 'SimpleDB::Scalar', $admini->message_file;
+    $user_msgs .= sprintf("%s\n%s %s %s\n%s\n%s\n%s\n-----\n",
+			  $admini->status->date_time,
+			  $admini->status->id, $admini->status->count, $name,
+			  $email, $url,
+			  $msg);
+#    print "content-type: text/plain\n\n";
+#    print "data:$user_msgs";
+}
+
+# if you have any message, send a mail.
+if ($msg && $HNS::System::MesMail) {
+	my ($tomail, $msg_crlf);
+	$msg_crlf = $msg;
+	$msg_crlf =~ s/\n/\r\n/g;
+	for ($name, $msg_crlf){
+    		CodeConv::tojis(\$_);
+	}
+	$email = $HNS::System::UserMail unless $email;
+	$email =~ s/\r//g;
+	$email =~ s/\n//g;
+	$tomail = $HNS::System::MesMail;
+	open(MAIL, "| %SENDMAIL_PATH% -t -f'$tomail'");
+	print(MAIL "From: <$email>\r\n");
+	print(MAIL "To: $tomail\r\n");
+	print(MAIL "Subject: [hns] Message to Diary\r\n\r\n");
+	print(MAIL "Message from $name\r\n\r\n");
+	print(MAIL "$msg_crlf\r\n\r\n");
+	print(MAIL "$url\r\n");
+	close(MAIL);
+}
+
+$admini->RedirectDiary;
+exit 0;
+################################################################
+

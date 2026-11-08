@@ -1,0 +1,209 @@
+  betaだった頃に作ったパッチなのですが、pl0にも当たったのでそのま
+ま使っています。
+  インストールした後の状態から無理矢理改造して強引に動かしたので、
+変なところが多いかと思います…。
+
+--
+矢部 和宏
+mailto:yabe-z@tk.airnet.ne.jp
+http://www3.airnet.ne.jp/kyrie/
+
+
+
+
+diff -ur hns-perl/public_html/diary/lib/HNS/Calendar/NoTable.pm hns-perl-5.003/public_html/diary/lib/HNS/Calendar/NoTable.pm
+--- hns-perl/public_html/diary/lib/HNS/Calendar/NoTable.pm	Sun May 30 13:29:11 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Calendar/NoTable.pm	Sun May 30 15:23:55 1999
+@@ -47,7 +47,8 @@
+     # day
+     my $start_week = $date->week;
+     # 1..31
+-    for my $day (1..$date->DaysMonth){
++    my $day;
++    for $day (1..$date->DaysMonth){
+ 	my $w = ($day+$start_week-1)%7;
+ 
+ 	my $ymd = sprintf("%04d%02d%02d", $year, $month, $day);
+diff -ur hns-perl/public_html/diary/lib/HNS/Calendar/Table.pm hns-perl-5.003/public_html/diary/lib/HNS/Calendar/Table.pm
+--- hns-perl/public_html/diary/lib/HNS/Calendar/Table.pm	Sun May 30 13:29:11 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Calendar/Table.pm	Sun May 30 15:23:37 1999
+@@ -81,7 +81,8 @@
+     $html .= "\n<tr>";
+     my $start_week = $date->week;
+     my $day = 1;
+-    for my $i (1..$start_week){
++    my $i;
++    for $i (1..$start_week){
+ 	$html .= "<td></td>";
+     }
+     $html .= "\n";
+diff -ur hns-perl/public_html/diary/lib/HNS/CategoryList.pm hns-perl-5.003/public_html/diary/lib/HNS/CategoryList.pm
+--- hns-perl/public_html/diary/lib/HNS/CategoryList.pm	Sun May 30 13:29:10 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/CategoryList.pm	Sun May 30 15:21:33 1999
+@@ -39,7 +39,8 @@
+     $html .= qq(<input name="CAT" type="checkbox" value="ALL">$Categorize<br>\n);
+ 
+     my $templ = new HNS::Template;
+-    for my $cat (sort keys %DB){
++    my $cat;
++    for $cat (sort keys %DB){
+ 	next unless $cat;
+ 	my $img = "$CatDir/$DB{$cat}";
+ 	my ($w, $h) = imgsize($img);
+diff -ur hns-perl/public_html/diary/lib/HNS/Collection.pm hns-perl-5.003/public_html/diary/lib/HNS/Collection.pm
+--- hns-perl/public_html/diary/lib/HNS/Collection.pm	Sun May 30 13:29:10 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Collection.pm	Sun May 30 15:23:14 1999
+@@ -47,7 +47,8 @@
+     $day = '(21|22|23|24|25|26|27|28|29|30|31)' if $day eq "c";
+ 
+     $self->collect_yearly($year);
+-    for my $ymd (sort keys %{$self->diarys}){
++    my $ymd;
++    for $ymd (sort keys %{$self->diarys}){
+ 	my $diary = $self->diarys->{$ymd};
+ 	$diary->filename =~ /d(\d+)\.hnf/;
+ 	next unless ($1 =~ /$year$month$day/);
+@@ -72,7 +73,8 @@
+     while ($cnt<$max){
+ 	# read file info : first this year, second last year
+ 	$self->collect_yearly($year);
+-	for my $ymd (reverse sort keys %{$self->diarys}){
++	my $ymd;
++	for $ymd (reverse sort keys %{$self->diarys}){
+ 	    last if (++$cnt>$max);                # read done
+ 	    my $diary = $self->diarys->{$ymd};
+ 	    next unless $diary->year == $year;
+@@ -105,7 +107,8 @@
+ {
+     my ($self, $year) = @_;
+     
+-    for my $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$year"){
++    my $dir;
++    for $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$year"){
+ 	opendir(DIR, $dir) || next;
+ #	for my $file (sort readdir(DIR)){
+ 	my $file;
+diff -ur hns-perl/public_html/diary/lib/HNS/Diary.pm hns-perl-5.003/public_html/diary/lib/HNS/Diary.pm
+--- hns-perl/public_html/diary/lib/HNS/Diary.pm	Sun May 30 13:29:11 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Diary.pm	Sun May 30 18:20:01 1999
+@@ -75,7 +75,9 @@
+     open(F, $self->filename) || die;
+     while (<F>){
+ 	# convert kanji charactor code to euc
+-	&jcode::convert(\$_, 'euc');
++	my $convert_tmp = $_;
++	#&jcode::convert(\$_, 'euc');
++	&jcode::convert($convert_tmp, 'euc');
+ 	# convert to entity reference
+ 	s/&/&amp;/g;
+ 	s/>/&gt;/g;
+diff -ur hns-perl/public_html/diary/lib/HNS/Hnf/Command.pm hns-perl-5.003/public_html/diary/lib/HNS/Hnf/Command.pm
+--- hns-perl/public_html/diary/lib/HNS/Hnf/Command.pm	Tue May 18 00:07:02 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Hnf/Command.pm	Sun May 30 15:21:05 1999
+@@ -121,7 +121,8 @@
+     # if undefined the class, get from parent class
+     my $tmp = (ref $self) . "::ISA";
+     my @isa = @$tmp;
+-    for my $class (@isa){
++    my $class;
++    for $class (@isa){
+ 	$full_var_name = "${class}::$var_name";
+ 	return $$full_var_name if defined $$full_var_name;
+ 	my $tmp = "${class}::ISA";
+diff -ur hns-perl/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm hns-perl-5.003/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm
+--- hns-perl/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm	Sun May 30 13:29:11 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm	Sun May 30 15:22:18 1999
+@@ -238,7 +238,8 @@
+     my $arg_content = shift;
+     my $cat;
+     # CAT arg1 arg2 arg3..
+-    for my $c (split(/ /, $arg_content)){
++    my $c;
++    for $c (split(/ /, $arg_content)){
+ 	my $img;
+ 	if ($img = $HNS::CategoryList::DB{$c}){
+ 	    my $src = "$HNS::CategoryList::CatDir/$img";
+diff -ur hns-perl/public_html/diary/lib/HNS/PIM/Schedule.pm hns-perl-5.003/public_html/diary/lib/HNS/PIM/Schedule.pm
+--- hns-perl/public_html/diary/lib/HNS/PIM/Schedule.pm	Sun Apr 18 03:16:55 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/PIM/Schedule.pm	Sun May 30 15:24:20 1999
+@@ -65,7 +65,8 @@
+ #    print "content-type: text/html\n\n";
+ 
+     # read yotei files
+-    for my $file (@files){
++    my $file;
++    for $file (@files){
+ 	# read file
+ 	open(F, $file) || next;
+ #	print "$file, ";
+diff -ur hns-perl/public_html/diary/lib/HNS/Template.pm hns-perl-5.003/public_html/diary/lib/HNS/Template.pm
+--- hns-perl/public_html/diary/lib/HNS/Template.pm	Sun Apr 18 01:26:21 1999
++++ hns-perl-5.003/public_html/diary/lib/HNS/Template.pm	Sun May 30 15:20:18 1999
+@@ -39,8 +39,8 @@
+ sub SetParamValues($%)
+ {
+     my ($self, %parameters) = @_;
+-
+-    while (my ($k, $v) = each(%parameters)){
++    my ($k, $v);
++    while (($k, $v) = each(%parameters)){
+ 	$self->content->{$k} = $v;
+     }
+ }
+diff -ur hns-perl/public_html/diary/lib/ObjectTemplate.pm hns-perl-5.003/public_html/diary/lib/ObjectTemplate.pm
+--- hns-perl/public_html/diary/lib/ObjectTemplate.pm	Mon Apr 12 15:21:30 1999
++++ hns-perl-5.003/public_html/diary/lib/ObjectTemplate.pm	Sun May 30 14:57:55 1999
+@@ -10,7 +10,8 @@
+     my ($pkg) = caller;
+     @{"${pkg}::_ATTRIBUTES_"} = @_;
+     my $code = "";
+-    foreach my $attr (get_attribute_names($pkg)) {
++    my $attr;
++    foreach $attr (get_attribute_names($pkg)) {
+         # If a field name is "color", create a global list in the
+         # calling package called @color
+         @{"${pkg}::_$attr"} = ();
+@@ -66,7 +67,8 @@
+     $pkg = ref($pkg) if ref($pkg);
+     my @result = @{"${pkg}::_ATTRIBUTES_"};
+     if (defined (@{"${pkg}::ISA"})) {
+-        foreach my $base_pkg (@{"${pkg}::ISA"}) {
++	my $base_pkg;
++        foreach $base_pkg (@{"${pkg}::ISA"}) {
+            push (@result, get_attribute_names($base_pkg));
+         }
+     }
+@@ -94,7 +96,8 @@
+     my $inst_id = $$obj;
+     # Release all the attributes in that row
+     local(*attributes) = *{"${pkg}::_ATTRIBUTES_"};
+-    foreach my $attr (@attributes) {
++    my $attr;
++    foreach $attr (@attributes) {
+         undef ${"${pkg}::_$attr"}[$inst_id];
+     }
+     $_free[$inst_id] = $_free;
+diff -ur hns-perl/public_html/diary/lib/SimpleDB/Append.pm hns-perl-5.003/public_html/diary/lib/SimpleDB/Append.pm
+--- hns-perl/public_html/diary/lib/SimpleDB/Append.pm	Sun Apr 18 03:01:52 1999
++++ hns-perl-5.003/public_html/diary/lib/SimpleDB/Append.pm	Sun May 30 15:05:48 1999
+@@ -1,7 +1,7 @@
+ # $Id: Append.pm,v 1.2 1999/04/17 18:01:52 kenji Exp $
+ package SimpleDB::Append;
+ 
+-use Fcntl ':flock';
++# use Fcntl ':flock';
+ 
+ sub new ($$)
+ {
+diff -ur hns-perl/public_html/diary/lib/SimpleDB/Scalar.pm hns-perl-5.003/public_html/diary/lib/SimpleDB/Scalar.pm
+--- hns-perl/public_html/diary/lib/SimpleDB/Scalar.pm	Sun Apr 18 03:01:55 1999
++++ hns-perl-5.003/public_html/diary/lib/SimpleDB/Scalar.pm	Sun May 30 18:13:23 1999
+@@ -1,7 +1,7 @@
+ # $Id: Scalar.pm,v 1.2 1999/04/17 18:01:55 kenji Exp $
+ package SimpleDB::Scalar;
+ 
+-use Fcntl ':flock';
++#use Fcntl ':flock';
+ 
+ use SimpleDB::Base;
+ @ISA = qw(SimpleDB::Base);

@@ -1,0 +1,23 @@
+body { background-color: e0e0ff; margin: 1em }
+h1 { text-align: center }
+pre { white-space: pre; 
+      border-width: 1px; background-color: #eef }
+td { background-color: #eef }
+th { background-color: #334; color: white }
+dl { margin-left: 0 2em }
+em { color: red; font-weight: bold; font-style: midium }
+table { text-align: center }
+
+ H4.c1 {color: red}
+ DT.c1 {font-weight: bold}
+ DIV.c1 {text-align: center}
+ DIV.c2 {background: #CCCCCC}
+ SPAN.c1 {color: red}
+ SPAN.c2 {color: #227700}
+ SPAN.c3 {color: #A00000}
+ strong.c1 {color: red}
+
+.title { font-size: 70%; margin: 1em 0 }
+.foot { text-align: center; margin: 1em; font-size: 120%; font-weight: bold }
+.terminal { background-color: #222; color: white }
+

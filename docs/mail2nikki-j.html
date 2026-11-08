@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>hns のメールによる日記の更新</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+
+    <div class="c1">
+      <h1>hns のメールによる日記の更新</h1>
+    </div>
+    <hr>
+
+    <h3>mail2nikki.pl の修正</h3>
+
+    <p>mail2nikki.pl は標準では ~/diary/bin/mail2nikki.pl
+    にインストールされます．以前の mail2nikki.pl は
+    mail2nikki.pl-old として保存されています．</p>
+
+    <ol>
+      <li>$ <span class="c3">cd ~/diary/bin</span></li>
+
+      <li>$ <span class="c3">vi mail2nikki.pl</span><br>
+       <code>$mailAddress</code> に
+      報告を受けるメール・アドレスを記載<br>
+       <code>$mailAddress = '<span class=
+      "c3">hoge@example.ne.jp</span>';</code><br>
+      <br>
+       <code>@certiy_mailAddress</code> に
+      投稿を許可するメール・アドレスを記載。複数のアドレスを指定できます。<br>
+
+       <code>@certiy_mailAddress = ('<span class=
+      "c3">hoge@example.ne.jp</span>','<span class=
+      "c3">geho@bar.foo.jp</span>');</code><br>
+      <br>
+       <code>$recvMailAddress</code> には，
+      処理結果メールの From: アドレスを記載します．<br>
+       <code>$recvMailAddress = '<span class=
+      "c3">hoge@example.ne.jp</span>';</code><br>
+      <br>
+       <code>$MASTERPASSWD</code> に
+      パスワードを記載します．1バイト英数字を指定してください．<br>
+
+       <code>$MASTERPASSWD = "<span class=
+      "c3">himitsu</span>";</code><br>
+      <br>
+       <code>$LOGMODE</code>
+      では，受けたメールをログに保存するかを指定します． 0
+      エラー時のみ保存, 1 常に保存, 2
+      一切保存しない，です． デフォルトは 0
+      となっています．<br>
+      <br>
+       <code>$MAILMODE</code>
+      では，動作報告のメールを送信するか指定します． 1
+      動作報告メールを送る，0
+      動作報告メールを送らない，です． デフォルトは 0
+      となっています．<br>
+      <br>
+       <code>$NKF_USE</code> には，漢字コード変換に nkf
+      を使用するかどうかを指定します． 1 nkf
+      を使用する，0 jcode.pl を使用する，です．
+      デフォルトは 1 となっています．<br>
+      <br>
+       <code>$sendmail</code> には，sendmail (または
+      sendmail相当 の プログラム)
+      へのパスを設定します．<br>
+       <code>$sendmail = "<span class=
+      "c3">/usr/sbin/sendmail</span>";</code><br>
+      <br>
+       <code>$nkf</code> に，nkf へのパスを設定します．
+      nkf を使用しない場合は関係ありません．<br>
+       <code>$nkf = "<span class=
+      "c3">/usr/local/bin/nkf</span>";</code><br>
+      </li>
+    </ol>
+    <hr>
+
+    <h3>.forward の作成</h3>
+
+    <p>メールで日記を更新するには，サーバが受け取ったメールを
+    mail2nikki.pl に渡す必要があります．
+    もっとも一般的と思われる .forward
+    による例を紹介します．</p>
+
+    <ol>
+      <li>$ <span class="c3">cd ~</span></li>
+
+      <li>$ <span class="c3">vi .forward</span><br>
+       <span class="c3">hoge, "|/home/hoge/diary/bin/mail2nikki.pl
+      "</span><br>
+      </li>
+    </ol>
+    <hr>
+
+    <h3>qmail の場合</h3>
+
+    <p>メール・サーバが qmail
+    の場合、日記用のアドレス(例えば
+    hoge-diary@example.ne.jp) を作成するのが
+    良いでしょう。</p>
+
+    <ol>
+      <li>$ <span class="c3">cd ~</span></li>
+
+      <li>$ <span class="c3">vi .qmail-diary</span><br>
+       <span class="c3">
+      |/home/hoge/diary/bin/mail2nikki.pl</span></li>
+    </ol>
+    <hr>
+
+    <h3>.forward を書いてしまうと不都合な場合</h3>
+
+    <p>hns
+    を設置するサーバのアカウントを通常のメール・アドレスとして利用
+    している場合など、.forward
+    を置くと不都合がある場合は、以下のような設定で mail2nikki
+    専用のアドレスを作ることがで きます。</p>
+
+    <ol>
+      <li><span class="c3">/home/hoge/diary/hoge-nikki</span><br>
+       などのファイルを作り、その中に<br>
+      <br>
+       <span class="c3">
+      "|/home/hoge/diary/bin/mail2nikki.pl"</span><br>
+      <br>
+       と書いておく。
+      このファイルの所有者は自分自信、パーミッションは 644
+      としておくこと(他人が書き込めるとセキュリティ上の危険があります)。</li>
+
+      <li><span class="c3">/etc/aliases</span><br>
+       に次の行を追加します。<br>
+      <br>
+       <span class="c3">hoge-nikki:
+      :include:/home/hoge/diary/hoge-nikki</span></li>
+
+      <li># <span class="c3">newalias</span><br>
+       で aliasデータベースを更新します．<br>
+      <br>
+       こうすることで、hoge-nikki@example.ne.jp
+      にメールを送ると、 /home/hoge/diary/hoge-nikki
+      の所有者(自分自身)で mail2nikki.pl
+      が起動され、日記を更新することができます。<br>
+      <br>
+       但し、この方法は古い sendmail
+      では使用できないことがあります。 /etc/aliases
+      を自分で編集できない場合は、そのホストの管
+      理者に相談してください。</li>
+    </ol>
+    <hr>
+
+    <h3>日記の登録方法</h3>
+
+    <p>メールの Subject には，<br>
+     <span class="c3">hnf:ADD</span>, <span class="c3">
+    hnf:DEL</span>, <span class="c3">hnf:DEL&amp;ADD</span>, <span
+    class="c3">hnf:GET</span><br>
+     <span class="c3">hns:ADD TODO</span>, <span class="c3">hns:DEL
+    TODO</span>, <span class="c3">hns:DEL&amp;ADD TODO</span>,
+    <span class="c3">hns:GET TODO</span><br>
+     <span class="c3">hns:ADD PLAN</span>, <span class="c3">hns:DEL
+    PLAN</span>, <span class="c3">hns:DEL&amp;ADD PLAN</span>,
+    <span class="c3">hns:GET PLAN</span><br>
+     <span class="c3">hns:ADD REPEAT</span>, <span class="c3">
+    hns:DEL REPEAT</span>, <span class="c3">hns:DEL&amp;ADD
+    REPEAT</span>, <span class="c3">hns:GET REPEAT</span><br>
+     のいずれかを指定します．日記の追加は hnf:ADD，
+    hnf:GET はすでにある hnf
+    を取り出し，メールで送ります． 日記の削除は
+    hnf:DEL， hnf:DEL&amp;ADD
+    は，今日(または指定日)の日記を入れ換えます．<br>
+
+     TODO, PLAN, REPEAT はそれぞれ todo および
+    予定ファイル、繰り返し予定ファイル を
+    操作する時に指定します。</p>
+
+    <p>日記の本文は，<br>
+     <span class="c3">PASSWORD: himitsu</span><br>
+     <span class="c3">DATE: 19981109</span><br>
+     で始めます．DATE: は省略可能です．省略した場合は，
+    今日が指定されます． PASSWORD:, DATE:
+    の次には，ユーザ変数を書きます．
+    ユーザ変数は，1行に1ずつ，変数名と内容はスペースで区切ります．
+    ユーザ変数の変数名の後には，: はつけません．<br>
+     <span class="c3">TENKI 晴</span><br>
+     その後，改行して，hnf そのものを記載します．
+    なお，すでにその日の hnf
+    が存在する場合，ユーザ変数は，
+    書き直されません．ユーザ変数の内容を変更したい場合は，
+    GET で hnf を取り出して，その後，DEL&amp;ADD
+    で入れ換えしてください．<br>
+     <span class="c3">END</span><br>
+     と記入すると，日記の終了です．それ以降は登録されません．</p>
+
+    <p>例：<br>
+     <span class="c3">Subject: hnf:ADD</span><br>
+     (本文)<br>
+     <span class="c3">PASSWORD: himitsu</span><br>
+     <span class="c3">TENKI 晴</span><br>
+     (必ず1行空白行を入れます)<br>
+     <span class="c3">NEW mail2nikki のテスト</span><br>
+     <span class="c3">
+    メールによる日記更新のテストです.</span><br>
+     <span class="c3">END</span><br>
+    </p>
+
+    <p>例：<br>
+     <span class="c3">Subject: hns:ADD PLAN</span><br>
+     (本文)<br>
+     <span class="c3">PASSWORD: himitsu</span><br>
+     (必ず1行空白行を入れます)<br>
+     <span class="c3">4/8 花まつり</span><br>
+     <span class="c3">END</span><br>
+    </p>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: mail2nikki-j.html,v 1.19 2003/11/20 15:04:33 togawa Exp $ -->
+  </body>
+</html>
+

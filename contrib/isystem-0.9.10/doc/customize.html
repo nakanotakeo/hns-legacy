@@ -1,0 +1,339 @@
+<html>
+<head>
+<title>i system customize manual</title>
+</head>
+
+<body>
+<h1>i system customize manual</h1>
+by yar-3
+<hr>
+config.ph で使う変数の設定について説明します。
+<hr>
+<h3>機能分類</h3>
+<ol>
+<li><a href="#BASIC">基本設定</a>
+ install.ja の「5)config.phの設定」 も参照してください
+<li><a href="#LOOK">表示カスタマイズ(全般)</a>
+<li><a href="#I">iMODE用設定</a>
+<li><a href="#CI">Color iMODE用設定</a>
+<li><a href="#ONC">オープンネットワークコンテンツ(エッジ)用設定</a>
+</ol>
+<hr>
+<ol>
+<a name=BASIC>
+<li>
+<h3>基本設定</h3>
+<dl>
+
+<dt>baseuri
+<dd>基本となるuri。
+末尾に / が必要。
+<pre>
+$baseuri = "http://yar-3.net/i/";
+</pre>
+
+<dt>$diarydir
+<dd>*.hnfのあるディレクトリ。
+分散管理にのみ対応。
+末尾に / が必要。
+<pre>
+$diarydir = "/home/hoge/diary/";
+</pre>
+
+<dt>$address
+<dd>メイルのあてさき。
+タイトル一覧の末尾に表示されます。
+<pre>
+$address = 'ore@yar-3.net';
+</pre>
+
+<dt>$log
+<dd>log機能のon/offフラグ。
+1 で log採取 defaultはoff
+<pre>
+$log = 0;
+</pre>
+
+<dt>$mailto
+<dd>ログレポートの送り先メイルアドレス。
+<dt>$sendmail
+<dd>sendmail のありか(フルパス)
+<dt>$account_detail
+<dd>詳細表示設定。1で詳細
+<pre>
+# レポート機能を使う場合は「$mailto = 'abc@xxx.yyy.zzz';」のように自分の
+# メールアドレスを設定する。また、/usr/lib/sendmailが存在することを確認
+# しておく。別の場所にある場合は、$sendmail も適切に変更する。詳細メール
+# の場合は「$account_detail = 1;」とし、アクセス件数のみをメールする場合
+# は「$account_detail = 0;」とする。
+#
+$mailto   = 'log@yar-3.net';
+$sendmail = '/usr/sbin/sendmail';
+$account_detail = 1;
+</pre>
+
+
+<dt>$maxresult
+<dd>検索の表示数。<br>
+検索時の1ページあたりの表示件数です。
+<pre>
+$maxresult = 10;
+</pre>
+
+<dt>$maxday
+<dd>最大検索日数。
+必要以上に日記をさかのぼらないようにする。
+<pre>
+$maxday = 100;
+</pre>
+
+<dt>$nkf
+<dd>漢字コード変換ルーチンの設定。
+defaultはjcode.pl。
+nkf を使う場合は1、
+jcode.pl を使う場合は 2 に設定する。
+<pre>
+$nkf = 2;
+</pre>
+
+<dt>$hnfconv
+<dd>hnfをEUCにコード変換するかしないか。
+ $hnfconv=1で文字コード変換を
+おこなう。<br>
+hnfがEUCで記述されている場合は0にした方が速いです。
+<pre>
+$hnfconv = 1;
+</pre>
+
+<dt>$theme
+<dd>テーマファイル名。
+".ph"を省略した形で書く。
+テーマファイルにはconfig.phのすべての項目を
+書くことができます。
+defautlは"default"なので、 default.ph という
+ファイルに設定を記述してあれば、インストールと同時に
+反映されます。
+<pre>
+$theme = "default";
+</pre>
+
+</dl>
+<hr>
+
+<a name=LOOK>
+<li><h3>表示カスタマイズ(全般)</h3>
+<dl>
+<dt>$catprint
+<dd> カテゴリ表示のon/off。0で表示しない。
+<pre>
+$catprint = 0;
+</pre>
+
+<dt>$daystyle
+<dd>日付表示のカスタマイズ。 htmlが記述できます。
+以下のマクロが使用可能
+<pre>
+# %yyyy 4桁西暦
+# %mm   2桁月
+# %dd   2桁日
+# %m    月(0サプレスなし)
+# %d    日(0サプレスなし)
+# %w    曜日
+</pre>
+
+<pre>
+#$daystyle = "&lt;b&gt;%yyyy/%m/%d(%w)&lt;/b&gt;"; # 2000/7/5(水)
+$daystyle = "&lt;b&gt;%yyyy年%mm月%dd日(%w)&lt;/b&gt;"; # 2000年07月05日(水) 以前のdefault
+</pre>
+
+<dt>$title
+<dd>htmlのtitle要素です。
+<pre>
+$title = "妄想日記2000GT";
+</pre>
+
+<dt>$head
+<dd>ページはじめに表示されるタイトルです。
+<pre>
+$head = "妄想日記 for iMODE";
+</pre>
+
+<dt>$index
+<dd>hnsへのリンク関係。
+<pre>
+$index = "index.cgi";
+</pre>
+
+<dt>$headfile
+<dd>本文表示時に、先頭に表示されるファイル名。
+<br>
+ファイルはEUC/LFで記述してください。
+<dt>$titleheadfile
+<dd>タイトル一覧表示時に、先頭に表示されるファイル名。
+<br>
+ファイルはEUC/LFで記述してください。
+<dt>$footfile
+<dd>末尾に表示されるファイル名。
+<br>
+ファイルはEUC/LFで記述してください。
+<dd>header,footerのファイル名を指定。
+<pre>
+$headfile = "head.txt";
+$titleheadfile = "titlehead.txt";
+$footfile = "";
+</pre>
+
+
+<dt>$newline
+<dt>$newmark
+<dt>$new1 
+<dt>$new2
+<dd>NEW関係の設定<br>
+<pre>
+$newline
+$newmark $new1 [NEWの内容] $new2
+</pRE>
+のように表示されます。
+
+<pre>
+$newline = "&lt;hr&gt;";
+$newmark = "\$";
+$new1 = '&lt;b&gt;';
+$new2 = '&lt;/b&gt;';
+</pre>
+
+<dt>$subline
+<dt>$submark
+<dt>$sub1
+<dt>$sub2
+<dd>SUB関係の設定
+<pre>
+$subline
+$submark $sub1 [SUBの内容] $sub2
+</pre>
+のように表示されます。
+
+<pre>
+$subline = "&lt;br&gt;";
+$submark = "\@";
+$sub1 = '';
+$sub2 = ':';
+</pre>
+
+<dt>$sub_separator
+<dd>一覧表示時のサブセクションのセパレータ。なくてもかまわない。
+<pre>
+$sub_separator = ",";
+</pre>
+
+<dt>$titlereverse
+<dd>タイトルの正逆。
+1 で逆順表示。
+<pre>
+$titlereverse = 0;
+</pre>
+
+
+<dt>$poweb_2days
+<dd>pilowebでアクセスしたときに2日分表示するフラグ。1で2日分。
+<pre>
+$piloweb_2days = 0;
+</pre>
+
+<dt>$reverse
+<dd>「全部」表示、およびpiloweb表示での正逆。
+1で逆順表示。
+<pre>
+$reverse = 0;
+</pre>
+</dl>
+<hr>
+
+<a name=I>
+<li>
+<h3>iMODE用設定</h3>
+<dl>
+<dt>$imodegw
+<dd>iMODE用 gateway uri の設定<br>
+linkの前に追加するprefixです。
+<pre>
+# i-gate を用いる場合
+$imodegw = "http://i-greet.com/bin/g.pl?q=";
+</pre>
+
+</dl>
+<hr>
+
+<a name=CI>
+<li><h3>Color iMODE用設定</h3>
+カラー表示対応iMODE端末で有効。
+<dl>
+<dt>$headcolor
+<dd>日記のタイトルの色
+<dt>$newcolor
+<dd>NEW,LNEWコマンドの着色
+<dt>$subcolor
+<dd>SUB,LSUBコマンドの着色
+<dt>$strongcolor
+<dd>STRONGコマンドの着色
+<dt>$strikecolor
+<dd>STRONGコマンドの着色
+<pre>
+$headcolor = "BLUE"; #日記のタイトルの色
+$newcolor = "GREEN";  #NEW,LNEWコマンドの着色
+$subcolor = "#800000"; #SUB,LSUBコマンドの着色
+#16進での指定もOK
+$strongcolor = "RED";  #STRONGコマンドの着色
+$strikecolor = "Fuchsia"; #STRONGコマンドの着色
+</pre>
+
+</dl>
+<hr>
+
+
+<a name=ONC>
+<li><h3>オープンネットワークコンテンツ(エッジ)用設定</h3>
+<dl>
+<dt>$flag_maru
+<dd>丸数字を使用するかしないかの設定。 1なら丸数字使用
+<pre>
+$flag_maru = 1;    # (任意)1なら丸数字使用
+</pre>
+
+<dt>$ref_max
+<dd>リンク最大数
+<pre>
+$ref_max = 40;     # (任意)リンク最大数(これ以上のリンクは無視します)
+</pre>
+
+<dt>$use_onccnv
+<dd>onccnv.pl を使用するかしないかの設定 。1なら使用
+<pre>
+$use_onccnv = 1;  # (必須)1なら内蔵ONC GW機能使用
+</pre>
+
+<dt>$ongw
+<dd>オープンネットワークコンテンツゲートウェイの設定<br>
+t-saitoh先生のopennet CGIを利用する場合に使用します。
+この機能を使う場合はbaseuriが必須になります。
+onccnv.pl を使う場合はコメントアウトしてください。
+<pre>
+#$ongw = "http://yar-3.net/gw/";
+#この機能を使う場合はbaseuriが必須になります
+#onccnv.pl を使う場合はコメントアウトしてください
+</pre>
+
+</dl>
+
+</ol>
+<hr>
+
+2000/07/05<br>
+yar-3 ore@yar-3.net
+
+</body>
+</html>
+
+
+
+

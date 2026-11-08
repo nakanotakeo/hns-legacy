@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" type="text/css" href="hns.css">
+
+    <title>replace for hns による文字列一括変換</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>replace for hns による文字列一括変換</h1>
+    </div>
+    <hr>
+
+    <h3>replace for hns とは?</h3>
+
+    <p>日記を書いていると、リンクした相手の日記の URL
+    が変わってしまう
+    ことや、過去に遡って、用語の統一をしたいなど、過去の日記を
+    機械的に変更したい場合があります。このような場合は、
+    replace for hns
+    を使うことにより、特定の文字列を別の文字列に
+    一括変換することができ、非常に便利です。</p>
+
+    <p>replace for hns は NAKAMURA
+    Hiroshiさんにより開発された <a href=
+    "http://www.jin.gr.jp/~nahi/src/">replace</a> を許に
+    hnf用に少々の改編を加えたものです。</p>
+    <hr>
+
+    <h3>replace for hns 1.0.0-pl1 のインストール</h3>
+
+    <ol>
+      <li><a href="http://www.h14m.org/dist/">
+      replace_for_hns-1.0.0-pl1.tar.gz</a> を
+      get．</li>
+
+      <li>$ <span class="c3">tar zxvf
+      replace_for_hns-1.0.0-pl1.tar.gz</span><br>
+       $ <span class="c3">cd replace_for_hns-1.0.0-pl1</span><br>
+       $ <span class="c3">cp replace ~/bin/</span><br>
+       パスの通った場所にコピーするだけです。</li>
+
+      <li>使い方<br>
+       修正したい hnf
+      のあるディレクトリに移動します。<br>
+       $ <span class="c3">cd ~/diary/1999</span><br>
+       $ <span class="c3">replace "置換え前"
+      "置換え後"</span><br>
+       で現在のディレクトリの中にある hnf
+      (つまりこの場合は、1999年の日記)
+      を全て調べ、
+      置換え前文字列を置換え後文字列に変換します。バックアップ・ファイルが
+      .rp_bak という拡張子で作成されます。<br>
+      <br>
+       過去全ての日記の修正を行いたい場合は、<br>
+       $ <span class="c3">cd ~/diary/</span><br>
+       $ <span class="c3">replace "置換え前" "置換え後"
+      -r</span><br>
+       と
+      -rオプションを指定することで、現在のディレクトリ以下を
+      全て検索するようにします。<br>
+      <br>
+       $ <span class="c3">replace "置換え前" "置換え後"
+      -R</span><br>
+       と
+      -Rオプションを指定することで、置換え前の文字列に Perl
+      の正規表現を使えるようになります。</li>
+    </ol>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: replace-j.html,v 1.10 2001/12/01 04:54:37 kenji Exp $ -->
+  </body>
+</html>
+

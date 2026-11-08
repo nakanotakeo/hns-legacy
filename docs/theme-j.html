@@ -1,0 +1,836 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="made" href="mailto:tom@morito.mgmt.waseda.ac.jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>テーマ機能</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.10</h3>
+
+      <h1>テーマ機能</h1>
+    </div>
+    <hr>
+
+    <h3>テーマ機能とは?</h3>
+
+    <p>日記の見た目(スタイル，背景，文字色など)
+    を「テーマ」として定義でき， また
+    あらかじめ用意されている「テーマ」を指定することで，日記の見た目を
+    簡単に変更できる機能です．</p>
+    <hr>
+
+    <h3>テーマの利用方法</h3>
+
+    <p>
+    インストールされているテーマを使用するのはとても簡単です．</p>
+
+    <ul>
+      <li><a href="config-j.html">設定ファイルconfig.ph</a>
+      の <b>$Theme</b> にテーマ名を指定</li>
+    </ul>
+
+    <p>するだけです。</p>
+
+    <p>hnsの配布物には，
+    japanese
+    , <a href=
+    "http://www.h14m.org/official_diary_2/">ruribaka</a>
+    , <a href=
+    "http://www.h14m.org/official_diary_3/">anti_windoze</a>
+    ,
+    english
+    という 4つのテーマが含まれています。
+    デフォルトは「japanese」です。
+    テーマ「anti-windoze」を利用するには，config.ph
+    で</p>
+
+    <blockquote>
+      <code>$Theme = <em>"anti-windoze"</em>;</code>
+    </blockquote>
+
+    <p>と設定するだけです．</p>
+
+    <p>また <a href=
+    "http://www.h14m.org/dist/contrib/theme/">http://www.h14m.org/dist/contrib/theme/</a>
+    に寄贈されたテーマがあります。<br>
+     tar.gz されたテーマをウェブ日記ディレクトリ
+    (~/public_html/diary/) に置いて</p>
+
+    <ol>
+      <li>$ <span class="c3">gzip -dc *.tar.gz | tar xvf
+      -</span><br>
+       (又は $ <span class="c3">tar zxvf
+      *.tar.gz</span>)</li>
+    </ol>
+
+    <p>
+    として展開しテーマ名としてそのディレクトリ名を指定するだけで
+    利用できます．</p>
+    <hr>
+
+    <h3>テーマの実体</h3>
+
+    <p>テーマは，ウェブ日記ディレクトリ(~/public_html/diary/)
+    にテーマ名
+    をつけたディレクトリ名で必要なファイルが置かれます．
+    テーマに必要なファイルとは，</p>
+
+    <ul>
+      <li>theme.ph - テーマの設定ファイル(Perl script)</li>
+
+      <li>theme-static.ph -
+      静的生成用のテーマの設定ファイル(Perl script)</li>
+
+      <li>マークや背景の画像ファイル</li>
+
+      <li>head.txt, foot.txt</li>
+    </ul>
+
+    <p>です．theme-static.ph, head.txt, foot.txt
+    はなくても構いません。 head.txt と foot.txt
+    はテーマ・ディレクトリに存在する場合、そちらが表示されます
+    (~/diary/conf/ にあるものは無視されます)。</p>
+
+    <p>theme.ph では、以下のような設定が可能です。</p>
+
+    <ul>
+      <li><a href="user_var-j.html">ユーザ変数</a></li>
+
+      <li><a href="hnf-j.html#MARK">マーク</a></li>
+
+      <li>HTMLヘッダ/出力分フッタ</li>
+
+      <li>PIM(<a href="yotei-j.html">予定</a>、<a href=
+      "todo-j.html">To Do</a>、<a href=
+      "pim-link-j.html">リンク</a>)</li>
+
+      <li>カレンダー</li>
+
+      <li>スタイル</li>
+
+      <li>1日分ヘッダ/フッタ・テンプレート</li>
+
+      <li>コマンド・テンプレート</li>
+    </ul>
+    <hr>
+
+    <h3>テーマの作成</h3>
+
+    <p>テーマを作成するということは，theme.ph
+    を作成することと，画像を用意することです．</p>
+
+    <p>
+    生成されるHTMLタグも自由に変更することが可能ですが，
+    テーマを作成する場合，
+    正しいHTMLを生成するようチェックすることが望まれます．</p>
+
+    <h3>README の記載</h3>
+
+    <p>
+    テーマでユーザ変数・マークを定義した場合，利用可能なユーザ変数と
+    その意味，マークとその意味を必ず記載したドキュメントを添付願います．
+    テーマに関する説明は，READMEファイルに記載することが望まれます．</p>
+
+    <p>テーマの READMEファイルの記載例:</p>
+
+    <blockquote>
+<pre>
+利用可能なユーザ変数
+TENKI   天気
+
+利用可能な MARK
+!!      びっくり
+(^^)    にっこり
+(^^;    汗
+ばか    ばか
+(笑)    笑
+後ろ    後ろ姿
+v(^^)   Ｖサイン
+</pre>
+    </blockquote>
+    <hr>
+
+    <h3>theme.ph の作成と設定</h3>
+
+    <p>theme.ph は Perl script ですので Perl
+    の文法に従う必要があります．</p>
+
+    <p>
+    デフォルトの設定は、コメント・アウトしてある場合があります。
+    変更をほどこす部分は #
+    を削除して、変更を加えて下さい。</p>
+
+    <blockquote>
+<pre>
+% cd ~/public_html/diary
+% mkdir <em>yours</em>
+% cp japanese/theme.ph <em>yours</em>
+% vi <em>yours</em>/theme.ph
+</pre>
+    </blockquote>
+
+    <p>などとします。</p>
+    <hr>
+
+    <h3>ユーザ変数</h3>
+
+    <p>使用可能なユーザ変数を、</p>
+
+    <blockquote>
+<pre>
+package HNS::Hnf::UserVar;
+$Templates{<em>変数名</em>} = "<em>テンプレート</em>";
+</pre>
+    </blockquote>
+
+    <p>という形式で設定します。</p>
+
+    <p>使用可能なパラメータは、</p>
+
+    <table summary="ユーザ変数" border="1">
+      <tbody>
+        <tr>
+          <th>パラメータ名</th>
+
+          <th>説明</th>
+        </tr>
+
+        <tr>
+          <td>%value</td>
+
+          <td>hnf で指定した値</td>
+        </tr>
+
+        <tr>
+          <td>%user{<i>USER_VAR_NAME</i>}</td>
+
+          <td><i>USER_VAR_NAME</i> が出力される文字列</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>です。</p>
+
+    <blockquote>
+      ex) 
+<pre>
+package HNS::Hnf::UserVar;
+$Templates{'BASHO'} = "＠%value";
+$Templates{'TENKI'} = "天気: %value %user{BASHO}";
+</pre>
+    </blockquote>
+    <hr>
+
+    <h3>マーク</h3>
+
+    <p>使用可能なマークと画像ファイル名を</p>
+
+    <blockquote>
+<pre>
+package HNS::Hnf::Command::MARK;
+$List{'<em>(^^)／~</em>'} = '<em>icons/bye.gif</em>';
+</pre>
+    </blockquote>
+
+    <p>のように設定します。</p>
+    <hr>
+
+    <h3>HTML 設定</h3>
+
+    <div class="c2">
+      hns-2.20
+      からは、テンプレートを動的生成用と静的生成用に別々に
+      設定可能になりました。別々に設定する場合は、例えば、動的生成用の変数が
+      $NextTemplate{dynamic}、 静的生成用の変数が
+      $NextTemplate{static} のようになります。
+    </div>
+
+    <p>package は HNS::ExtHTML。</p>
+
+    <dl>
+      <dt>$DOCTYPE</dt>
+
+      <dd>ドキュメント・タイプ</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+qq(&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+    "http://www.w3.org/TR/REC-html40/loose.dtd"&gt;\n);
+</pre>
+        </blockquote>
+      </dd>
+
+      <dt>$Head{dynamic}</dt>
+
+      <dd>&lt;head&gt;&lt;/head&gt;内に入れる文字列</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+&lt;meta http-equiv="Content-Style-Type" content="text/css"&gt;
+&lt;style type="text/css"&gt;&lt;!--
+ body { background: white }
+ h3.new { margin-left: 1em }
+ div.uservar { font-weight: bold; }
+ div.section { margin-left: 2em; margin-top: 0 }
+ div.sub { margin-left: 1em; margin-top: 0 }
+ div.list { margin-left: 1em }
+ div.fn { margin-left: 1em; margin-top: 0 }
+ div.url { margin-bottom: 0 }
+ pre {
+  white-space:  pre;
+  padding:      0.5em;
+  border-color: #ffeeb0;
+  border-style: outset;
+  border-width: 4px
+ }
+ a.hide:link { color: black; text-decoration: none }
+ span.bold-red { color: red; font-weight: bold }
+ div.bold-red { color: red; font-weight: bold }
+--&gt;&lt;/style&gt;
+);
+</pre>
+        </blockquote>
+      </dd>
+
+      <dt>$BodyVal</dt>
+
+      <dd>&lt;body
+      ほげほげ&gt;のほげほげの所に入る文字列</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 undef
+        </blockquote>
+      </dd>
+
+      <dt>$DynamicPrintFunc</dt>
+
+      <dd>動的にメッセージを出力する関数へのリファレンス</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 undef
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+
+    <h3>出力分フッタ表示</h3>
+
+    <p>package は HNS::Collection。</p>
+
+    <table summary="出力分フッタ表示" border="1">
+      <tbody>
+        <tr>
+          <th>変数名</th>
+
+          <th>説明</th>
+
+          <th>デフォルト値</th>
+        </tr>
+
+        <tr>
+          <td>$FootMessages{'HasContent'}</td>
+
+          <td>
+          1日以上の日記を出力した場合のフッタ・メッセージ。
+          %num は出力した日記数に展開</td>
+
+          <td>"以上、%num 日分です。\n";</td>
+        </tr>
+
+        <tr>
+          <td>$FootMessages{'NoContent'}</td>
+
+          <td>
+          指定した日記が無かった場合のフッタ・メッセージ</td>
+
+          <td>"該当するものはありません。\n";</td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+
+    <h3>PIM(Personal Infomation Management)</h3>
+
+    <h3>予定</h3>
+
+    <p>package HNS::PIM::Schedule</p>
+
+    <dl>
+      <dt>@WeekString</dt>
+
+      <dd>曜日文字列配列</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+('&lt;font color="red"&gt;日&lt;/font&gt;',
+'月', '火', '水', '木', '金',
+'&lt;font color="blue"&gt;土&lt;/font&gt;');
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$ContentTemplate</dt>
+
+      <dd>各予定のテンプレート</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+qq(&lt;li&gt;&lt;strong&gt;%month/%day%week&lt;/strong&gt; 
+%content&lt;/li&gt;\n);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$BeginTemplate</dt>
+
+      <dd>予定を囲むテンプレート(開始)</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+"&lt;ul&gt;";
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$EndTemplate</dt>
+
+      <dd>予定を囲むテンプレート(終了)</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+"&lt;/ul&gt;";
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <h3>ToDo</h3>
+
+    <p>package HNS::PIM::Todo;</p>
+
+    <dl>
+      <dt>$ContentTemplate</dt>
+
+      <dd>各項目のテンプレート</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+"&lt;li&gt;&lt;strong&gt;%priority&lt;/strong&gt;%content&lt;/li&gt;\n";
+</pre>
+        </blockquote>
+      </dd>
+
+      <dt>$BeginTemplate</dt>
+
+      <dd>Todo リストを囲むテンプレート(開始)</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+"&lt;ul&gt;";
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$EndTemplate</dt>
+
+      <dd>Todo リストを囲むテンプレート(終了)</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+"&lt;/ul&gt;";
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+
+    <h3>カレンダー</h3>
+
+    <h4>テーブル使用</h4>
+
+    <p>package HNS::Calendar::Table;</p>
+
+    <dl>
+      <dt>@WeekString</dt>
+
+      <dd>曜日文字配列</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+('&lt;font color="red"&gt;日&lt;/font&gt;',
+'月', '火', '水', '木', '金', 
+'&lt;font color="blue"&gt;土&lt;/font&gt;');
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$TableBorder</dt>
+
+      <dd>表枠</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 0
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$NextTemplate</dt>
+
+      <dd>来月へのリンク．%year は年へ，%month
+      は月へ変換されます．</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+qq(&lt;a href="$HNS::System::MyDiaryURI?%year%month"&gt;来月&lt;/a&gt;);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$DayCurrentTemplate</dt>
+
+      <dd>現在表示されている日記へのカレンダーからのリンク．
+      %ruri は $ENV{'REQUEST_URI'} に，%{ymd} は
+      YYYYMMDD に， %calendar_day は日に変換されます．</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+qq(&lt;a href="%ruri#%{ymd}0"&gt;%calendar_day&lt;/a&gt;);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$DayNonCurrentTemplate</dt>
+
+      <dd>
+      現在表示されていない日記へのカレンダーからのリンク。
+      %hrefは日記のURLに変換されます。</dd>
+
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+qq(&lt;a href="%href"&gt;%calendar_day&lt;/a&gt;);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+
+    <h3>スタイル</h3>
+
+    <p>package HNS::Style;</p>
+
+    <dl>
+      <dt>$Templates{Table}-&gt;{pim}</dt>
+
+      <dd>スタイルTable の PIM 表示テンプレート．
+      %schedule は予定表示に，%todo は
+      ToDo表示に変換されます．</dd>
+
+      <dd>
+        <blockquote>
+<pre>
+qq(
+&lt;hr&gt;
+&lt;tablt summary="pim" width="100%"&gt;
+&lt;tr&gt;
+ &lt;th align="left"&gt;予定&lt;/th&gt;
+ &lt;th align="left"&gt;TODO&lt;/th&gt;
+ &lt;th align="left"&gt;Link&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+ &lt;td valign="top"&gt;
+ %schedule
+ &lt;/td&gt;
+ &lt;td valign="top"&gt;
+ %todo
+ &lt;/td&gt;
+ &lt;td valign="top"&gt;
+ %link
+ &lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tablt&gt;
+);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$Templates{Table}-&gt;{head_style}</dt>
+
+      <dd>スタイルTable
+      のヘッダ・レイアウトのテンプレート．%pim は
+      $Templates{Table}-&gt;{pim}
+      で定義した内容となります．</dd>
+
+      <dd>
+        <blockquote>
+<pre>
+qq(
+%pim
+&lt;hr&gt;
+&lt;table summary="calendar"&gt;
+&lt;tr&gt;
+&lt;td rowspan="2" valign="top"&gt;
+%calendar
+&lt;/td&gt;
+&lt;td valign="top"&gt;
+%unagi
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td valign="bottom"&gt;
+%direct_calendar
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+
+    <h3>1日分ヘッダ/フッタ・テンプレート</h3>
+
+    <p>package HNS::Diary</p>
+
+    <dl>
+      <dt>$Head</dt>
+
+      <dd>日記の日付表示部分．%year は年へ，%month
+      は月へ，%high は日の十の位に，%{day}
+      は日に，%week は曜日に，%user{HOGE}
+      はユーザ変数HOGE へ変換されます．</dd>
+
+      <dd>
+        デフォルト値 
+
+        <blockquote>
+<pre>
+qq(
+&lt;h2&gt;&lt;a class="hide" href="%href" [実際は1行]
+name="%name"&gt;%year年%month月%day日(%week)&lt;/a&gt;
+[&lt;a href="$HNS::System::MyDiaryURI?%month%day"&gt;n年日記&lt;/a&gt;]&lt;/h2&gt;
+);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$UserVar</dt>
+
+      <dd>ユーザ変数の内容を表示。</dd>
+
+      <dd>
+        デフォルト値 
+
+        <blockquote>
+<pre>
+qq(&lt;div class="uservar"&gt;
+ %user{TENKI}%user{BASHO}%user{TAIJU}%user{TAION}%user{SUIMIN}
+ %user{BGM}%user{HOSU}%user{HON}%user{KITAKU}%user{WALK}%user{RUN}%user{YOTEI}
+&lt;/div&gt;);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$Foot</dt>
+
+      <dd>1日分の終了</dd>
+
+      <dd>
+        <blockquote>
+<pre>
+qq(&lt;hr&gt;\n);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+
+    <h3>コマンド・テンプレート</h3>
+
+    <p>package HNS::Hnf::Command::NEW</p>
+
+    <dl>
+      <dt>$Template</dt>
+
+      <dd>NEW のテンプレート．%new
+      は当該セクションのセクションID に %cat は
+      カテゴリー表示(アイコン表示)に，%content
+      は当該セクションの内容に変換されます．</dd>
+
+      <dd>
+        <blockquote>
+	デフォルト値
+<pre>
+qq(
+&lt;h3 class="new"&gt;&lt;a class="hide" name="%name" title="%name" href="%href"&gt;#%mark&lt;/a&gt;
+%cat %content&lt;/h3&gt;
+&lt;div class="section"&gt;\n);
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$EndTemplate</dt>
+
+      <dd>NEW の終了テンプレート。%boardlinkは、board.cgi使用時にboard.cgiへの
+      リンク文字列に、%boarddataは掲示板情報の本文埋め込みに置き換えられます(使用しない時はなくなります)。</dd>
+
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+"&lt;/div&gt;%boarddata %boardlink&lt;!-- end of NEW --&gt;\n";
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+    <h3><a name="board">掲示板機能</a></h3>
+    <p>package Board;</p>
+
+    <dl>
+      <dt>$ReadStr</dt>
+
+      <dd>その記事に対するコメントへのリンクの文字列です。%numは記事数に置き換えられます。</dd>
+
+      <dd>
+        <blockquote>
+	デフォルト値
+<pre>
+'コメントを読む(%num)';
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <dl>
+      <dt>$SepStr</dt>
+
+      <dd>デフォルトでは$ReadStrと$WriteStrの間に表示される文字列です。
+      設定ファイルで<a href="config-j.html#HideReadLinkWhenNoMsg">$HideReadLinkWhenNoMsg</a>に1が指定されていて、
+      日記記事に対する掲示板記事がない場合は$ReadStrも共に表示されません。</dd>
+      <dd>
+        <blockquote>
+	デフォルト値
+<pre>
+'|';
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+
+    <dl>
+      <dt>$WriteStr</dt>
+
+      <dd>その記事に対するコメントを投稿する画面へのリンクです。
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+'コメントする';
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <dl>
+      <dt>$LinkStr</dt>
+
+      <dd>掲示板への読み込み、書き込みのリンク文字列です。この文字列がテーマ中の%boardlinkの場所に入ることになります。
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+'&lt;div class="boardlink" align="right"&gt;[ %readstr %sepstr %writestr ]&lt;/div&gt;';
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <dl>
+      <dt>$HeadStr</dt>
+
+      <dd>本文中のコメントが埋め込まれた部分の先頭に表示される文字列です。
+      <dd>
+        <blockquote>
+          デフォルト値 
+<pre>
+'&lt;h4 class="comment"&gt;この記事へのコメント&lt;/h4&gt;';
+</pre>
+        </blockquote>
+      </dd>
+    </dl>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.10</h3>
+    </div>
+    <hr>
+    <a href="index-j.html">Index</a> 
+    <!-- $Id: theme-j.html,v 1.30 2002/02/10 14:11:46 bonaim Exp $ -->
+  </body>
+</html>
+

@@ -1,0 +1,32 @@
+ハイパー日記システム用テーマ「anti-windoze」
+このテーマは hns-2.10 用です．
+
+
+1999/12/19
+
+Copyright (c) by
+  Kenji Suzuki <kenji@inseki.gr.jp>
+  Background & AWWU logo:
+    Anti Windows World Union <http://www.mrcharlie.com/awwu/>
+  Mark Icon: Mr. Chin <chin@xc4.so-net.ne.jp>
+
+
+利用可能なユーザ変数
+TENKI	天気
+BASHO	場所
+TAION	体温
+TAIJU	体重
+SUIMIN	睡眠
+BGM	BGM
+
+利用可能な MARK
+!!	びっくり
+(^^)	にっこり
+(^^;	汗
+ばか	ばか
+(笑)	笑
+後ろ	後ろ姿
+v(^^)	vサイン
+(;_;)	泣き
+??	おや?? おかしいな??
+

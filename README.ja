@@ -1,0 +1,56 @@
+HyperNikkiSystem
+version 2.19.9
+
+2006/11/5
+Copyright (C) 1998-2006  HyperNikkiSystem Project
+                           http://www.h14m.org/
+
+This software is OSI Certified Open Source Software.
+OSI Certified is a certification mark of the Open Source Initiative.
+
+
+hns-2.2-current からの beta release です。
+
+***** 重要 **********************************************************
+hns-2.19.6 以前には、スパムメール送信が可能な脆弱性が存在しています。
+hns-2.19.8 以前の webif.cgi には XSS脆弱性が存在します。
+使用しないで下さい。
+*********************************************************************
+
+
+* ドキュメントはほぼ完成しています。
+* i system には RTコマンド、排他GRP機能はありません。
+* japanese 以外のテーマは静的生成用になっていません。
+* カレンダのテンプレート記述方法の仕様が変更されました。
+
+
+hns-2.20 の新機能は、
+
+ docs/new_features_220-j.html
+
+をご覧下さい。
+hns-2,10 からの仕様変更は、
+
+ docs/change_from_210-j.html
+
+をご覧下さい。
+詳細は、ChangeLog を参照願います。
+
+
+i system についての詳細は、http://yar-3.net/isystem/ を
+参照願います。i system は yar-3, masato-3 による GPL な
+ソフトです。
+
+
+要望・バグ・クレーム・激励などがあればお寄せ下さい。
+
+
+インストール方法は，docs/index.html を参照願います。
+
+
+Special Thanks:
+ ObjectTemplate.pm by Sriram Srinivasan <sriram@weblogic.com>
+  /pub/CPAN/authors/SRIRAM/examples.tar.gz
+ jcode.pl by Kazumasa Utashiro <utashiro@iij.ad.jp>
+  ftp://ftp.iij.ad.jp/pub/IIJ/dist/utashiro/perl/
+

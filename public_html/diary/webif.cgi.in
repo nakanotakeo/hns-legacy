@@ -1,0 +1,915 @@
+#!%PERL_PATH%
+# HyperNikkiSystem webif
+# version 0.0.5
+# 2001/12/26  Kiyotaka Doumae <don@don.am>
+
+# Copyright (C) 1999-2001  Kiyotaka Doumae, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: webif.cgi.in,v 1.27 2006/11/05 01:04:32 kenji Exp $
+
+use strict;
+use lib qw(lib);
+
+use CGI::QueryString;
+use CGI::Tools;
+use CodeConv;
+use DateTime::Time;
+
+use HNS::Admini;
+use HNS::System;
+
+require './config.ph';
+
+BEGIN {
+    $| = 1;
+    $SIG{'__DIE__'} = \&die_handler;
+}
+
+################################################################
+#初期設定
+#日記のURL
+my $DiaryURI			= $HNS::System::MyDiaryURI;
+#hnfのあるディレクトリ
+my $DiaryDir			= $HNS::System::DiaryDir;
+#分散管理1/集中管理0
+my $HnfDir			= 1;
+#mail2nikkiのアドレス
+my $ToUserAddress		= '%DIARYMAIL%';
+#Fromのアドレス
+my $FromUserAddress	        = '%FROMADDR%';
+#sendmailの場所
+my $Sendmail			= '%SENDMAIL_PATH%';
+#日付変更offset
+my $DateChangeOffset    = 4; # hours
+
+# file writing mode
+# 0 -> mail2nikki, 1 -> ftp client, 2 -> direct(SuExec Only)
+my $Mode                = 0;
+
+
+# where is ftp client?
+my $Ftp			= '%FTP_PATH%';
+# ftp host
+my $FtpHost             = '%FTP_HOST%';
+# ftp user
+my $FtpUser             = '%FTP_USER%';
+# ftp diary dir
+my $FtpDiaryDir		= '%FTP_DIARY_DIR%';
+# permission for created dir
+my $Permission         = 0755;
+
+################################################################
+#メイン
+
+# print "content-type: text/html\n\n";
+
+# 乱数の種
+srand( time() ^ ($$ + ($$ << 15)) );
+
+#現在時刻取得
+my $now_time = new DateTime::Time;
+$now_time->SetTime($^T+$HNS::System::TZ*3600);
+
+# テンポラリファイルリスト
+my @tempfiles;
+
+# secret生成
+my @salts = ( "A".."Z", "a".."z", "0".."9", ".", "/" );
+my $salt = $salts[int(rand(64))] . $salts[int(rand(64))];
+my $admini = new HNS::Admini;
+my $id = $admini->status->id;
+my $secret = crypt(substr($id, 4), $salt);
+
+#条件分岐
+
+my $object = param('object') || param('keywords');
+if ($object eq 'P') {
+    &PlanMain;
+} elsif ($object eq 'T') {
+    &TodoMain;
+} elsif ($object eq 'R') {
+    &RepeatMain;
+} else {
+    &DiaryMain;
+}
+
+# テンポラリファイルを削除
+&unlink_temp_files;
+
+#終了
+exit;
+
+
+
+################################################################
+# 各アクション用関数(hnf用)
+
+# hns(日記ファイル)
+sub DiaryMain ()
+{
+    my $action = param('action');
+    my $year = CGI::Tools::Escape(param('year'));
+    my $month = CGI::Tools::Escape(param('month'));
+    my $day = CGI::Tools::Escape(param('day')); 
+
+    if ($action eq "display") {    #指定日のhnfを編集画面に表示
+	DisplayDiary($year, $month, $day);
+    } elsif ($action eq "delete"){ #指定日のhnfを削除
+	DeleteDiary(param('year'), param('month'), param('day'), param('password'));
+    } elsif ($action eq "edit") { #指定日のhnfを登録
+	RegistDiary(param('year'), param('month'), param('day'), param('password'),
+	       param('body'));
+    } else {                      #今日のhnfを表示
+	if ($DateChangeOffset > $now_time->hour){  #オフセット時間内なら前日のhnfを表示
+	    $now_time -= '-1D';
+	}
+	DisplayDiary($now_time->year,$now_time->month, $now_time->day);
+    }
+}
+
+#指定日のhnfを編集画面に表示
+sub DisplayDiary ($$$)
+{
+    my ($year, $month, $day) = @_;
+	
+    my $file = &makehnfname($year,$month,$day);
+
+    my $text = undef;
+    if (open (INHNF,"$file")){
+	$text = join('', <INHNF>);
+	CodeConv::toeuc(\$text);  #EUCに変換
+	$text = &HtmlEscape($text);
+    }
+
+    # 昨日の日付を取得
+    my $last_day = new DateTime::Date(year=>$year, month=>$month, day=>$day);
+    $last_day--;
+    my ($y_year,$y_month,$y_day) = ($last_day->year, $last_day->month, $last_day->day);
+    ################
+    # 編集画面を表示
+
+    #ヘッダ出力
+    my $admini = new HNS::Admini;
+    $admini->PrintHeader('HNS webif');
+
+    #RURIコード認証
+    $admini->CheckAuthorized;
+
+    # 他の編集画面へのリンク
+    my $editlinks = &editpagelinks ('');
+
+    #編集画面HTML
+    print <<EOF;
+$editlinks
+<hr>
+<h2>日記編集画面</h2>
+
+<hr>
+
+<!-- 日付指定 -->
+	<form method="POST" action="./webif.cgi">
+		昨日($y_year年$y_month月$y_day日)
+		<input type="hidden" name="action" value="display">
+		<input type="hidden" name="year" value="$y_year">
+		<input type="hidden" name="month" value="$y_month">
+		<input type="hidden" name="day" value="$y_day">
+		<input type=submit value="の日記を編集">
+	</form>
+	<form method="POST" action="./webif.cgi">
+		指定日
+		<input type="hidden" name="action" value="display">
+		<input type="text" name="year" value="$year" size=4>年
+		<input type="text" name="month" value="$month" size=2>月
+		<input type="text" name="day" value="$day" size=2>日
+		<input type=submit value="の日記を編集">
+	</form>
+
+	<hr>
+
+<!-- 一日分について -->
+
+	<p>$year年$month月$day日の日記を編集</p>
+
+<!-- 追加or編集 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="action" value="edit">
+		<input type="hidden" name="year" value="$year">
+		<input type="hidden" name="month" value="$month">
+		<input type="hidden" name="day" value="$day">
+		本文<br>
+		<textarea name="body" cols="80" rows="20">$text</textarea><br>
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="登録">
+		<input type="reset" value="やりなおし">
+	</form>
+
+	<hr>
+	<p>$year年$month月$day日の日記を削除</p>
+<!-- 削除 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="year" value="$year">
+		<input type="hidden" name="month" value="$month">
+		<input type="hidden" name="day" value="$day">
+		<input type="hidden" name="action" value="delete">
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="この日のhnfを削除">
+	</form>
+	
+	<hr>
+
+	<ul>
+		<li>基本的に直接 hnf を記述する場合と同じように入力してください。
+		<li>hnfヘッダ部と本文の間には1行空白を開けてください。
+		<li>参考: <a href="http://www.h14m.org/docs/hnf-j.html">日記の書き方</a>
+	</ul>
+
+EOF
+
+#フッタ出力
+    $admini->PrintFooter("HNS webif, ");
+}
+
+################
+#hnfを削除
+sub DeleteDiary ($$$$)
+{
+    my ($year, $month, $day, $password) = @_;
+    my $date = sprintf("%04d%02d%02d",$year,$month,$day);
+    my $file = &makehnfname($year, $month, $day);
+
+    &Delete ('',$date,$password,$file)
+}
+
+
+################
+# hnfを登録
+sub RegistDiary ($$$$;$)
+{
+    my ($year, $month, $day, $password, $text) = @_;
+    my $date = sprintf("%04d%02d%02d",$year,$month,$day);
+    my $file = &makehnfname($year, $month, $day);
+
+    if ($Mode == 0) {
+	#mail2nikki経由で登録
+	$text =~ s/\r\n/\n/g;
+	$text =~ s/\r/\n/g;
+	
+	#mail2nikkiでは、hnfヘッダ部にOKを自動的につけてくれるので削除しておく。
+	$text =~ s/^OK\n//;
+	$text =~ s/\nOK\n/\n/;
+
+	# 最後の行の改行を削除する
+	chomp($text);
+    }
+
+
+    my $body;
+    if ($Mode == 0) {
+	$body =<<EOF;
+DATE: $date
+$text
+END
+EOF
+    }
+    elsif ($Mode == 1 || $Mode == 2) {
+	$body = $text;
+    }
+    &Regist ('',$password,$body,$file);
+}
+
+################################################################
+# 各アクション用関数(月別予定)
+
+# 月別予定ファイル
+sub PlanMain ()
+{
+    my $action = param('action');
+    my $year = CGI::Tools::Escape(param('year'));
+    my $month = CGI::Tools::Escape(param('month'));
+
+    if ($action eq "display") {    #指定月の予定を編集画面に表示
+	DisplayPlan($year, $month);
+    } elsif ($action eq "delete"){ #指定月の予定を削除
+	DeletePlan(param('year'), param('month'), param('password'));
+    } elsif ($action eq "edit") {  #指定月の予定を登録
+	RegistPlan(param('year'), param('month'), param('password'),
+	       param('body'));
+    } else {                       #今月の予定を表示
+	DisplayPlan($now_time->year,$now_time->month);
+    }
+}
+
+#指定日の月別予定を編集画面に表示
+sub DisplayPlan ($$)
+{
+    my ($year, $month) = @_;
+	
+    my $file = &makeplanname ($year, $month);
+
+    my $text = undef;
+    if (open (INHNF,"$file")){
+	$text = join('', <INHNF>);
+	CodeConv::toeuc(\$text);  #EUCに変換
+	$text = &HtmlEscape($text);
+    }
+
+    ################
+    # 編集画面を表示
+
+    #ヘッダ出力
+    my $admini = new HNS::Admini;
+    $admini->PrintHeader('HNS webif');
+
+    #RURIコード認証
+    $admini->CheckAuthorized;
+
+    # 他の編集画面へのリンク
+    my $editlinks = &editpagelinks ('P');
+
+    #編集画面HTML
+    print <<EOF;
+$editlinks
+<hr>
+<h2>予定編集画面</h2>
+
+<hr>
+
+<!-- 日付指定 -->
+	<form method="POST" action="./webif.cgi">
+		指定月
+		<input type="hidden" name="action" value="display">
+		<input type="text" name="year" value="$year" size=4>年
+		<input type="text" name="month" value="$month" size=2>月
+		<input type=submit value="の予定を編集">
+		<input type="hidden" name="object" value="P">
+	</form>
+
+	<hr>
+
+<!-- 一月分について -->
+
+	<p>$year年$month月の予定を編集</p>
+
+<!-- 追加or編集 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="action" value="edit">
+		<input type="hidden" name="year" value="$year">
+		<input type="hidden" name="month" value="$month">
+		本文<br>
+		<textarea name="body" cols="80" rows="20">$text</textarea><br>
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="登録">
+		<input type="reset" value="やりなおし">
+		<input type="hidden" name="object" value="P">
+	</form>
+
+	<hr>
+	<p>$year年$month月の予定を削除</p>
+<!-- 削除 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="year" value="$year">
+		<input type="hidden" name="month" value="$month">
+		<input type="hidden" name="action" value="delete">
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="この月の予定を削除">
+		<input type="hidden" name="object" value="P">
+	</form>
+	
+EOF
+
+#フッタ出力
+    $admini->PrintFooter("HNS webif, ");
+}
+
+#予定を削除
+sub DeletePlan ($$$)
+{
+    my ($year, $month, $password) = @_;
+    my $date = sprintf("%04d%02d",$year,$month);
+    my $file = &makeplanname ($year, $month);
+
+    &Delete (' PLAN',$date,$password,$file);
+}
+
+# 予定を登録
+sub RegistPlan ($$$;$)
+{
+    my ($year, $month, $password, $text) = @_;
+    my $date = sprintf("%04d%02d",$year,$month);
+    my $file = &makeplanname ($year, $month);
+    my $body;
+    $body = "DATE: $date\n" if ($Mode == 0);
+    $body .= $text;
+    &Regist (' PLAN',$password,$body,$file);
+}
+
+################################################################
+# 各アクション用関数(TODO)
+
+# TODOファイル
+sub TodoMain ()
+{
+    my $action = param('action');
+    if ($action eq "delete"){      #TODOを削除
+	DeleteTodo(param('password'));
+    } elsif ($action eq "edit") {  #TODOを登録
+	RegistTodo(param('password'),
+	       param('body'));
+    } else {                       #TODOを表示
+	DisplayTodo();
+    }
+}
+
+#TODOを編集画面に表示
+sub DisplayTodo ()
+{
+    my $file = &maketodoname;
+
+    my $text = undef;
+    if (open (INHNF,"$file")){
+	$text = join('', <INHNF>);
+	CodeConv::toeuc(\$text);  #EUCに変換
+	$text = &HtmlEscape($text);
+    }
+
+    ################
+    # 編集画面を表示
+
+    #ヘッダ出力
+    my $admini = new HNS::Admini;
+    $admini->PrintHeader('HNS webif');
+
+    #RURIコード認証
+    $admini->CheckAuthorized;
+
+    # 他の編集画面へのリンク
+    my $editlinks = &editpagelinks ('T');
+
+    #編集画面HTML
+    print <<EOF;
+$editlinks
+<hr>
+<h2>TODO編集画面</h2>
+
+<hr>
+
+	<p>TODOを編集</p>
+
+<!-- 追加or編集 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="action" value="edit">
+		本文<br>
+		<textarea name="body" cols="80" rows="20">$text</textarea><br>
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="登録">
+		<input type="reset" value="やりなおし">
+		<input type="hidden" name="object" value="T">
+	</form>
+
+	<hr>
+	<p>TODOを削除</p>
+<!-- 削除 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="action" value="delete">
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="TODOを削除">
+		<input type="hidden" name="object" value="T">
+	</form>
+	
+EOF
+
+#フッタ出力
+    $admini->PrintFooter("HNS webif, ");
+}
+
+#TODOを削除
+sub DeleteTodo ($)
+{
+    my ($password) = @_;
+    my $file = &maketodoname;
+
+    &Delete (' TODO','',$password,$file);
+}
+
+# TODOを登録
+sub RegistTodo ($;$)
+{
+    my ($password, $text) = @_;
+    my $file = &maketodoname;
+    my $body =<<EOF;
+${text}
+EOF
+    &Regist (' TODO',$password,$body,$file);
+}
+
+################################################################
+# 各アクション用関数(繰り返し予定repeat)
+
+# 繰り返し予定ファイル
+sub RepeatMain ()
+{
+    my $action = param('action');
+    if ($action eq "delete"){      #repeatを削除
+	DeleteRepeat(param('password'));
+    } elsif ($action eq "edit") {  #repeatを登録
+	RegistRepeat(param('password'),
+	       param('body'));
+    } else {                       #repeatを表示
+	DisplayRepeat();
+    }
+}
+
+# 繰り返し予定を編集画面に表示
+sub DisplayRepeat ()
+{
+    my $file = &makerepeatname;
+
+    my $text = undef;
+    if (open (INHNF,"$file")){
+	$text = join('', <INHNF>);
+	CodeConv::toeuc(\$text);  #EUCに変換
+	$text = &HtmlEscape($text);
+    }
+
+    ################
+    # 編集画面を表示
+
+    #ヘッダ出力
+    my $admini = new HNS::Admini;
+    $admini->PrintHeader('HNS webif');
+
+    #RURIコード認証
+    $admini->CheckAuthorized;
+
+    # 他の編集画面へのリンク
+    my $editlinks = &editpagelinks ('R');
+
+    #編集画面HTML
+    print <<EOF;
+$editlinks
+<hr>
+<h2>繰り返し予定編集画面</h2>
+
+<hr>
+
+	<p>繰り返し予定を編集</p>
+
+<!-- 追加or編集 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="action" value="edit">
+		本文<br>
+		<textarea name="body" cols="80" rows="20">$text</textarea><br>
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="登録">
+		<input type="reset" value="やりなおし">
+		<input type="hidden" name="object" value="R">
+	</form>
+
+	<hr>
+	<p>繰り返し予定を削除</p>
+<!-- 削除 -->
+	<form method="POST" action="./webif.cgi">
+		<input type="hidden" name="action" value="delete">
+		パスワード<input type="password" name="password">
+		<input type="hidden" name="secret" value="$secret">
+		<input type="submit" value="繰り返し予定を削除">
+		<input type="hidden" name="object" value="R">
+	</form>
+	
+EOF
+
+#フッタ出力
+    $admini->PrintFooter("HNS webif, ");
+}
+
+# 繰り返し予定を削除
+sub DeleteRepeat ($)
+{
+    my ($password) = @_;
+    my $file = &makerepeatname;
+
+    &Delete (' REPEAT','',$password,$file);
+}
+
+# 繰り返し予定を登録
+sub RegistRepeat ($;$)
+{
+    my ($password, $text) = @_;
+    my $file = &makerepeatname;
+    my $body =<<EOF;
+${text}
+EOF
+    &Regist (' REPEAT',$password,$body,$file);
+}
+
+################################################################
+# 下請け関数
+
+# &→&amp;等の変換
+sub HtmlEscape {
+    my ($t) = @_;
+    my %cv = ('&' => '&amp;', '"' => '&quot;',
+	      '<' => '&lt;',  '>' => '&gt;');
+    $t =~ s/([&<>"])/$cv{$1}||$1/ge;
+    $t;
+}
+
+#編集ページへのリンクを生成する
+sub editpagelinks ($)
+{
+    my ($curpage) = @_;
+    my @links = (
+	['',  "./webif.cgi?", "日記編集"],
+	['P', "./webif.cgi?P", "予定編集"],
+	['R', "./webif.cgi?R", "繰り返し予定編集"],
+	['T', "./webif.cgi?T", "TODO編集"],
+    );
+    my $l;
+    foreach (@links) {
+	if ($curpage eq $_->[0]) {
+	    $l .= qq([$_->[2]] );
+	} else {
+	    $l .= qq(<a href="$_->[1]">[$_->[2]]</a> );
+	}
+    }
+    return $l;
+}
+
+#hnfファイル名生成して返す
+sub makehnfname ($$$)
+{
+    my ($year,$month,$day) = @_;
+	
+    if ($HnfDir == 0){
+    #集中管理
+	return sprintf("%s/d%04d%02d%02d.hnf",$DiaryDir,$year,$month,$day);
+    } else {
+    #分散管理
+	return sprintf("%s/%04d/d%04d%02d%02d.hnf",$DiaryDir,$year,$year,$month,$day);
+    }
+}
+
+#月別予定ファイル名生成して返す
+sub makeplanname ($$)
+{
+    my ($year,$month) = @_;
+	
+    if ($HnfDir == 0){
+    #集中管理
+	return sprintf("%s/y%04d%02d",$DiaryDir,$year,$month);
+    } else {
+    #分散管理
+	return sprintf("%s/%04d/y%04d%02d",$DiaryDir,$year,$year,$month);
+    }
+}
+
+#todoファイル名生成して返す
+sub maketodoname ()
+{
+    return sprintf("%s/todo",$DiaryDir);
+}
+
+#repeatファイル名生成して返す
+sub makerepeatname ()
+{
+    return sprintf("%s/repeat",$DiaryDir);
+}
+
+#削除共通
+sub Delete ($$$$)
+{
+    my ($obj, $date, $password, $file) = @_;
+
+    my $admini = new HNS::Admini;
+    $admini->CheckAuthorized(1);
+
+    if (&check_secret) {
+        # Pass
+    }
+   else {
+        $admini->PrintHeader('HNS webif');
+        print <<EOF;
+Unauthorized Access!
+EOF
+        $admini->PrintFooter('HNS webif');
+        exit 1;
+    }
+
+    if ($Mode == 0) {
+	#mail2nikki経由で削除
+	#mail作成
+
+	my $mail =<<EOF;
+From: $FromUserAddress
+Subject: hnf:DEL$obj
+
+PASSWORD: $password
+DATE: $date
+
+END
+EOF
+	#mail送信
+	&sendmail ($ToUserAddress,$mail);
+    }
+    elsif ($Mode == 1) {
+	my $ftpfile = $file;
+	$ftpfile =~ s/^$DiaryDir/$FtpDiaryDir/e;
+
+	# use ftp client and remove
+	&ftp_exec ($password, "delete $ftpfile");
+    }
+    elsif ($Mode == 2) {
+      unlink($file);
+    }
+
+	
+#日記画面にジャンプ
+	print <<EOF;
+Location: $DiaryURI
+
+
+EOF
+}
+
+# 登録共通
+sub Regist ($$$$)
+{
+    my ($obj, $password, $body, $file) = @_;
+
+    my $admini = new HNS::Admini;
+    $admini->CheckAuthorized(1);
+
+    if (&check_secret) {
+	# Pass
+    }
+   else {
+	$admini->PrintHeader('HNS webif');
+	print <<EOF;
+Unauthorized Access!
+EOF
+	$admini->PrintFooter('HNS webif');
+	exit 1;
+    }
+
+
+    # get dirname from filename
+    my $dir = $file;
+    $dir =~ s!/[^/]*$!!;
+
+    if ($Mode == 0) {
+       #mail作成
+       my $mail =<<EOF;
+From: $FromUserAddress
+Subject: hnf:DEL&ADD$obj
+
+PASSWORD: $password
+${body}
+EOF
+
+	#mail送信
+	&sendmail ($ToUserAddress,$mail);
+    }
+    elsif ($Mode == 1) {
+	my $tmp = &make_temp_files;
+	my $ftpfile = $file;
+	$ftpfile =~ s/^$DiaryDir/$FtpDiaryDir/e;
+
+	# write to tmp file
+	open (F, ">$tmp");
+	print F $body;
+	close (F);
+
+	# use ftp client and put
+	&ftp_exec ($password, "mkdir $dir\nput $tmp $ftpfile");
+    }
+    elsif ($Mode == 2) {
+	# if dir is not exist, make it
+	if ( ! -d $dir ) {
+	  mkdir($dir, $Permission) || die ("Can't create dir $dir\n");
+	}
+
+	# write to hnf file
+	open (F, ">$file");
+	print F $body;
+	close (F);
+    }
+
+
+#日記画面にジャンプ
+	print <<EOF;
+Location: $DiaryURI
+
+
+EOF
+}
+
+# sendmail でメールを送る
+sub sendmail ($@)
+{
+    my ($to, @text) = @_;
+	
+    open (SENDMAIL, "|$Sendmail $to") || die "Can't find sendmail :$!\n";
+
+    my $line;
+    foreach $line (@text){
+        #漢字コードはJIS(iso-2022-jp)に
+	CodeConv::tojis(\$line);
+	print SENDMAIL $line;
+    }
+    close (SENDMAIL);
+}
+
+# ftp clientをバッチ的に実行
+sub ftp_exec ($$)
+{
+    my ($password, $cmds) = @_;
+    local (*F);
+    my $log = &make_temp_files;
+    my $out;
+
+    open (F, "|$Ftp -n $FtpHost 2>&1 >$log");
+    print F "user $FtpUser $password\n";
+    print F "$cmds\n";
+    close F;
+
+    open (F, $log);
+    while (<F>) {
+	$out .= $_;
+    }
+    close F;
+
+    if ($out =~ /incorrect|failed|not\s+connect/i) {
+	die "ftp send error\n<PRE>$out</PRE>";
+    }
+}
+
+###
+sub die_handler {
+    my $msg = shift;
+    if ($msg !~ /unimplemented/ &&
+	$msg !~ /eval/){
+	print "content-type: text/html\n\n";
+	print "<br>";
+	print qq(<font color="red">Error Occured: $msg</font><br>);
+    }
+    &unlink_temp_files;
+}
+
+###
+sub unlink_temp_files  {
+    for (@tempfiles) {
+	unlink $_;
+    }
+}
+
+###
+sub make_temp_files {
+    my $file;
+    while ($file eq '') {
+	$file = sprintf("%s/wi%05d", $HNS::System::CacheDir, int(rand 100000));
+	$file = '' if (-e $file);
+    }
+    push (@tempfiles, $file);
+    return $file;
+}
+
+###
+sub check_secret {
+    my $pass = 0;
+    my $admini = new HNS::Admini;
+    my $id = $admini->status->id;
+    my $secret = param('secret');
+    if ($secret eq "") {
+	$secret = "none";
+    }
+
+    if ($secret eq crypt(substr($id, 4), $secret)) {
+	$pass = 1;
+    }
+
+    return $pass;
+}
+
+# end of webif.cgi
+################################################################

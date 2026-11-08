@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>掲示板機能の使い方</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt="[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>掲示板機能の使い方</h1>
+    </div>
+    <hr>
+
+    <h3>掲示板機能とは?</h3>
+    <p>
+    ユーザが日記の個々の記事に対してコメントできる機能のことです。
+    一般的にWWW上に存在する「掲示板」と同様、日記と関係ない書き込みも可能です。
+    </p>
+
+    <p>
+    この機能は動的生成時のみ使用可能です。
+    <hr>
+    
+    <h3>掲示板機能の使い方</h3>
+    <p>
+    インストール時の掲示板機能を使用するかどうかの選択時に1と答えていて、
+    なおかつjapaneseテーマを選択していればそのまま使用可能です。
+    </p>
+
+    <p>
+    使用するかの選択で0と答えていた場合は、
+    設定ファイルで<a href="config-j.html#UseBoard">$UseBoard</a>を1にする必要があります。
+    japanese以外のテーマを選択した場合は、<a href="theme-j.html#board">テーマを変更する</a>必要がある可能性があります。
+    特に、hns-2.10対応のテーマを使用している場合はテーマの変更が必要です。
+    </p>
+    
+    <hr>
+
+    <h3>board.cgiへのリンク</h3>
+    <p>
+    board.cgiへのリンク時に、
+    &lt;a href="board.cgi?act=read"&gt;リンク文字列&lt/a&gt;といったように特定の指定を行えば、
+    書き込み画面など、リンク先画面を変更することが可能です。
+    </p>
+
+    <h4>(何もなし)</h4>
+    <p>
+    単に"board.cgi"へリンクすると、メッセージのツリー表示の画面にリンクします。
+    </p>
+
+    <h4>act=list</h4>
+    <p>
+    "board.cgi?act=list"へリンクすると、新着メッセージのリストの画面にリンクします。
+    </p>
+    
+    <h4>act=write</h4>
+    <p>
+    "board.cgi?act=write"へリンクすると、メッセージの新規投稿画面にリンクします。
+    </p>
+
+    <h4>(その他のオプション)</h4>
+    <p>
+    その他のオプションは主にHNS内部やboard.cgi内部から使用されます。
+    </p>
+
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: board-j.html,v 1.2 2002/02/10 14:14:10 bonaim Exp $ -->
+  </body>
+</html>
+

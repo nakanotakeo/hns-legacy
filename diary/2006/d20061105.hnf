@@ -1,0 +1,146 @@
+TENKI 曇のち晴
+BASHO 京都
+TAIJU 48.3
+TAION 36.5
+BGM Say Hanya-n/Donzoko Bros.
+OK
+
+CAT リリース
+NEW hns-2.19.9 リリースについて
+hns-2.19.9 は hns-2.2-current(開発版) からのβリリースです。
+hns-2.19.8以前に存在する webif.cgi の XSS脆弱性の修正がなされています。
+
+UL
+LI ドキュメントはほぼ完成しています。
+LI i system には RTコマンド、排他GRP機能がありません。
+LI japanese 以外のテーマは静的生成用になっていません。
+/UL
+
+日記の検索には、Namazu 2.0.10 以上 + Namazu for hns 2.0-pl5 以上 を
+ご利用下さい。
+~
+~
+hns-2,20 の新機能は、
+LINK http://www.h14m.org/docs-2.20/new_features_220-j.html hns-2.20 の新機能
+をご覧下さい。
+~
+hns-2.10 からの仕様変更は、
+LINK http://www.h14m.org/docs-2.20/change_from_210-j.html hns-2.10-pl1 からの仕様変更
+をご覧下さい。
+~
+~
+詳細は附属するドキュメント(docs)をご覧下さい。
+
+NEW 使用上の注意
+LINK http://www.h14m.org/docs-2.20/caution-j.html 使用上の注意
+を良く読んでからご利用下さい。
+
+NEW i system について
+i system についての詳細は、
+URL http://yar-3.net/isystem/ i system home page
+を参照願います。i system は yar-3, masato-3 によるフリー・ソフトウェア
+です。
+
+NEW hnsアイコン
+IMG n icons/hns-2.1-icon.png hns-2.1
+は
+LINK http://www.din.or.jp/~osayo/ 袴っ娘推進委員会 
+の¢お小夜さんの提供です。ありがとうございます。
+
+NEW 動作報告のお願い
+動作した環境の報告をお願いいたします．
+LINK http://www.h14m.org/worked-report-j.html hns-2.x 動作報告ページ
+から簡単に報告できます．是非ご協力願います．
+
+CAT サンプル
+NEW 日記のサンプル
+これは日記のサンプルです．ファイル名は d20061105.hnf です．
+通常 ~/diary/2006/ にあります．
+
+SUB サブタイトルのテスト
+このようにサブタイトルを記述することもできます。
+LINK http://www.h14m.org/ HyperNikkiSystem Project
+このようにリンクも張れます．
+URLコマンドを使えば，
+URL http://www.h14m.org/ HyperNikkiSystem Project
+と URL を明示できます．
+
+SUB フォントの装飾
+STRIKE STRIKE
+や
+FONT color red 赤い文字
+などの表現も可能です．
+
+SUB リスト
+UL
+LI あいうえお
+LI かきくけこ
+LI さしすせそ
+/UL
+のようなリストや
+OL
+LI たちつてと
+LI なにぬねの
+LI はひふへほ~
+まみむめも
+/OL
+番号付きのリストも使えます．
+
+SUB 脚注
+FNコマンド
+FN
+Foot Note の略で脚注のことです．
+/FN
+FN
+コマンドの詳細は添付のドキュメントをご覧下さい．
+/FN
+も実装されています．
+難解なウェブ日記には脚注を付けることができます。
+
+CAT サンプル
+LNEW http://www.h14m.org/ ハイパー日記システム
+このようにタイトルにリンクを入れることも可能です。
+
+LSUB http://www.h14m.org/ ハイパー日記システム
+サブ・タイトルからもリンクできます。
+
+NEW 日記管理ページ
+LINK admini.cgi 日記管理ページ
+で日記の様々な管理を行えます。
+
+CAT サンプル
+NEW マーク
+以下のマーク(MARK)が標準で利用可能です．~
+
+MARK (^^)
+MARK (-_-)
+MARK (^^;
+MARK (;_;)
+MARK (T_T)
+MARK v(^^)
+MARK m(__)m
+MARK !!
+MARK ??
+MARK !? 
+MARK (笑)
+MARK :-)
+MARK :-(
+MARK :-P
+MARK φ(._.)
+
+~
+これらのマークは PAZさん提供です。ありがとうございます。
+
+CAT サンプル
+NEW テーブル
+RT
+caption   = ちょっと複雑な表
+delimiter = :
+
+A :  B :  C : == :  D :  E
+
+1 :  2 :  3 :  4 :  5 :  6
+7 : == : || :  8 : == :  9
+10 : 11 : 12 : || : == : 13
+/RT
+

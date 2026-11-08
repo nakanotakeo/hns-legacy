@@ -1,0 +1,70 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem Headliner for hns 2.20 or later
+# version 0.0.2
+# 2001/11/10  Akihiro Arisawa <ari@mbf.sphere.ne.jp>
+
+# Copyright (C) 2001  Akihiro Arisawa, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: headline.cgi.in,v 1.5 2003/01/03 10:47:58 bonaim Exp $
+
+use lib qw(lib);
+use HNS::Tools::HeadLine;
+use HNS::AccessControl;
+
+$HNS::Tools::HeadLine::Version = "0.0.2";
+
+#require './config.ph'; moved to HNS::Tools::HeadLine
+
+################################################################
+# Changing cache directory if executed from command line.
+unless ($ENV{'SCRIPT_NAME'}) {
+	$HNS::System::CacheDir = $HNS::System::CacheDir . "_static";
+}
+
+################################################################
+# access control
+my $acl = new HNS::AccessControl;
+
+################################################################
+# theme Overriding
+if ($HNS::System::Theme) {
+    my $theme_ph = "$HNS::System::Theme/theme.ph";
+    my $theme_static_ph;
+
+    if (! $ENV{'SCRIPT_NAME'}) {
+	$theme_static_ph = "$HNS::System::Theme/theme-static.ph";
+	if (-f "$theme_static_ph") {
+	    $theme_ph = $theme_static_ph;
+	}
+    }
+    unless (-f "$theme_ph"){
+	die "no theme file : $theme_ph";
+    }
+    require "$theme_ph";
+} else {
+    die 'no theme';
+}
+
+$HNS::Tools::HeadLine::DayTemplate =
+  qq(<a href="%href" class="hide" target="diary">%year年%month月%day日</a>);
+$HNS::Tools::HeadLine::New::Template =
+  qq(・<a href="%href" target="diary" title="%para">%content</a>);
+
+$HNS::Status = new HNS::Status;
+HNS::Tools::HeadLine->new->main();
+

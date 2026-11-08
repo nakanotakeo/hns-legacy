@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" type="text/css" href="hns.css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>Namazu v2 for hns による日記の全文検索</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>Namazu v2 for hns による日記の全文検索</h1>
+    </div>
+    <hr>
+
+    <h3>Namazu v2 for hns</h3>
+
+    <p>Namazu v2 for hns を動作させるためには，<a href=
+    "http://www.namazu.org/">Namazu v2</a>
+    の動作環境が必要です． 具体的には，</p>
+
+    <ul>
+      <li>gcc</li>
+
+      <li>perl5.004 以降</li>
+
+      <li>kakasi(-wオプションが使えるもの) または
+      chasen</li>
+
+      <li>nkf(-Z1オプションが使えるもの)</li>
+    </ul>
+
+    <p>です．詳しくは， <a href=
+    "http://www.namazu.org/doc/tutorial.html">Namazu 2.0
+    入門</a> を参照願います．</p>
+
+<!-- 2.20用特記 -->
+    <p>なお、Namazu-2.0.9以前のバージョンには、RURIコードを
+    盗む事が可能なバグがあります。Namazu-2.0.10以降を使用して下さい。</p>
+<!-- 2.20用特記終了 -->
+
+    <h3>仕様</h3>
+
+    <ul>
+      <li>Namazu v2 for hns
+      は，Rコマンドの置換えには対応しません．Rコマンド
+      で置き換えられた後の文字列は検索できません．</li>
+
+      <li>ALIASコマンドで置き換えられた後の文字列は
+      検索できますが，インデックス作成後に aliase.txt
+      を変更した場合は，
+      その変更後の文字列は検索できません．
+      インデックスを完全に作り直す必要があります．</li>
+
+      <li><a href="replace-j.html">replace_for_hns</a> で hnf
+      を修正した場合は、インデックスを完全に作り直さないと
+      修正は反映されません。</li>
+    </ul>
+
+    <p>上記のソフトはインストール済みで，
+    毎日の日記(hnf)を置く日記ディレクトリを ~/diary/
+    ウェブ上で公開する時のウェブ日記ディレクトリを
+    ~/public_html/diary/ とします．</p>
+
+    <h3>Namazu v2 for hns のインストール</h3>
+
+    <h4>サイト・インストールして Namazu
+    を共有する場合</h4>
+<pre>
+1. Namazu を取得してインストール
+  <a href=
+"http://www.namazu.org/#download">http://www.namazu.org/</a> より最新版を入手して下さい。
+  % wget -nd http://www.namazu.org/stable/namazu-2.0.10.tar.gz
+  % wget -nd http://www.h14m.org/dist/namazu_for_hns-2.0-pl5.tar.gz
+  % tar zxvf namazu_for_hns-2.0-pl5.tar.gz
+  % tar zxvf namazu-2.0.10.tar.gz
+  % cd namazu-2.0.10
+  % ./configure --prefix=/usr/local
+  % make
+  % su
+  % make install
+  % cd ../namazu_for_hns-2.0-pl5
+
+2. (通常は不要) hnf用フィルタをインストール
+        (Namazu に添付の hnf.pl が古い場合のみ必要)
+  % ./setup-filter.sh /usr/local
+                      - prefix -
+
+3. 起動スクリプト, 設定ファイルをインストール
+  % ./setup.sh /usr/local
+               - prefix -
+
+  注) Namazu 2.0.x を rpm でインストールされている場合は、
+      % ./setup-rpm.sh
+
+      hns-1.x をご利用の場合は、
+      % ./setup.sh /usr/local 1
+                   - prefix -
+</pre>
+
+    <h4>ホーム・ディレクトリにインストールする場合</h4>
+<pre>
+1. Namazu を取得してインストール
+  <a href=
+"http://www.namazu.org/#download">http://www.namazu.org/</a> より最新版を入手して下さい。
+  % wget -nd http://www.namazu.org/stable/namazu-2.0.10.tar.gz
+  % wget -nd http://www.h14m.org/dist/namazu_for_hns-2.0-pl5.tar.gz
+  % tar zxvf namazu_for_hns-2.0-pl5.tar.gz
+  % tar zxvf namazu-2.0.10.tar.gz
+  % cd namazu-2.0.10
+  % ./configure --prefix=$HOME/diary/namazu2 --with-pmdir=$HOME/lib
+        --with-pmdir で Perl Module のインストール先を指定。
+  % make
+  % make install
+  % cd ../namazu_for_hns-2.0-pl5
+
+2. (通常は不要) hnf用フィルタをインストール
+        (Namazu に添付の hnf.pl が古い場合のみ必要)
+  % ./setup-filter.sh $HOME/diary/namazu2
+                      ------ prefix -----
+
+3. 起動スクリプト, 設定ファイルをインストール
+  % ./setup-u.sh $HOME/diary/namazu2
+                 ------ prefix -----
+
+  注) hns-1.x をご利用の場合は、
+      % ./setup-u.sh $HOME/diary/namazu2 1
+                     ------ prefix -----
+</pre>
+
+    <h3>インデックスの作成</h3>
+
+    <ol>
+      <li>$ <span class="c3">cd ~/diary/bin</span><br>
+      </li>
+
+      <li>$ <span class="c3">./hns-index2</span><br>
+       でインデックスが作成・追加されます．なお，インデックス作成後に
+      以前の日記ファイルを更新した場合は，インデックス・ファイルの中に
+      ゴミがたまりますので，そのゴミを
+      削除したい場合は，<br>
+      </li>
+
+      <li>$ <span class="c3">./hns-index2 -gc</span><br>
+       としてください．<br>
+       インデックスがおかしくなってしまったというような場合には，<br>
+
+      </li>
+
+      <li>
+        $ <span class="c3">./hns-index2 clean</span><br>
+         で完全に作り直すことができます． 
+
+        <div class="c2">
+          <span class="c1">注意:</span><br>
+           Namazu v2
+          ではインデックスのフォーマットが変更されました。
+          以前のバージョンと互換性はありません。
+        </div>
+      </li>
+    </ol>
+
+    <h3>検索ページのカスタマイズ</h3>
+
+    <p>~/diary/namazu2/template/ にインストールされる
+    NMZ.body.ja, NMZ.foot.ja, NMZ.head.ja, NMZ.result.normal.ja,
+    NMZ.result.short.ja, NMZ.tips.ja が
+    検索ページの日本語表示でのテンプレートになっています。
+    テンプレートは、基本的に HTML で記述されています。
+    一部、&lt;!-- FILE --&gt;
+    のような特別な意味のあるコメントや {cgi} のように
+    namazu.cgi で自動的に変換される文字列が
+    ありますのでそれらはそのままにして下さい。</p>
+
+    <p>
+    すでにインデックスを作成済みの場合は、テンプレートを修正した後に、
+    ~/diary/namazu2/index/ にある NMZ.body.ja, NMZ.foot.ja,
+    NMZ.head.ja, NMZ.result.normal.ja, NMZ.result.short.ja,
+    NMZ.tips.ja を削除してから、hns-index2
+    を実行してインデックスを更新して下さい。
+    インデックスが更新されないと NMZ.*.ja
+    は作成されません。</p>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: unagi2-j.html,v 1.21 2001/12/29 03:37:58 kenji Exp $ -->
+  </body>
+</html>
+

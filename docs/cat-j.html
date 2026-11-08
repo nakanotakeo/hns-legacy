@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>日記のカテゴリ分類の方法</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>日記のカテゴリ分類の方法</h1>
+    </div>
+    <hr>
+
+    <h3>日記のカテゴリ分類とは?</h3>
+
+    <p>
+    日記を内容に応じて，セクション毎に分類したい場合があります．
+    例えば，「FreeBSDのこと」「Linuxのこと」「マジカルとこちゃんのこと」
+    と 3つの分類を考えます．<br>
+     この場合に，ハイパー日記システムでは，以下のことが可能です。</p>
+    <ul>
+    <li>日記の表示時に、特定のカテゴリのみを表示することができます。
+    <li>日記のセクション・タイトル
+    (NEWコマンド)
+    にそれぞれ内容を表すアイコンを表示することができます．
+    <li>カテゴリ別に日記のセクション・タイトルを
+    表示することができます．
+    <li>Namazu for hns
+    での検索時に
+    カテゴリ名による検索をすることが可能になります．
+    </ul>
+    <hr>
+
+    <h3>カテゴリ分類の利用方法</h3>
+
+    <p>
+    まずカテゴリ名を決めます．あとから追加することも可能です．
+    例えば，上記の例では，「FreeBSDのこと」を <code>
+    <span class="c3">freebsd</span></code>，
+    「Linuxのこと」を <code><span class="c3">
+    linux</span></code>，「マジカルとこちゃんのこと」を
+    <code><span class="c3">とこちゃん</span></code>
+    と決めます．<br>
+     この場合，hnf では，NEW, LNEW または
+    RLNEWコマンドの直前に，</p>
+<pre>
+CAT freebsd
+NEW 謎ブラウザのインストール
+</pre>
+
+    <p>のように記述します．1つの NEW(LNEW,RLNEW)
+    にカテゴリは複数指定可能です．
+    その場合は，スペースでカテゴリ名を区切って下さい．
+    必然的にカテゴリ名にスペースは使えません．</p>
+    <hr>
+
+    <h3>特定のカテゴリのみを表示する方法</h3>
+
+    <p>
+    日記URLが http://www.example.ne.jp/~hoge/diary/ の場合、
+    http://www.example.ne.jp/~hoge/diary/?CAT=freebsd
+    にアクセスすることで、freebsdカテゴリの内容のみを表示することが可能です。<br>
+    また、
+    http://www.example.ne.jp/~hoge/diary/?CAT=freebsd&amp;CAT=linux
+    にアクセスすることで，freebsdカテゴリとlinuxカテゴリの内容を同時に表示する
+    こともできます。3つ以上のカテゴリを表示したい場合も同様です．</p>
+    <hr>
+
+    <h3>カテゴリ別にアイコンを表示する方法</h3>
+
+    <ol>
+      <li>
+      カテゴリ別にアイコンを表示するには，アイコンを用意する必要が
+      あります． アイコンは ~/public_html/diary/cat/
+      に置きます．</li>
+
+      <li>
+        設定ファイルcat.txt
+        を記述します．~/public_html/diary/cat/cat.txt
+        に<br>
+         カテゴリ名[スペース]アイコン・ファイル<br>
+
+         と記述します． 
+<pre>
+freebsd freebsd.png
+linux linux.png
+とこちゃん toko.png
+</pre>
+        なお、アイコンがない場合は、 
+<pre>
+freebsd freebsd.png
+linux linux.png
+とこちゃん
+</pre>
+        のようにカテゴリ名だけを記載することもできます。cat.txt
+        に
+        記載されたカテゴリ名は、「タイトル一覧」表示フォーム(標準では
+        日記の後、フッタ(foot.txt)の前に表示されます)のカテゴリ指定に
+        表示されます。
+      </li>
+    </ol>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: cat-j.html,v 1.13 2002/02/03 16:00:58 bonaim Exp $ -->
+  </body>
+</html>
+

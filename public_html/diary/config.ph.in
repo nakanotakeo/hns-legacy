@@ -1,0 +1,151 @@
+# -*- Perl -*-
+################################################################
+# config.ph : system configuration
+#
+# $Id: config.ph.in,v 1.55 2003/10/27 16:40:11 togawa Exp $
+################################################################
+package HNS::System;
+# base configration : must be set
+$Title = "%NIKKITITLE%";
+
+# mail address
+$UserMail = '%USERMAIL%';
+
+# author name
+$Author = '%AUTHOR%';
+
+# mail address for receiving message (make-rurimap.cgi)
+$MesMail = '%MESMAIL%';
+
+# diary direcotry
+$DiaryDir = "%DIARYDIR%";
+$MyDiaryURI = "%MYDIARYURI%"; 
+$IncludeDir = "%HTMLDIR%";
+
+# Permit Hoshino Antenna(http://www.h14m.org/hoshino/) Registration?
+$HoshinoAntenna = "%ANTENNA%";	# Yes -> OK, No -> NG
+
+# default number of display (days)
+$DefaultMax = 5;
+
+# theme
+$Theme = "%THEME%";
+
+# Cookie
+$CookieFlag = "ON";
+$AdminCookieFlag = "ON";	# Set Cookie on Administration Page?
+$CookieExpires = '+1M';	# '[+-][0-9]+[yMdhms]'
+				# y:year, M:month,  d:day
+				# h:hour, m:minute, s:sec
+
+$NoRedirect = 1;	# %7E -> ~ redirect; 0 -> redirect, 1 -> no redirect
+
+# Persistent Caching
+$CacheDir = "$DiaryDir/cache";
+$Caching = 1;		# 1 -> on (default), 0 -> off
+$AllowCacheOnly = 0;	# 1 -> on, 0 -> off (default)
+$AutoCacheClear = 1;	# 1 -> on (default), 0 -> off
+
+# logging
+$RefererLog = "ON";
+$LinkLog = "ON";
+$CacheLog = "OFF";	# OFF (default)
+$RefererBATTALog = 0;	# separate BATTA's access log?
+			# 1 -> yes, record BATTA's access to referer_batta_log
+			# 0 -> no (default)
+
+$TZ = 9;	# Time Zone
+$Lang = "ja";	# default language
+
+# if "ON" then don't warn even if use reserved command
+$IgnoreReserved = "OFF";
+
+# if "ON" then always displays diary reversely
+$AlwaysReverse = "OFF";
+
+# display order of sections in a day
+$NewReverse = %NEWREVERSE%;	# 0 -> normal, 1 -> reverse
+
+$StartYear = %STARTYEAR%;
+$StrictCalendarLink = 1;	# if set to 1, no link to a month which
+				# has no hnfs. default is 1
+
+# Image width max size
+$ImgWidthMaxSize = 300;
+
+# FN count style
+$FNCountStyle = 1;	# 1 -> each day (default), 0 -> each section 
+
+# i system integration
+$isystem = "i";	# set i system web directory
+
+# for pushing LM info to antenna
+#@antenna = ("http://www.h14m.org/hoshino/re.cgi");
+@antenna = ();
+
+# IntelliSearch, redirecting Namazu search
+$IntelliSearch = 0;	# 1 -> on, 0 -> off (default)
+
+# diary generation mode
+$Mode = 'auto'; # 'dynamic', 'static' or 'auto'.
+
+# Display Schedule as User Var
+$UseYoteiView = 0;	# 0 -> off (default)
+
+################################################################
+package HNS::Style;
+$UnagiUse = "%UNAGIUSE%";
+$UnagiURL = "namazu.cgi";
+$NamazuURL = "http://www.namazu.org/";
+
+$CalendarUse = "ON";
+$DirectCalendarUse = "ON";
+$PIMUse = "ON";
+$TitleListUse = "ON";
+
+################################################################
+package HNS::PIM::Schedule;
+$MaxNum = 8;	# max number of schedule 
+$Range = 1;	# month(s) of schedule displayed
+$RRange = $Range;	# month(s) of schedule displayed for repeat
+$GraceDays = 0;	# number of day(s) to display past schedule
+$PrintOverMaxNum = 0;   # print same day all plan of $Maxnum
+
+################################################################
+package HNS::PIM::Todo;
+$MaxNum = 8;	# max number of Todo
+
+################################################################
+package HNS::Hnf::Command::Image;
+$AllowRemoteImage = 0;
+
+################################################################
+package HNS::Tools::Title; # headline also uses this module
+$Range = 1;	# month(s) of display
+$NKF = "%NKF_PATH%";
+$NKF_USE = 0; # 1 -> Use, 0 -> No Use (default)
+
+################################################################
+package Board;
+$UseBoard = %USEBOARD%;				# 1 -> on, 0 -> off (default)
+$BoardData = "${HNS::System::DiaryDir}/data/boarddata.txt";
+$ThreadsPerPage = 5;
+$MaxArticle = 100;
+$RecentView = 10;
+$RecentTime = 2 * 24 * 60 * 60; # if zero, newmark is never shown 
+$Title = 'Web Board';
+$HnsPath = $HNS::System::MyDiaryURI;
+
+# 0 => disabled
+# 10 => non-body part
+# 20 => non-body & body(truncated or not)
+$BoardOnHNS = 20;
+
+# 0 is unlimited.
+# if not 0, <br> will be removed.
+# this number contains tags' length.
+$BodyLenOnHNS = 80;
+
+$HideReadLinkWhenNoMsg = 1; # 1 -> on (default) , 0 -> off
+
+1;

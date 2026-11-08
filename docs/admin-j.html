@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>日記管理ページ</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>日記管理ページ</h1>
+    </div>
+    <hr>
+
+    <p>
+    ハイパー日記システムには日記者を支援する日記管理ページがあります．
+    admini.cgi がそうです．ウェブ日記ディレクトリ に
+    admini.cgi はインストールされますので，URL は
+    http://www.example.ne.jp/~hoge/diary/admini.cgi
+    のようになります．</p>
+    <hr>
+
+    <h3>日記管理ページを利用するには?</h3>
+
+    <p>日記管理ページはデフォルトでは
+    「アクセスは許可されていません．」 と表示され
+    使用できません．
+    これはプライバシ保護の観点からの自由にはアクセスできないように
+    なっているためです．アクセスするには，認証ファイルauth_ruri.txt
+    に 自分の <a href="log_ana-j.html#RURI_code">
+    RURIコード</a> を記載する必要が
+    あります．認証ファイルは ~/diary/conf/auth_ruri.txt
+    にあります． auth_ruri.txt には RURIコード
+    のみを1行に1つずつ記載します．</p>
+
+    <p>日記管理ページには，以下のツールがあります．</p>
+
+    <ul>
+      <li><a href="log_ana-j.html">ログ解析</a></li>
+
+      <li>日記の編集(<a href="webif-j.html">webif</a>)</li>
+
+      <li>メッセージの閲覧<br>
+       読者からのメッセージを閲覧できます。なお、読者からのメッセージを
+      メールで通知することも
+      可能です。 詳細は、<a href=
+      "config-j.html">設定ファイルの記載方法</a> を
+      参照願います。</li>
+
+      <li>読者RURIコード閲覧<br>
+       メッセージを送信した読者の RURIコード
+      を閲覧できます。
+      この情報を、~/diary/conf/ruri_map.txt
+      に記載することで、 ログ解析の結果で
+      RURIコード
+      ではなく記載した読者名で表示できます。</li>
+
+      <li>ログのカット (rotate_log.cgi)<br>
+       アクセス・ログを取っている場合(デフォルト)，ログ・ファイルreferer_log
+      はアクセスがある度に大きくなりディスク容量を消費して行きます．
+      rotate_log.cgi
+      によりこのログ・ファイルをカットすることができます．
+      古いログは ~/diary/log/OLD/referer_log.old
+      として保存されますので，
+      このファイルをサーバから削除することで，ディスク使用量を
+      減らすことができます．~/diary/log/OLD/referer_log.old
+      がすでに
+      存在する場合は，ログをカットできませんのでご注意下さい．</li>
+
+      <li>キャッシュの消去 (clear_cache.cgi)<br>
+       キャッシュ・ファイル(xhnf)
+      を全て消去します。デフォルト設定ではシステムが自動的にキャッシュを
+      必要な時に
+      消去しますので、通常この操作は必要ありません。</li>
+    </ul>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: admin-j.html,v 1.14 2002/02/03 16:00:58 bonaim Exp $ -->
+  </body>
+</html>
+

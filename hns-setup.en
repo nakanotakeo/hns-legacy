@@ -1,0 +1,385 @@
+#!/bin/sh 
+# HyperNikkiSystem Setup Script for hns-2.2
+# version 1.0.8
+# 2000/9/19
+
+# Takuro KITAME <kitame@h14m.org>
+# Copyright (C) 1999  Takuro KITAME, HyperNikkiSystem Project
+
+# $Id: hns-setup.en,v 1.14 2003/05/28 04:15:03 togawa Exp $
+
+PATH=$PATH:/usr/sbin:/usr/lib
+VERSION=`head -2 README.ja | tail -1`
+
+hnsinstall() {
+ echo
+ echo "Installing..."
+ echo
+
+ PERL=`which perl`
+ SENDMAIL=`which sendmail`
+ NKF=`which nkf`
+ MAKE=`which gmake`     # need GNU make
+ if test "$PERL" = "" || $PERL -e 'exit ($] >= 5)'; then
+   PERL=`which perl5`
+   if test "$PERL" = "" || $PERL -e 'exit ($] >= 5)'; then
+     { echo "Error: Perl5 Not Found."; PERL="No"; }
+   fi
+ fi 
+ if test "$SENDMAIL" = ""; then
+   { echo "Error: sendmail Not Found."; SENDMAIL="No"; }
+ fi
+ if test "$NKF" = ""; then
+   { echo "Error: nkf Not Found."; NKF="No"; }
+ fi
+ if test "$MAKE" = ""; then
+   MAKE=`which make`
+   if test "$MAKE" = "" ; then
+     { echo "Error: make Not Found."; exit 1; }
+   fi
+ fi
+ echo "perl5   : $PERL"
+ echo "sendmail: $SENDMAIL"
+ echo "nkf     : $NKF"
+ echo "make    : $MAKE"
+ echo
+
+ mkdir /tmp/hns-setup-`whoami`/
+ cp -pr . /tmp/hns-setup-`whoami`/
+ cd /tmp/hns-setup-`whoami`/
+
+ $MAKE NIKKITITLE="$TITLE" \
+      USERMAIL="$MAIL" \
+      DIARYDIR="$DIARY" \
+      HTMLDIR=$HTML \
+      DIARYMAIL="$TOMAIL" \
+      FROMADDR="$FROMMAIL" \
+      PASSWORD="$PASSWD" \
+      UNAGIUSE="$UNAGI" \
+      PERL_PATH="$PERL" \
+      SENDMAIL_PATH="$SENDMAIL" \
+      NKF_PATH="$NKF" \
+      MYDIARYURI="$URL" \
+      THEME="$THEME" \
+      ANTENNA="$ANTENNA" \
+      AUTHOR="$AUTHOR" \
+      MESMAIL="$MESMAIL" \
+      NEWREVERSE="$NEWREVERSE" \
+      USEBOARD="$USEBOARD" \
+      STARTYEAR="$STARTYEAR" \
+      install
+ 
+ # Save Setting information
+ rm -f $HNSSETUP
+ echo "DEFTITLE=\"$TITLE\"" > $HNSSETUP
+ echo "DEFMAIL=\"$MAIL\"" >> $HNSSETUP
+ echo "DEFDIARY=\"$DIARY\"" >> $HNSSETUP
+ echo "DEFHTML=\"$HTML\"" >> $HNSSETUP
+ echo "DEFUNAGI=\"$UNAGI\"" >> $HNSSETUP
+ echo "DEFTOMAIL=\"$TOMAIL\"" >> $HNSSETUP
+ echo "DEFFROMMAIL=\"$FROMMAIL\"" >> $HNSSETUP
+ echo "DEFPASSWD=\"$PASSWD\"" >> $HNSSETUP
+ echo "DEFURL=\"$URL\"" >> $HNSSETUP
+ echo "DEFTHEME=\"$THEME\"" >> $HNSSETUP
+ echo "DEFANTENNA=\"$ANTENNA\"" >> $HNSSETUP
+ echo "DEFAUTHOR=\"$AUTHOR\"" >> $HNSSETUP
+ echo "DEFMESMAIL=\"$MESMAIL\"" >> $HNSSETUP
+ echo "DEFNEWREVERSE=\"$NEWREVERSE\"" >> $HNSSETUP
+ echo "DEFUSEBOARD=\"$USEBOARD\"" >> $HNSSETUP
+ echo "DEFSTARTYEAR=\"$STARTYEAR\"" >> $HNSSETUP
+ echo  >> $HNSSETUP
+
+ chmod 600 $HNSSETUP
+
+ rm -rf /tmp/hns-setup-`whoami`
+
+ echo 
+ echo "Install done."
+ echo "Setup Information was saved in $HNSSETUP."
+ echo "Note: Old config.ph would be saved as config.ph-old"
+ echo "Edit your config.ph in $HTML and have a fun."
+ echo
+ echo "Thank you for selecting HyperNikkiSystem."
+}
+
+## default setting
+ DEFTITLE="HNS: Hoge's Diary"
+ DEFMAIL="hoge@example.ne.jp"
+ DEFDIARY="$HOME/diary"
+ DEFHTML="$HOME/public_html/diary"
+ DEFTOMAIL="hoge@example.ne.jp"
+ DEFFROMMAIL="hoge@example.ne.jp"
+ DEFPASSWD="hogehoge"
+ DEFUNAGI="OFF"
+ DEFURL="http://www.example.ne.jp/~hoge/diary/"
+ DEFTHEME="english"
+ DEFANTENNA="NG"
+ DEFAUTHOR=""
+ DEFMESMAIL=""
+ DEFNEWREVERSE="0"
+ DEFUSEBOARD="0"
+ DEFSTARTYEAR="2001"
+ HNSSETUP=$HOME/.hnssetup
+ 
+while getopts "f:" opt; do
+  case $opt in
+  f )
+    if [ "$OPTARG" ]; then
+      HNSSETUP=$OPTARG
+    fi
+    ;;
+  \? )
+    echo "Unknown option."
+    exit;;
+  esac
+done
+
+echo "Installing HyperNikkiSystem $VERSION."
+echo
+
+if [ -f $HNSSETUP ]; then
+# source $HNSSETUP
+ eval `cat $HNSSETUP`
+ echo "Old Setup file was found."
+ echo 
+ echo "  Diary Title                 : $DEFTITLE"
+ echo "  Mail Address                : $DEFMAIL"
+ echo "  Author                      : $DEFAUTHOR"
+ echo "  Diary Dir                   : $DEFDIARY"
+ echo "  Web Diary Dir               : $DEFHTML"
+ echo "  Namazu Search Form          : $DEFUNAGI"
+ echo "  Diary URL                   : $DEFURL"
+ echo "  Theme Name                  : $DEFTHEME"
+ echo "  Hoshino Antenna Registration: $DEFANTENNA"
+ echo "  Reverse Display in One Day  : $DEFNEWREVERSE (0 ->No, 1 ->Yes)"
+ echo "  Use Web Board               : $DEFUSEBOARD (0 ->No, 1 ->Yes)"
+ echo "  Starting Year of Diary      : $DEFSTARTYEAR"
+ echo "  Address to Recieve Messages : $DEFMESMAIL"
+ echo
+ echo "  mail2nikki: "
+ echo "   To:               : $DEFTOMAIL" 
+ echo "   From:             : $DEFFROMMAIL" 
+ echo "   Password          : $DEFPASSWD" 
+ echo
+ echo -n "Use it? [Y/n]: "
+ read YN
+ test -n "$YN" || YN="Y"
+ if [ $YN = Y -o $YN = y ]; then
+    SYSTEM=$DEFSYSTEM
+    TITLE=$DEFTITLE
+    MAIL=$DEFMAIL
+    DIARY=$DEFDIARY
+    HTML=$DEFHTML
+    TOMAIL=$DEFTOMAIL
+    FROMMAIL=$DEFFROMMAIL
+    PASSWD=$DEFPASSWD
+    UNAGI=$DEFUNAGI
+    URL=$DEFURL
+    THEME=$DEFTHEME
+    ANTENNA=$DEFANTENNA
+    AUTHOR=$DEFAUTHOR
+    MESMAIL=$DEFMESMAIL
+    NEWREVERSE=$DEFNEWREVERSE
+    USEBOARD=$DEFUSEBOARD
+    STARTYEAR=$DEFSTARTYEAR
+    hnsinstall
+    exit 0;
+ fi
+fi
+
+echo "Enter Your Nikki Title: [$DEFTITLE]"
+echo -n "> "
+read TITLE
+if [ -z "$TITLE" ]; then
+    TITLE=$DEFTITLE
+fi
+
+echo
+echo "Enter Your Diary URL: [$DEFURL]"
+echo -n "> "
+read URL
+if [ -z "$URL" ]; then
+    URL=$DEFURL
+fi
+
+echo
+echo "Enter Author of Your Diary."
+echo "Empty is valid if you want: [$DEFAUTHOR]"
+echo -n "> "
+read AUTHOR
+if [ -z "$AUTHOR" ]; then
+    AUTHOR=$DEFAUTHOR
+fi
+
+echo
+echo "Enter Your Mail Address: [$DEFMAIL]"
+echo -n "> "
+read MAIL
+if [ -z "$MAIL" ]; then
+    MAIL=$DEFMAIL
+fi
+
+echo
+echo "Enter Your To: Address for mail2nikki: [$MAIL]"
+echo -n "> "
+read TOMAIL
+if [ -z "$TOMAIL" ]; then
+    TOMAIL=$MAIL
+fi
+
+echo
+echo "Enter Your From: Address for mail2nikki: [$MAIL]"
+echo -n "> "
+read FROMMAIL
+if [ -z "$FROMMAIL" ]; then
+    FROMMAIL=$MAIL
+fi
+
+echo
+echo "Set password to update your diary via mail2nikki: [$DEFPASSWD]"
+echo -n "> "
+read PASSWD
+if [ -z "$PASSWD" ]; then
+    PASSWD=$DEFPASSWD
+fi
+
+echo
+echo -n "Will you put search form of Namazu for hns? [y/N]: "
+read yn
+test -n "$yn" || yn="N"
+case "$yn" in
+    [Yy]*)
+        UNAGI=ON
+        ;;
+    *)
+        UNAGI=OFF
+        ;;
+esac
+
+echo
+echo "Enter Theme Name: [$DEFTHEME]"
+echo -n "> "
+read THEME
+if [ -z "$THEME" ]; then
+    THEME=$DEFTHEME
+fi
+
+echo
+echo -n "If captured, can be listed in Hoshino Antenna? [y/N]: "
+read yn
+test -n "$yn" || yn="N"
+case "$yn" in
+    [Yy]*)
+        ANTENNA=OK
+        ;;
+    *)
+        ANTENNA=NG
+        ;;
+esac
+
+echo
+echo -n "Display sections in one day from new one to old one? [y/N]: "
+read yn
+test -n "$yn" || yn="N"
+case "$yn" in
+    [Yy]*)
+        NEWREVERSE=1
+        ;;
+    *)
+        NEWREVERSE=0
+        ;;
+esac
+
+echo
+echo -n "Use Web Board? [y/N]: "
+read yn
+test -n "$yn" || yn="N"
+case "$yn" in
+    [Yy]*)
+        USEBOARD=1
+        ;;
+    *)
+        USEBOARD=0
+        ;;
+esac
+
+echo
+echo "Enter the year that you start your diary: [$DEFSTARTYEAR]"
+echo -n "> "
+read STARTYEAR
+if [ -z "$STARTYEAR" ]; then
+    STARTYEAR=$DEFSTARTYEAR
+fi
+
+echo
+echo "Enter email address to recieveg readers' messages."
+echo "To recieve by email, you need sendmail or its equivalent."
+echo "If you don't want email, input empty: [$DEFMESMAIL]"
+echo -n "> "
+read MESMAIL
+if [ -z "$MESMAIL" ]; then
+    MESMAIL=$DEFMESMAIL
+fi
+
+echo
+echo "Then, Diary Dir is $DEFDIARY ,"
+echo "      Web Diary Dir is  $DEFHTML ."
+echo -n "Would you like to change these values? [y/N]:"
+read yn
+test -n "$yn" || yn="N"
+
+case "$yn" in
+    [Yy]*)
+        echo
+	echo "Enter Diary Dir: [$DEFDIARY]"
+	echo -n "> "
+	read DIARY
+	if [ -z "$DIARY" ]; then
+	    DIARY=$DEFDIARY
+	fi
+	echo
+	echo "Enter Web Diary Dir: [$DEFHTML]"
+	echo -n "> "
+	read HTML
+	if [ -z "$HTML" ]; then
+	    HTML=$DEFHTML
+	fi
+	;;
+    *)
+	DIARY=$DEFDIARY
+	HTML=$DEFHTML
+	;;
+esac
+
+echo
+echo " Diary Title                 : $TITLE"
+echo " Mail Address                : $MAIL"
+echo " Author                      : $AUTHOR"
+echo " Diary Dir                   : $DIARY"
+echo " Web Diary Dir               : $HTML"
+echo " Namazu Search Form          : $UNAGI"
+echo " Diar URL                    : $URL"
+echo " Theme Name                  : $THEME"
+echo " Hoshino Antenna Registration: $ANTENNA"
+echo " Reverse Display in One Day  : $NEWREVERSE (0 ->No, 1 ->Yes)"
+echo " Use Web Board               : $USEBOARD (0 ->No, 1 ->Yes)"
+echo " Starting Year of Diary      : $STARTYEAR"
+echo " Address to Recieve Messages : $MESMAIL"
+echo
+echo " mail2nikki: "
+echo "  To:               : $TOMAIL" 
+echo "  From:             : $FROMMAIL" 
+echo "  Password          : $PASSWD" 
+echo
+echo -n "Are these correct? [y/N]: "
+read YN
+test -n "$YN" || YN="N"
+if [ $YN = Y -o $YN = y ]; then
+    hnsinstall
+    exit
+else
+    echo "Not installed."
+    echo
+    exit
+fi
+

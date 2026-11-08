@@ -1,0 +1,189 @@
+i system document  yar-3
+
+                   What is "i system"?
+
+                  "i system"とはなんぞ?
+
+
+           1)i systemとは何をするものか?
+           2)何ができるの?
+           3)対応している端末、環境は?
+           4)利用するのに必要な環境は?
+           5)インストール方法は?
+           6)改造、再配布について
+           7)i systemについての情報は?
+           8)問い合わせ先は?
+           9)開発の歴史
+
+
+1)i systemとは何をするものか?
+ i systemは、hnfで書かれた日記を、携帯電話などのモバイル機器で
+ 読みやすい形で出力するためのプログラムです。
+ cgiとして動作します。
+ 日記を外部記憶として利用し、常に持ち歩いている携帯端末から
+ 閲覧、検索することにより、日常生活をバックアップします。
+ PIM的な用途もフォローします。
+ hns ( http://www.h14m.org/ ) と組み合わせて、携帯端末からの
+ 情報更新も可能です。
+ 
+ 
+2)何ができるの?
+ ・本日の日記を読むことができます
+ ・任意の日付の日記を読むことができます
+ ・任意の日付の予定を表示することができます
+ ・TODOを表示することができます
+ ・日記の検索ができます
+ ・繰り返し予定を表示することができます
+
+
+3)対応している端末、環境は?
+ いわゆるwwwブラウザを搭載したマシンで利用可能です。
+ ・iMODE携帯電話 (DoCoMo N501i,F502i等)
+ ・ez web,ez access対応携帯電話 (IDO, セルラー等)
+ ・J-SkyWeb対応携帯電話(J-SH02など)
+ ・PmailDX対応のPHS電話機 (DDI-P DL-S200,文字電話等)
+ ・ザウルスアイゲッティ,パワーザウルスなどのザウルス系PDA
+ ・PocketIEを搭載したWindowsCEマシン
+ ・text only web browser (w3m, lynx等)
+ ・PocketPostPet
+ ・Palmscape, PilowebなどのPalm用browser
+ ・ほとんどのPC用web browser (MSIE, Netscape Navigator等)
+ ・その他
+ 
+
+
+4)利用するのに必要な環境は?
+・CGI実行が可能なwwwサーバ
+・perl ver5以上
+
+
+5)インストール方法は?
+ install.jaをご覧ください
+ 
+
+6)改造、再配布について
+ i system は GPL に基づいた software です。
+ 改造、再配布は基本的に自由です。
+ 
+
+7)i systemについての情報は?
+ 以下のweb pageでPRします。
+   http://yar-3.net/isystem/
+
+
+8)問い合わせ先は?
+ user向けmailing listができました。
+ http://yar-3.net/isystem/#ML をご覧下さい。
+
+ また、web BBSも用意しております。
+   http://yar-3.net/isystem/bbs/
+
+
+9)開発の歴史
+
+ 1999/06    hns for imode を開発
+            完成度の低さに納得できず苦悩の日々
+ 1999/09    hnsでない日記システムの構築を思い立つ
+            yns (yar-3 nikki system	)が完成
+ 1999/11    club.h14m.orgに参加
+            mns (MIOMIO nikki system)が完成
+            hnf完全互換のparserの開発
+ 1999/11-12 完全に放置
+ 2000/01    小松にてやあ3追撃meetingが開かれる
+            何かに開眼
+ 2000/02    mnsをベースにiMODEに特化した日記システムの構築を開始
+ 2000/02/04 一応形になったので公開(0.1.0)
+            以後、勢力的に開発を続ける
+            ユーザーからのサポートに支えられる
+ 2000/02/21 i search system (ISS) の実装が完了
+ 2000/03    ver0.4の開発が終わらない
+ 2000/03/13 hns-users ML でPR,hns公式日記にて紹介される
+ 2000/04/18 Linux Conference 2000 にて紹介される。
+            日刊アスキー
+(http://www.ascii.co.jp/linux/news/today/article/article438624-000.html)
+	    にてhnsとともにちょびっと紹介される
+ 2000/07/02 hns-perl beta7 と統合される
+
+ version up履歴(2000/07/02現在)
+# 2000/07/02 0.9.1 masato-3 to=hoge patch
+#                  yar-3 CRLF, STRIKE, JSky
+# 2000/06/30 0.9.0 masato-3 rebuild parser
+# 2000/06/29 0.8.7 yar-3 LIMG
+# 2000/06/29 0.8.6 yar-3 fix cmd match, imodegw
+# 2000/06/28 0.8.5 masato-3,yar-3 hns & i system fusion, theme
+# 2000/06/22 0.8.4 yar-3 delete <br> about GRP
+# 2000/06/14 0.8.3 masato-3 search patch
+# 2000/06/12 0.8.2 chihalin-3 PDX bug fixed for ONC browser
+# 2000/06/12 0.8.1 masato-3 fixsearch bug
+# 2000/06/06 0.8.0 kei-3 fix schedule bug
+# 2000/05/26 0.7.4 yar-3 fix list.cgi mode
+# 2000/05/26 0.7.3 yar-3 fix SALL
+# 2000/05/16 0.7.2 yar-3 show titleheadfile when SALL and piloweb
+# 2000/05/16 0.7.1 masato-3 repeat plan with range
+# 2000/05/15 0.7.0 yar-3 RIS reverse, piloweb_2days
+# 2000/05/15 0.6.9 chihalin-3 fix NEW bug, no caption section
+# 2000/05/12 0.6.8 yar-3 fix ichiran bug
+# 2000/05/12 0.6.7 chihalin-3 maenohi bug fixed
+# 2000/05/11 0.6.6 tagoh-3 title, color bug fixed
+# 2000/05/10 0.6.5 tagoh-3 RLNEW,RLSUB problem fixed
+# 2000/05/10 0.6.4 ari-3 TSUGI problem fixed
+# 2000/04/23 0.6.3 yar-3 cat on/off
+# 2000/04/10 0.6.2 yar-3 use istyle tag
+# 2000/04/10 0.6.1 chihalin-3 patched
+# 2000/04/10 0.6.0 masato-3 default day user var
+# 2000/04/09 0.5.9 yar-3 fix color imode bug
+# 2000/04/06 0.5.8 yar-3,masato-3 pilo ua, fix default day
+# 2000/04/06 0.5.7 yar-3 default day, Piloweb(P option)
+# 2000/03/31 0.5.6 yar-3 BIG
+# 2000/03/30 0.5.5 yar-3,masato-3 small, plan sort
+# 2000/03/28 0.5.4 yar-3 title modify
+# 2000/03/28 0.5.3 yar-3 color iMODE
+# 2000/03/27 0.5.2 yar-3 MARK cmd
+# 2000/03/24 0.5.1 masato-3 repeat plan
+# 2000/03/15 0.5   masato-3 new generation monthly, yearly
+# 2000/03/13 0.4.13 yar-3,masato-3 yearly plan
+# 2000/03/10 0.4.12 masato-3 fix monthly plan bug
+# 2000/03/08 0.4.11 masato-3 fix monthly plan bug, modify getdayoftheweek
+#                   month-end plan support
+# 2000/03/06 0.4.10 yar-3 monthly plan
+# 2000/03/06 0.4.9 masato-3 NKF.pm
+# 2000/03/02 0.4.8 northeye-3,masato-3 quote, counter file, PDXGW
+# 2000/03/01 0.4.7 yar-3 RLNEW,RLSUB support, faster search
+# 2000/03/01 0.4.6 masato-3 many bugs fixed and add new functions
+#                  onccnv.pl plan(ABC), &, glob, capital
+# 2000/02/25 0.4.5 yar-3 fix user-var search bug
+# 2000/02/24 0.4.4 chihalin-3 lock file fixed(logging)
+# 2000/02/24 0.4.3 masato-3 patched(maxresult,fix LI,DT,DD etc)
+#                  yar-3 fix <> bug, maxresult bug(url encode)
+# 2000/02/23 0.4.2 masato-3 patched(smarten,plan bug,search print)
+#                  yar-3 support {jis|sjis} hnf
+# 2000/02/22 0.4.1 masato-3 patched(sort,todo,dayoftheweek)
+# 2000/02/22 0.4.0 yar-3 brush up
+# 2000/02/22 0.3.5 ari-3 patched
+# 2000/02/21 0.3.4 yar-3 search bug fix(regexp etc...)
+# 2000/02/21 0.3.3 yar-3 i search system
+# 2000/02/21 0.3.2 yar-3 with jcode.pl
+# 2000/02/18 0.3.1 yar-3 PLAN,TODO
+# 2000/02/17 0.3.0 yar-3 ez logger
+# 2000/02/17 0.2.9 yar-3 jump refined $baseuri set
+# 2000/02/17 0.2.8 yar-3 P fixed
+# 2000/02/15 0.2.7 yar-3 ALL sections show 
+# 2000/02/15 0.2.6 ari-3 Lynx patched (SUB on title)
+# 2000/02/15 0.2.5 yar-3 PDXGW(-H") patched
+# 2000/02/15 0.2.4 key-3 iMODE char accesskey patched
+# 2000/02/15 0.2.3 yar-3 RLINK
+# 2000/02/15 0.2.2 yar-3 ALIAS problem fixed
+# 2000/02/14 0.2.1 ari-3 patched (headfile, URL problem, SJIS)
+# 2000/02/13 0.2.0 yar-3 (NEW fixed)
+# 2000/02/13 0.1.7 key-3 patched (title,author, SUB problem)
+# 2000/02/13 0.1.6 kenji-3 patched (GRP)
+# 2000/02/13 0.1.5 masato-3 patched (without CGI.pm)
+# 2000/02/04 by yar-3
+# original 1999/10/06 by yar-3
+
+以上
+2000/07/17 yar-3
+2000/07/04 yar-3
+2000/04/23 yar-3
+2000/03/13 yar-3
+2000/02/22 yar-3

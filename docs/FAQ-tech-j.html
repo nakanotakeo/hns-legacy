@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>FAQ 技術的な質問</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>FAQ 技術的な質問</h1>
+    </div>
+    $Revision: 1.16 $ ($Date: 2002/01/24 12:39:20 $) 
+
+    <p>最新の FAQ
+    は以下の以下のハイパー日記システムのウェブ・サイトから入手可能です．<br>
+
+     &lt;<tt><a href="http://www.h14m.org/docs/FAQ-j.html" rel=
+    "Help">http://www.h14m.org/docs/FAQ-j.html</a></tt>&gt;.</p>
+
+    <h2>技術的な質問</h2>
+
+    <div>
+      <ol start="1">
+        <li><a href=
+        "#how">どのようにハイパー日記システムは動くのでしょうか?</a></li>
+
+        <li><a href=
+        "#require">動かすためには、何が必要ですか?</a></li>
+
+        <li><a href=
+        "#order">なぜ、日付順の新しいもの順(逆順)で表示されるものと、
+        古い物から新しいものにかけて表示される時があるのですか?</a></li>
+
+        <li><a href="#cookie">なんか日記を見ると，クッキー
+        がやたら沢山飛んでくるようですが，これは
+        そういうものなんでしょうか?</a></li>
+
+        <li><a href="#2038">ハイパー日記システムは
+        2000年問題は対応済のようですが
+        2038年問題への対応はどうなりますか?</a></li>
+
+        <li><a href=
+        "#headfoot">ハイパー日記システムが生成する日記の先頭や最後に
+        自分のページに戻る
+        ハイパーリンクを貼ったり、メールを出すためのリンクを作成したい
+        のですが、これは index.cgi や *.pm など
+        を編集する必要があるのでしょうか??</a></li>
+
+        <li><a href="#lapis">謎ブラウザLapis Lazuli Ver 0.1
+        および、1998年12月15日バージョンに
+        おいてハイパー日記システムによって作成されたページを見ましたが、
+        表示されませんでした。</a></li>
+
+        <li><a href=
+        "#no_cgi">私の使っているプロバイダのサーバでは CGI
+        が
+        使えません．それでもハイパー日記システムを利用することは
+        可能でしょうか?</a></li>
+
+        <li><a href="#utf_8">log.cgi
+        中の， Recent Search Engine: の表示が化けるものが
+        ありますが，どうしてですか?</a></li>
+      </ol>
+    </div>
+    <hr>
+
+    <h2>回答</h2>
+
+    <ol start="1">
+      <li>
+        <a name="how"></a>
+        <b>どのようにハイパー日記システムは動くのでしょうか?</b><br>
+
+         ハイパー日記ファイル(hnf)と呼ばれるファイルを、
+        訪問者が日記に訪れた時に 要求に合わせて、HTML
+        を自動的に生成します。
+        また、カレンダーを表示したりもできます。<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="require"></a>
+        <b>動かすためには、何が必要ですか?</b><br>
+         ウェブ・サーバ と Perl5 が必要です。
+        詳細は <a href=
+        "install-j.html">ハイパー日記システムのインストール</a>
+        を見て下さい。<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="order"></a>
+        <b>なぜ、日付順の新しいもの順(逆順)で表示されるものと、
+        古い物から新しいものにかけて表示される時があるのですか?</b><br>
+
+         毎日来る読者のために、標準では新しいものが上に来るようになっています。
+        しかし、過去の日記を読む人は
+        古い順から読むと思われるので、日付指定
+        が行なわれた時には、古いものが上に来ます。<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="cookie"></a><b>なんか日記を見ると，クッキー
+        がやたら沢山飛んでくるようですが，これは
+        そういうものなんでしょうか?</b><br>
+         読者の区別を行なうためにクッキーを発行しています。
+        発行されるクッキーの種類は「読者ID(RURIコード)」と
+        「訪問回数」です．<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="2038"></a><b>ハイパー日記システムは
+        2000年問題は対応済のようですが
+        2038年問題への対応はどうなりますか?</b><br>
+         OS が
+        2038年問題に対応することによって、対応されます。
+        また、現在 ハイパー日記システム に
+        10000年問題(Y10K)が存在するため，01999年5月1日に
+        「Y10K解決プロジェクト」を発足いたしまいした．<br>
+
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="headfoot"></a>
+        <b>ハイパー日記システムが生成する日記の先頭や最後に
+        自分のページに戻る
+        ハイパーリンクを貼ったり、メールを出すためのリンクを作成したい
+        のですが、これは index.cgi や *.pm
+        を編集する必要があるのでしょうか??</b><br>
+         ハイパー日記システムはユーザの日記の個性が強調できる可能性を
+        高くするためにさまざまな<a
+        href="customize-j.html">カスタマイズ機能</a>を用意しています。<br>
+
+         そのうちの一つには ~/diary/conf/head.txt
+        および ~/diary/conf/foot.txt があります。
+        これは日記を表示する前と表示した後に自由な文章を表示するための
+        ファイルです。<br>
+        <br>
+         例えば head.txt に 
+<pre>
+&lt;h1&gt;日記&lt;/h1&gt;
+&lt;img src="/cgi-bin/Count.cgi?df=sample.dat"&gt;
+</pre>
+        のように指定しておけば、そのまま表示される事となります。<br>
+
+         同じように foot.txt
+        にも最後に表示したいものを記述する事が出来ます。
+        注意として、&lt;html&gt; &lt;head&gt; &lt;/head&gt;
+        &lt;body&gt; &lt;/body&gt; &lt;/html&gt; 等の間違え
+        やすい部分は
+        システムが自動的に挿入するために記述しないで下さい。<br>
+
+         また、漢字コードは現在
+        どんなコードで書いても表示されますが、
+        今後のことを考え EUC
+        を使用することを推奨いたします．<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="lapis"></a><b>謎ブラウザLapis Lazuli <a
+        href=
+        "http://cclub.cc.tut.ac.jp/~go/denpa/9811/from21.html#25_3">
+        Ver 0.1</a> および、 <a href=
+        "http://cclub.cc.tut.ac.jp/~go/denpa/9812/from11.html#15_1">
+        1998年12月15日バージョン</a> に
+        おいてハイパー日記システムによって作成されたページを見ましたが、
+        表示されませんでした。</b><br>
+         現在開発スタッフのマシンにおいて 上記の Lapis
+        Lazuli が
+        動作できないために、詳しい解析は行なえていません。<br>
+
+         また、動作確認されたマシンでさまざまなページを見たところ、
+        現在の謎ブラウザにおいては、
+        「正しくHTML表記されていないページが表示されない」
+        および
+        「Tableの使用ページが表示されない」
+        という問題がわかりました。
+        また、これは謎ブラウザの注意書きにも書いてありました。<br>
+
+         カレンダー部分が table
+        を使用しない設定を用いれば
+        表示可能だとおもいます。<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="no_cgi"></a>
+        <b>私の使っているプロバイダのサーバでは CGI が
+        使えません．それでもハイパー日記システムを利用することは
+        可能でしょうか?</b><br>
+         可能です。<a href=
+        "static-j.html">日記の静的生成</a>
+        を参照願います。<br>
+         
+        <hr>
+      </li>
+
+      <li>
+        <a name="utf_8"></a> <b>
+        log.cgi 中の， Recent Search Engine: の表示が化けるものが
+        ありますが，どうしてですか?</b><br>
+         一部のサーチエンジンは，UTF-8で検索語句を送信します．
+        jcode.plでは，UTF-8のデコードができないため，検索語句の表示が化けます．
+        Jcode.pmをインストールすることにより，UTF-8の検索語句も表示できます．
+
+        <hr>
+      </li>
+    </ol>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+  </body>
+</html>
+

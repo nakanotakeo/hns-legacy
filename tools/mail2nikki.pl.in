@@ -1,0 +1,627 @@
+#!%PERL_PATH%
+#注意 perl version 5 のあるディレクトリにして下さい。
+## mail2nikki.pl (Project SHIMONODA)
+## Version 0.75 (8/11/2001)
+
+# Copyright (C) 1998-2001  Ken-ichi HASHIMOTO, HyperNikkiSystem Project
+
+# Special Thanks:
+#  Mori Kouji <moriko@hh.iij4u.or.jp>
+#  Seiji Hamaguchi <makoto@zob.ne.jp> 
+#  Masato Kawakami <masato@orange.co.jp>
+#  TOKUMITSU Satoshi <tokumitsu@three-a.co.jp>
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: mail2nikki.pl.in,v 1.21 2002/12/28 13:27:02 bonaim Exp $
+
+require '%HTMLDIR%/lib/jcode.pl';
+
+# $diaryDir 日記のあるディレクトリ
+$diaryDir    = "%DIARYDIR%";
+
+# 報告を受け取るアドレス．
+$mailAddress = '%FROMADDR%';
+# 投稿を許すアドレス(From認証) -複数のアドレスが登録可能です-
+@certiy_mailAddress = ('%FROMADDR%', 'second_address');
+# 報告メールの From: アドレス
+$recvMailAddress = '%FROMADDR%';
+# GET の時に送るアドレス
+$cmdGetAddress = '';	## 「hnf:GET」を送ったメールアドレスが入ります
+
+# パスワードです。
+$MASTERPASSWD = "%PASSWORD%";
+
+# LOGMODE 全文ログを取得する時  0 エラー時のみ, 1 常に, 2 絶対しない
+$LOGMODE = 0;
+# status reporting mail
+$MAILMODE = 0;  # 1 無条件で動作報告メール
+# use nkf?
+$NKF_USE = 1;	# 1 -> Use (default), 0 -> No Use
+# auto signature cut
+$SIG_CUT = 0;	# 1 Signatureを削除する
+$SIG_PATTERN = '^-- $'; # Signatureの開始行の正規表現
+
+# Update Namazu index? 
+$NamazuExecFlag = 0;	# 0 -> no (default), 1 -> yes
+# where is hns-index?
+$MkNamazuPath = "$ENV{'HOME'}/diary/bin/hns-index";
+
+# sendmail の場所 各サーバによって違うでしょう
+$sendmail = "%SENDMAIL_PATH%";
+# nkf の場所 確かめてね
+$nkf      = "%NKF_PATH%";
+
+##  install 方法
+## 1. $HOME/diary/bin/mail2nikki.pl に これを copy 
+## 2. chmod 700 mail2nikki.pl
+## 3. mail2nikki.pl の 設定
+## 4. $HOME/diary/mail を作成 ( mkdir を使って )
+## 5. .forward の設定
+#例:
+# inseki:~$ cat .forward 
+#\ken,"|/home/ken/diary/bin/mail2nikki.pl "
+
+## 日記の登録方法
+## Subject: hnf:ADD
+## 本文に
+## PASSWORD: <password>
+## [DATE: 19981109]   (省略可能,省略時 mail を処理した日付)
+## (改行1つ)
+## 日記本文
+## END 文頭まで hnf に登録
+
+
+############################
+### You DON'T have to change 
+###
+
+# qmail だと 600 の permission だから
+# Thanks. masakazu@yamada.gr.jp
+umask(022);
+
+# 一応バックアップするので そのファイル。
+$backupFile  = "$diaryDir/mail/backup";
+
+# 安全のために処理したメールは LOG に保存
+$logFile        = "$diaryDir/mail/mail.log";
+# 簡易ログ
+$SimpleLogFile  = "$diaryDir/mail/simple.log";
+# 作業ファイル
+$mailTempFile   = "$diaryDir/mail/file.$$";
+
+
+@hnfCommandHash = ('NO','DEL&ADD','ADD','DEL','GET');
+@hnfObjectHash = ('NO','DIARY','PLAN','TODO','REPEAT');
+
+
+# メール送信
+# 例: Sendmail( "/usr/sbin/sendmail" , "aite@hoge.jp" , 
+#	        "jibun@geho.jp" , "title" , \@body );
+sub Sendmail {
+    my ( $sendmail , $to , $from , $subject , $body ) = @_;
+
+    open(MAIL,"|$sendmail -t");
+
+    print MAIL "To: $to\n";
+    print MAIL "From: <$from>\n";
+    print MAIL "Subject: $subject\n\n";
+    
+    for( @$body )
+    {
+	print MAIL "$_\n";
+    }
+
+    close (MAIL);
+}
+
+sub OkMail {
+    @mbody = ( 'This messege was written by mail2nikki.pl.' ,
+	       'System transact your mail.');
+    push( @mbody , $_[0] );
+    if ($loopcheck == 0) {
+      Sendmail( $sendmail , $mailAddress 
+	     , "$recvMailAddress" , "[mail2nikki] transact complete" 
+	     , \@mbody ); 
+    }
+}
+sub NgMail {
+    @mbody = ( 'This messege was written by mail2nikki.pl.' ,
+	       'System DOESN\'T transact your mail.');
+    push( @mbody , $_[0] );
+    if ($loopcheck == 0) {
+      Sendmail( $sendmail , $mailAddress 
+	     , "$recvMailAddress" , "[mail2nikki] transact faled" 
+	     , \@mbody ); 
+    }
+}
+# 表示部分
+sub HnsPrint {
+    for( @body )
+    {
+	print OUT "$_";
+    }
+}
+
+
+# log に保存
+sub savelog {
+    open( OUT , ">>$logFile" );    
+    print OUT "---- START ----\n";
+    print OUT "---- HEAD -----\n";
+    for( @headers )
+    {
+	print OUT "$_";
+    }
+    print OUT "\n";
+    print OUT "---- HNF HEAD -----\n";
+    for( @hnfheaders )
+    {
+	if( /^(PASSWORD|PASSWD): /i )
+	{   
+	    print OUT "PASSWD: ****************\n"; 
+	}
+	else
+	{
+	    print OUT "$_";
+	}
+    }
+    print OUT "---- HNF BODY -----\n";
+    for( @body )
+    {
+	print OUT "$_";
+    }
+    print OUT "---- HNF FOOT -----\n";
+    for( @foot )
+    {
+	print OUT "$_";
+    }
+    print OUT "---- STATE -----\n";
+    print OUT "PASSWORD : $PASSWORD \n";
+    print OUT "HNF MODE : $HnsMode \n";
+    print OUT "HNF OBJ  : $HnsObj \n";
+    print OUT "---- END ----\n";
+    close(OUT);
+}
+
+
+sub copy {
+  my ($from, $to) = @_;
+  my @tmp;
+
+  open (TEMP, $from) || die "can't open: $!";
+  while (<TEMP>) {
+    &jcode::convert(\$_, 'euc');
+    push (@tmp, $_);
+  }
+  close(TEMP);
+  open (FILE, ">$to") || die "can't open: $!";
+  foreach (@tmp) {
+    print FILE $_;
+  }
+  close(FILE);
+}
+
+
+sub copy_jis {
+  my ($from, $to) = @_;
+  my @tmp;
+
+  open (TEMP, $from) || die "can't open: $!";
+  while (<TEMP>) {
+    &jcode::convert(\$_, 'jis');
+    push (@tmp, $_);
+  }
+  close(TEMP);
+  open (FILE, ">$to") || die "can't open: $!";
+  foreach (@tmp) {
+    print FILE $_;
+  }
+  close(FILE);
+}
+
+
+sub append {
+  my ($from, $to) = @_;
+  my @tmp;
+
+  open (TEMP, $from) || die "can't open: $!";
+  while (<TEMP>) {
+    &jcode::convert(\$_, 'euc');
+    push (@tmp, $_);
+  }
+  close(TEMP);
+  open (FILE, ">>$to") || die "can't open: $!";
+  foreach (@tmp) {
+    print FILE $_;
+  }
+  close(FILE);
+}
+
+
+sub cvs_add_commit {
+	my ($file) = @_;
+	my ($filedir, $base);
+	$base = (split('/', $file))[-1];
+	$filedir = $file;
+	$filedir =~ s!/[^\/]+$!!;
+#	system("cd $filedir; cvs add $base; cvs commit -m 'Update by mail'");
+}
+
+$loopcheck = 0;
+
+# sendmail から渡されたヘッダを登録
+while($_=<STDIN>)
+{
+    if (/^Subject: \[mail2nikki\]/) {
+      $loopcheck = 1;
+    }
+    last if /^\r?\n$/;
+    s/\r?\n$/\n/;
+    if (/^\s/) {
+       $_ = pop( @headers ) . $_;
+    }
+    push( @headers,$_ );
+}
+
+# hnf 用のヘッダ
+$hnfheadflag = 0;
+while($_=<STDIN>)
+{
+    if (/^Subject: \[mail2nikki\]/) {
+      $loopcheck = 1;
+    }
+    last if (/^\r?\n$/)&&($hnfheadflag == 1);
+    next if (/^\r?\n$/);
+    $hnfheadflag = 1;
+    s/\r?\n$/\n/;
+    push( @hnfheaders,$_ );
+}
+
+# 日記本体
+while($_=<STDIN>)
+ {
+    if (/^Subject: \[mail2nikki\]/) {
+      $loopcheck = 1;
+    }
+    last if /^END/;
+    last if /^!#EOF/;
+    last if /$SIG_PATTERN/o && $SIG_CUT;
+    s/\r?\n$/\n/;
+    push( @body,$_ );
+ }
+
+# 最後
+while($_=<STDIN>)
+ {
+    push( @foot,$_ );
+ }
+
+# 処理時間取得
+($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst)=localtime(time);
+$year = $year + 1900;
+$mon  = $mon + 1;
+$mday = "0$mday" if $mday < 10;
+$mon  = "0$mon"  if $mon  < 10;
+$sec  = "0$sec"  if $sec  < 10;
+$min  = "0$min"  if $min  < 10;
+$hour = "0$hour" if $hour < 10;
+
+if ( !( -d $diaryDir . "/" . $year ) )
+{
+    system("mkdir $diaryDir/$year;chmod 755 $diaryDir/$year");
+} 
+$file = "$diaryDir/$year/d$year$mon$mday.hnf";
+$pfile = "$diaryDir/$year/y$year$mon";
+
+$HnsFlag = 0;
+$Correct = "No";
+$i = 0;
+$imax = @certiy_mailAddress - 1;
+for( @headers )
+{
+
+#    /* 認証 メールアドレス だけしか見てないけどね(^^;) */
+    if( /^From: / )
+    {
+#	$HnsFlag = 1 if( /$mailAddress/ );
+	
+	while( $Correct eq "No" ){
+		if( /@certiy_mailAddress[$i]/ ){
+			$HnsFlag = 1;
+			$Correct = "Yes";
+			$cmdGetAddress = @certiy_mailAddress[$i];  ##
+		} elsif ($i < $imax){
+			$i = $i + 1;
+		} else {
+			$HnsFlag = 0;
+			$Correct = "Yes";
+		}
+	}
+    }
+#    /* ヘッダみて それぞれを 選択 (ごしごし、じゃぶじゃぶ 洗濯開始) */
+    if(/^Subject: (hnf|hns):(ADD|DEL|DEL&ADD|GET) *(PLAN|TODO|REPEAT)?/)
+    {
+        $HnsMode = 2 if( /ADD/ );
+        $HnsMode = 3 if( /DEL/ );
+	$HnsMode = 1 if( /DEL&ADD/ );
+	$HnsMode = 4 if( /GET/ );
+	$HnsObj = 1;
+        if( /PLAN/ )
+	{
+	    $HnsObj = 2;
+	    $file = $pfile;
+	}
+        if( /TODO/ )
+	{
+	    $HnsObj = 3;
+	    $file = "$diaryDir/todo";
+	}
+        if( /REPEAT/ )
+	{
+	    $HnsObj = 4;
+	    $file = "$diaryDir/repeat";
+	}
+    }
+}
+
+$PASSWORD = 0;
+for( @hnfheaders )
+{
+    if( /^(PASSWORD|PASSWD)\s*:\s*$MASTERPASSWD/i )
+    {
+
+#    @list = split( /\s*:\s*/ , $_ );
+#    $tmp = shift( @list );
+#    $tmp = shift( @list );
+#    $PASSWORD = 1 if ( $MASTERPASSWD =~ /$tmp/ ) ;
+
+	$PASSWORD = 1;
+	next;
+    }
+    if( /^DATE\s*:\s*/ && $HnsObj == 1 )
+    {
+	@list = split( /\s*:\s*/ , $_ );
+	$tmp = shift( @list );
+	$tmp = shift( @list );
+	chop $tmp;
+	if( $tmp =~ /([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])/ )
+	{
+	    $year = $1;
+	    if ( ! (-d $diaryDir . "/" . $year) )
+	    {
+		system("mkdir $diaryDir/$year;chmod 755 $diaryDir/$year");
+	    }
+	    
+	    $file = "$diaryDir/$year/d$tmp.hnf";
+	}
+	else
+	{
+	    $file = "$diaryDir/d$tmp.hnf";
+	}
+	next;
+    }
+    if( /^DATE\s*:\s*/ && $HnsObj == 2 )
+    {
+	@list = split( /\s*:\s*/ , $_ );
+	$tmp = shift( @list );
+	$tmp = shift( @list );
+	chop $tmp;
+	if( $tmp =~ /([0-9][0-9][0-9][0-9])([0-9][0-9])/ )
+	{
+	    $year = $1;
+	    if ( ! (-d $diaryDir . "/" . $year) )
+	    {
+		system("mkdir $diaryDir/$year;chmod 755 $diaryDir/$year");
+	    }
+	    
+	    $file = "$diaryDir/$year/y$tmp";
+	}
+	else
+	{
+	    $file = "$diaryDir/y$tmp";
+	}
+	next;
+    }
+    
+    push( @userVar , $_ );    
+}
+
+open( SLOG , ">>$SimpleLogFile" );    
+$slogMsg = "[$year/$mon/$mday:$hour:$min:$sec]"
+           . " COMMAND=$hnfCommandHash[$HnsMode]"
+           . " OBJ=$hnfObjectHash[$HnsObj]"
+           . " PASSWD=$PASSWORD"
+	   . " LOOPCHK=$loopcheck";
+
+print SLOG "$slogMsg";
+
+if( $PASSWORD == 0)
+{
+    print SLOG " STATE=ERROR\n";
+    close( SLOG );
+    savelog() if( $LOGMODE != 2 ) ;
+    NgMail( $slogMsg ) if( $MAILMODE == 1 );
+    exit;
+}
+
+if( $LOGMODE == 1 )
+{
+    savelog();
+}
+
+
+#   /* CREATE なら 新しくファイルを開いて OK を書いてから、mailの本文 */
+if( $HnsMode == 1 )
+{
+    if( $HnsFlag )
+    {
+	# 作業ファイルに一度いれる。
+	open( OUT , ">$mailTempFile" );    
+	for( @userVar )
+	{
+	    print OUT "$_";
+	}
+	print OUT "OK\n\n" if ($HnsObj == 1);
+	HnsPrint();
+	close( OUT );
+
+	# 作業ファイルからコピーする する。
+	if ($NKF_USE) {
+	  system( "$nkf -e < $mailTempFile > $file" );
+	}
+	else {
+	  copy ($mailTempFile, $file);
+	}
+	unlink "$mailTempFile";
+	print SLOG " STATE=DONE\n";
+	close( SLOG );
+	OkMail ($slogMsg . "\n-- body\n" . join('', @body)) if $MAILMODE == 1;
+
+	# Update Namazu index
+	system("$MkNamazuPath") if $NamazuExecFlag == 1;
+
+	# cvs_add_commit ($file);
+	exit;
+    }
+}
+
+# /* APPEND で */
+if( $HnsMode == 2 )
+{
+    if( $HnsFlag )
+    {    
+	if(-f "$file")
+	{
+#	/* 既にファイルがあるなら そのまま */
+	    if ($NKF_USE) {
+	      system( "$nkf -e < $file > $mailTempFile");
+	    }
+	    else {
+	      copy ($file, $mailTempFile);
+	    }
+	    system( "cp $mailTempFile $file" );
+
+	    open( OUT , ">$mailTempFile" );    
+#    /* mail の本文 */
+	    HnsPrint();
+	    close( OUT );
+	    # 作業ファイルからコピーする する。
+	    if ($NKF_USE) {
+	      system( "$nkf -e < $mailTempFile >> $file" );
+	    }
+	    else {
+	      append ($mailTempFile, $file);
+	    }
+	    unlink "$mailTempFile";
+
+	}
+	else
+	{
+#	/* なかったら 作って OK をだして */
+	    # 作業ファイルに一度いれる。
+	    open( OUT , ">$mailTempFile" );    
+	    for( @userVar )
+	    {
+		print OUT "$_";
+	    }
+	    print OUT "OK\n\n" if ($HnsObj == 1);
+#    /* mail の本文 */
+	    HnsPrint();
+	    close( OUT );
+	    # 作業ファイルからコピーする する。
+	    if ($NKF_USE) {
+	      system( "$nkf -e < $mailTempFile > $file" );
+	    }
+	    else {
+	      copy ($mailTempFile, $file);
+	    }
+	    unlink "$mailTempFile";
+
+	}
+
+	print SLOG " STATE=DONE\n";
+	close( SLOG );
+
+        OkMail ($slogMsg . "\n-- body\n" . join('', @body)) if $MAILMODE == 1;
+
+        # Update Namazu index
+        system("$MkNamazuPath") if $NamazuExecFlag == 1;
+
+        # cvs_add_commit ($file);
+	exit;
+    }
+
+}
+
+# /* DELETE なら、消しちゃえ */
+if( $HnsMode == 3 )
+{
+    if( $HnsFlag )
+    {    
+# /* でも恐いから 元は のこしておこう */       
+	system( "cat $file >>$backupFile" );
+	unlink "$file";
+	print SLOG " STATE=DONE\n";
+	close( SLOG );
+	OkMail( $slogMsg ) if( $MAILMODE == 1 );
+	exit;
+    }
+}
+# /* GET なら mail を送る */
+if( $HnsMode == 4 )
+{
+    if( $HnsFlag )
+    {    
+
+	# まず、作業ファイルに nkf -j する。
+	if ($NKF_USE) {
+	  system( "$nkf -j < $file > $mailTempFile" );
+	}
+	else {
+	  copy_jis ($file, $mailTempFile);
+	}
+	# そのファイルを今度は sendmail する。
+
+	@mbody = ( 'This message was written by mail2nikki',
+		   'System accsept GET command',
+		  '');
+
+	open( IN , "$mailTempFile");
+	while( $_=<IN>)
+	{
+	    chomp;
+	    s/^\./\.\./;
+	    push( @mbody , $_ );
+	}
+	close( IN );
+
+##	Sendmail($sendmail , $mailAddress , $recvMailAddress ,
+	Sendmail($sendmail , $cmdGetAddress , $recvMailAddress ,
+		 "[mail2nikki] GET $file", \@mbody); 
+	unlink "$mailTempFile";
+	print SLOG " STATE=DONE\n";
+	close( SLOG );
+	OkMail( $slogMsg ) if( $MAILMODE == 1 );
+	exit;
+    }
+}
+
+
+print SLOG " STATE=NO TRANSACT\n";
+close( SLOG );
+NgMail( $slogMsg ) if( $MAILMODE == 1 );
+exit;
+

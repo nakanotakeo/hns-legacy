@@ -1,0 +1,298 @@
+Index: theme.ph
+===================================================================
+RCS file: /home/hosting/h14m.org/cvsroot/hns-perl/public_html/diary/japanese/theme.ph,v
+retrieving revision 1.64
+retrieving revision 1.73
+diff -u -b -r1.64 -r1.73
+--- theme.ph	2001/03/24 05:04:53	1.64
++++ theme.ph	2002/01/26 07:19:22	1.73
+@@ -1,6 +1,6 @@
+ ################################################################
+ # japanese theme
+-# $Id: theme.ph,v 1.64 2001/03/24 05:04:53 kenji Exp $
++# $Id: theme.ph,v 1.73 2002/01/26 07:19:22 kenji Exp $
+ 
+ ################################################################
+ # User variable
+@@ -18,6 +18,7 @@
+ $Templates{'KITAKU'} = " 帰宅時間:%value";
+ $Templates{'WALK'}   = " 散歩:%value";
+ $Templates{'RUN'}    = " ジョギング:%value";
++$Templates{'YOTEI'}  = "<p>%value</p>";
+ 
+ ################################################################
+ # Mark
+@@ -60,7 +61,7 @@
+ $DOCTYPE = qq(<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+ 	"http://www.w3.org/TR/REC-html40/loose.dtd">\n);
+ #$Head = undef;
+-$Head = qq(<meta http-equiv="Content-Style-Type" content="text/css">
++$Head{dynamic} = qq(<meta http-equiv="Content-Style-Type" content="text/css">
+ <style type="text/css"><!--
+  body { background: white }
+  h3.new { margin-left: 1em }
+@@ -82,6 +83,7 @@
+  div.bold-red { color: red; font-weight: bold }
+ --></style>
+ );
++$Head{static} = qq(<!--#exec cmd="./logging.pl"-->\n) . $Head{dynamic};
+ 
+ #$BodyVal = undef;
+ ##$BodyVal = "bgcolor=#ffffcc";
+@@ -122,18 +124,24 @@
+ package HNS::Calendar::Table;
+ @WeekString = ('<font color="red">日</font>', '月', '火', '水', '木', '金', '<font color="blue">土</font>');
+ $TableBorder = 0;
+-$NextTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month">来月</a>);
+-$PrevTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month">先月</a>);
+-$ThisTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month">%year年%month月</a>);
+-$DayCurrentTemplate = qq(<a href="%ruri#%{ymd}0">%day</a>);
+-$DayNonCurrentTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month%abc#%{ymd}0">%day</a>);
++$NextTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month">来月</a>);
++$PrevTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month">先月</a>);
++$ThisTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month">%year年%month月</a>);
++$NextTemplate{static} = qq(<a href="./%year%month.html">来月</a>);
++$PrevTemplate{static} = qq(<a href="./%year%month.html">先月</a>);
++$ThisTemplate{static} = qq(<a href="./%year%month.html">%year年%month月</a>);
++$DayCurrentTemplate = qq(<a href="%ruri#%{ymd}0">%calendar_day</a>);
++$DayNonCurrentTemplate = qq(<a href="%href">%calendar_day</a>);
+ 
+ package HNS::Calendar::NoTable;
+-$NextTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month">&gt;&gt;</a>);
+-$PrevTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month">&lt;&lt;</a>);
+-$ThisTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month">%year/%month</a>);
+-$DayCurrentTemplate = qq(<a href="%ruri#%{ymd}0">%day</a>);
+-$DayNonCurrentTemplate = qq(<a href="$HNS::System::MyDiaryURI?%year%month%abc#%{ymd}0">%day</a>);
++$NextTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month">&gt;&gt;</a>);
++$PrevTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month">&lt;&lt;</a>);
++$ThisTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month">%year/%month</a>);
++$NextTemplate{static} = qq(<a href="./%year%month.html">&gt;&gt;</a>);
++$PrevTemplate{static} = qq(<a href="./%year%month.html">&lt;&lt;</a>);
++$ThisTemplate{static} = qq(<a href="./%year%month.html">%year/%month</a>);
++$DayCurrentTemplate = qq(<a href="%ruri#%{ymd}0">%calendar_day</a>);
++$DayNonCurrentTemplate = qq(<a href="%href">%calendar_day</a>);
+ 
+ ################################################################
+ # DateSelect
+@@ -173,7 +181,7 @@
+ </table>
+ );
+ 
+-$Templates{Table}->{head_style} = qq( 
++$Templates{Table}->{head_style}->{dynamic} = qq( 
+ %pim
+ <hr>
+ <table summary="calendar">
+@@ -194,6 +202,13 @@
+ <hr>
+ );
+ 
++$Templates{Table}->{head_style}->{static} = qq( 
++%pim
++<hr>
++%calendar
++<hr>
++);
++
+ $Templates{Table}->{foot_style} = "\n<hr>\n%category_list";
+ 
+ $Templates{Table}->{head_recent_style} = $Templates{Table}->{head_style};
+@@ -255,7 +270,7 @@
+ $VersionMessages{'Public'} = q(<hr>
+ <div>hns - 日記自動生成システム - Version %public</div>);
+ 
+-$VersionMessages{'NonPublic'} = qq(<hr>
++$VersionMessages{'NonPublic'}->{dynamic} = qq(<hr>
+ <div>
+ <font color="red">注意：</font> 
+ 今現在使用されているこの日記自動生成システムは 
+@@ -265,6 +280,14 @@
+ </div>
+ );
+ 
++$VersionMessages{'NonPublic'}->{static} = qq(<hr>
++<div>
++<font color="red">注意：</font> 
++この日記は日記自動生成システム Version %current で生成されました。<br>
++公開されている日記自動生成システムは Version %public です。
++</div>
++);
++
+ ################################################################
+ # Template
+ # usable parameter (%[A-Za-z0-9_]) is:
+@@ -276,6 +299,14 @@
+ #   %new, %sub, %fn	: counter of NEW, SUB, FN
+ #   %mark		: for GRP mark, if not in GRP the same as %new
+ 
++package HNS::Diary::Template;
++$BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%abc";
++#$BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%day"; # 1日分のみ
++$BaseTemplate{static} = "./%year%month.html";		# 静的生成
++$HrefTemplate{dynamic} = "%base&amp;to=%name#%name";
++#$HrefTemplate{dynamic} = "%base#%name";		# to= を付けない
++$HrefTemplate{static} = "%base?to=%name#%name";		# 静的生成
++
+ package HNS::Diary;
+ ################
+ # diary limited parameter:
+@@ -286,51 +317,72 @@
+ #			  value of user-variable VARNAME.
+ @WeekString = ('<font color="red">日</font>', '月', '火', '水', '木', '金', '<font color="blue">土</font>');
+ 
+-$Head = qq(
+-<h2><a class="hide" href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%{day}0#%year%month%{day}0"
+-name="%year%month%{day}0">%year年%month月%day日(%week)</a>
++$Head{dynamic} = qq(
++<h2><a class="hide" href="%href" name="%name">%year年%month月%day日(%week)</a>
+ [<a href="$HNS::System::MyDiaryURI?%month%day">n年日記</a>]</h2>
+ );
++$Head{static} = qq(
++<h2><a class="hide" href="%href" name="%name">%year年%month月%day日(%week)</a></h2>
++);
+ 
+ $UserVar = qq(<div class="uservar">
+  %user{TENKI}%user{BASHO}%user{TAIJU}%user{TAION}%user{SUIMIN}%user{BGM}
+- %user{HOSU}%user{HON}%user{KITAKU}
++ %user{HOSU}%user{HON}%user{KITAKU}%user{WALK}%user{RUN}%user{YOTEI}
+ </div>);
+ 
++# Schedule as User Val
++$YoteiVal = "<li>%value</li>";
++$YoteiHead = "予定\n<ul>";
++$YoteiFoot = "</ul>";
++
+ $Foot = qq(<hr>\n);
+ 
++package HNS::Hnf::Command::ConvUrl;
++$HrefTemplate = "%base#%name";
++$Template{mydiary} = "%href";
++
++$Template{ISBN} = "http://www.bk1.co.jp/cgi-bin/srch/srch_result_book.cgi?idx=3&amp;isbn=%param";
++#$Template{ISBN} = "http://www.isize.com/book/cgi-bin/isbn.cgi?isbn=%param";
++#$Template{ISBN} = "http://www.eshopping.ne.jp/bks.svl?CID=BKS504&amp;access_method=isbn_cd&amp;input_data=%param";
++#$Template{ISBN} = "http://www1.honyasan.co.jp/washo/book.cfm?PRODUCT_CD=%param";
++
++$Template{CD} = "http://www.hmv.co.jp/search/title.asp?category=CATALOGUENO&amp;keyword=%param";
++#$Template{CD} = "http://www.towerrecords.co.jp/tower/towercdj.nsf/SearchProductID/%param";
++
++$Template{"hns-dev"} = sub { sprintf("http://www.h14m.org/ml/hns-dev/msg%05d.html", $_[0] - 1) };
++$Template{"hns-users"} = sub { sprintf("http://www.h14m.org/ml/hns-users/msg%05d.html", $_[0] - 1) };
++
+ package HNS::Hnf::Command::CAT;
+-$Template = qq([<a href="./title.cgi?CAT=%enc_var">%var</a>]);
+-$ImgTemplate = qq(<a href="./title.cgi?CAT=%enc_var">%img</a>);
++$Template{dynamic} = qq([<a href="./title.cgi?CAT=%enc_var">%var</a>]);
++$ImgTemplate{dynamic} = qq(<a href="./title.cgi?CAT=%enc_var">%img</a>);
++$Template{static} = qq([<a href="./tc%year%month.html#%enc_var">%var</a>]);
++$ImgTemplate{static} = qq(<a href="./tc%year%month.html#%enc_var">%img</a>);
+ 
+ package HNS::Hnf::Command::NEW;
+ $Template = qq(
+-<h3 class="new"><a class="hide" name="%year%month%day%new" title="%year%month%day%new" 
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%new#%year%month%day%new">#%mark</a>
++<h3 class="new"><a class="hide" name="%name" title="%name" href="%href">#%mark</a>
+ %cat %content</h3>
+ <div class="section">\n);
+-$EndTemplate = "</div><!-- end of NEW -->\n";
++$EndTemplate = "%bbslink</div><!-- end of NEW -->\n";
+ 
+ package HNS::Hnf::Command::LNEW;
+ $Template = qq(
+-<h3 class="new"><a class="hide" name="%year%month%day%new" title="%year%month%day%new" 
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%new#%year%month%day%new">#%mark</a>
++<h3 class="new"><a class="hide" name="%name" title="%name" 
++href="%href">#%mark</a>
+ %cat <a href="%1">%content</a></h3>
+ <div class="section">\n);
+-$EndTemplate = "</div><!-- end of LNEW -->\n";
++$EndTemplate = "%bbslink</div><!-- end of LNEW -->\n";
+ 
+ package HNS::Hnf::Command::RLNEW;
+ $Template = qq(
+-<h3 class="new"><a class="hide" name="%year%month%day%new" title="%year%month%day%new" 
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%new#%year%month%day%new">#%mark</a>
++<h3 class="new"><a class="hide" name="%name" title="%name" href="%href">#%mark</a>
+ %cat <a href="%url%2">%content</a></h3>
+ <div class="section">\n);
+-$EndTemplate = "</div><!-- end of RLNEW -->\n";
++$EndTemplate = "%bbslink</div><!-- end of RLNEW -->\n";
+ 
+ package HNS::Hnf::Command::SUB;
+ $Template = qq(
+-<h4><a class="hide" name="%year%month%day%{new}S%sub" title="%year%month%day%{new}S%sub"
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%{new}S%sub#%year%month%day%{new}S%sub">＠</a>
++<h4><a class="hide" name="%name" title="%name" href="%href">＠</a>
+ %content:</h4> 
+ <div class="sub">
+ );
+@@ -338,8 +390,7 @@
+ 
+ package HNS::Hnf::Command::LSUB;
+ $Template = qq(
+-<h4><a class="hide" name="%year%month%day%{new}S%sub" title="%year%month%day%{new}S%sub"
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%{new}S%sub#%year%month%day%{new}S%sub">＠</a>
++<h4><a class="hide" name="%name" title="%name" href="%href">＠</a>
+ <a href="%1">%content</a>:</h4> 
+ <div class="sub">
+ );
+@@ -348,8 +399,7 @@
+ 
+ package HNS::Hnf::Command::RLSUB;
+ $Template = qq(
+-<h4><a class="hide" name="%year%month%day%{new}S%sub" title="%year%month%day%{new}S%sub"
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%{new}S%sub#%year%month%day%{new}S%sub">＠</a>
++<h4><a class="hide" name="%name" title="%name" href="%href">＠</a>
+ <a href="%url%2">%content</a>:</h4> 
+ <div class="sub">
+ );
+@@ -433,15 +483,46 @@
+ 
+ package HNS::Hnf::Command::FN;
+ $Template = 
+-    qq(<a href="$ENV{'REQUEST_URI'}#%year%month%day%{new}F%fn"><small>*%fn</small></a>\n);
++    qq(<a href="$ENV{'REQUEST_URI'}#%name"><small>*%fn</small></a>\n);
+ 
+ $HeaderTemplate = qq(<hr class="section" width="40%" align="left">
+ <div class="fn">\n);
+ $FooterTemplate = qq(</div>\n);
+ 
+ $ContentTemplate = qq(
+-<a class="hide" name="%year%month%day%{new}F%fn"
+-href="$HNS::System::MyDiaryURI?%year%month%abc&amp;to=%year%month%day%{new}F%fn#%year%month%day%{new}F%fn"><small>*%fn</small></a>: %content<br>
++<a class="hide" name="%name" href="%href"><small>*%fn</small></a>: %content<br>
+ );
++
++package HNS::Tools::Title;
++$CatTemplate{dynamic} =
++  qq(<h3>%img<a href="title.cgi?%{arg}CAT=%enc_var">%var</a></h3>\n);
++$CatLinkTemplate{dynamic} =
++  qq([<a href="title.cgi?%{arg}CAT=%enc_var">%var</a>]);
++$CatTemplate{static} =
++  qq(<h3>%img<a href="#%enc_var" name="%enc_var">%var</a></h3>\n);
++$CatLinkTemplate{static} =
++  qq(<a href="tc%year%month.html#%enc_var">%var</a>);
++$HeadTitle = qq(<title>$HNS::System::Title Title List</title>\n);
++$Header = qq(<h1><a href="$HNS::System::MyDiaryURI">$HNS::System::Title</a> Title List</h1>\n);
++$BacktoDiary = qq(<div align="right"><a href="$HNS::System::MyDiaryURI">Back to Diary</a></div>\n);
++
++package HNS::Tools::Title::Hnf;
++$BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%abc";
++$BaseTemplate{static} = "./%year%month.html";
++
++package HNS::Tools::HeadLine;
++$Max = $HNS::System::DefaultMax * 3;
++$HeadTitle = qq(<title>$HNS::System::Title HeadLine</title>\n);
++$Header = "";
++$BacktoDiary = "";
++$BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%abc";
++$BaseTemplate{static} = "./%year%month.html";
++$RecentBaseTemplate{dynamic} = "$HNS::System::MyDiaryURI";
++$RecentBaseTemplate{static} = "./recent.html";
++$DayTemplate = qq(<a href="%href" class="hide">%year年%month月%day日</a>);
++
++package HNS::Tools::HeadLine::New;
++$Template = qq(<b>・</b><a href="%href" title="%para">%content</a>);
++
+ ################################################################
+ 1;

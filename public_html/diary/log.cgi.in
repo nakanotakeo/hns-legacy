@@ -1,0 +1,924 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem Log Analysis (log.cgi) for hns 2.10 or later
+# version 1.1.0
+# 2002/1/27  Kenji Suzuki <kenji@h14m.org>
+
+my $version = "1.1.0";
+
+# Copyright (C) 1998-2002  Kenji Suzuki, HyperNikkiSystem Project 
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: log.cgi.in,v 1.40 2003/07/07 03:03:08 kenji Exp $
+
+use strict;
+use lib qw(lib);
+use HNS::Admini;
+use HNS::IntelliSearch;
+use CodeConv;
+
+require './config.ph';
+
+# 日記のディレクトリをフル・パスで指定
+my $diaryDir = $HNS::System::DiaryDir;
+my $DiaryURI = $HNS::System::MyDiaryURI;
+
+# 分析するログ・ファイル
+my $log = "$diaryDir/log/referer_log";
+#my $log = "$diaryDir/log/denial_log";
+
+# Domain Name / IP Address による認証
+# ここに指定したファイルに記述された Domain Name , IPアドレスからしか
+# 結果を見ることができません See アクセス制限方式の指定
+my $auth_domain_file = "$diaryDir/conf/auth_domain.txt";
+
+# クッキー -> 名前 への変換マップ・ファイルを指定．なくても OK
+# マップ・ファイルの形式は，RURIコード[スペース]名前
+# 例: 
+# RURI36319711aa1a3 Hoshino_Ruri
+# RURI36255c1b40274 Ayanami_Rei
+my $map = "$diaryDir/conf/ruri_map.txt";
+
+# URL -> 名前 への変換マップ・ファイルを指定．なくても OK
+# マップ・ファイルの形式は，URL[スペース]名前
+# 例: 
+# http://www.h14m.org/hishino/ 星野アンテナ
+# http://northeye.org/a/ Northeye_Antenna
+my $url_map = "$diaryDir/conf/url_map.txt";
+
+# アクセス制限方式の指定
+# デフォルトは 2 にしました v0.9.8
+my $ac = 2; # 0 -> 制限なし; 2 -> クッキー(default); 3 -> Domain
+
+# 表示しない RURIコード を記述したファイル
+# 自分のアクセスを表示したくない時などに
+# このファイルにRURIコードを指定します．指定した RURIコードの情報は
+# BATTA として扱われます
+my $batta_ruri_file = "$diaryDir/conf/batta_ruri.txt";
+
+# 表示結果のカスタマイズ
+my $new_last = 15;   # 最近 n 人の新しい訪問者を表示します
+my $log_last = 15;   # 最近 n 件の生ログを表示します
+my $ref_last = 15;   # 最近 n 件の referer を表示します
+		     # ただしアクセスが増加した場合自動増加します v1.0.0-b01
+
+my $ref_top = 20;    # トップ n 件の referer を表示します
+my $ref_min = 0;     # n 回以上アクセスのあった referer を表示します
+                     # $ref_top とは OR条件 になります
+                     # この条件が不要な場合は 0 にして下さい
+                     # 以下同様 
+my $cookie_top = 20; # トップ n 件の cookie を表示します
+my $cookie_min = 0;  # n 回以上アクセスがあった cookie を表示します 
+my $brow_top   = 20; # トップ n 件のブラウザ名を表示します
+my $brow_min   = 0;  # n 回以上アクセスのあったブラウザ名を表示します
+my $file_top   = 10; # トップ n 件の requested file を表示します
+my $file_min   = 0;  # n 回以上アクセスのあった requested file を表示します
+
+# Referer: での URI の引数(?,#以下)を取り除くか？
+my $REMOVE_REF_ARG = 1;	# 1 -> 取り除く; 0 -> そのまま
+
+# IPアドレスを逆引きするか？
+my $DNSlookup = 0;	# 1 なら逆引きする(超遅いかも)
+my $DNScachefile = "$diaryDir/log/dns_cache"; 
+			# DNS cache file あらかじめファイルを
+			# 作成し，ウェブ・サーバの権限で
+			# 書き込み可能に設定して下さい 
+my $DNScacheexp = 30;	# DNS cache情報の保有期間 (単位:日)
+
+# 処理するログの最大数
+my $MAX_LINE = 5000;	# v1.0.0-b02
+
+
+# プログラム・スタート 
+my $debug = 0;
+my $admini = new HNS::Admini;
+my $ctime = time;
+
+my $DNScacheexp = $DNScacheexp * (60 * 60 * 24);
+my $ref_min = $MAX_LINE if ($ref_min == 0);
+my $cookie_min = $MAX_LINE if ($cookie_min == 0);
+my $brow_min = $MAX_LINE if ($brow_min == 0);
+my $file_min = $MAX_LINE if ($file_min == 0);
+my $start = "";
+my $end = "";
+
+my $query = $ENV{'QUERY_STRING'};
+my $ruri = $ENV{'HTTP_COOKIE'};
+my $hostname = $ENV{'REMOTE_HOST'};
+my $ipaddr = $ENV{'REMOTE_ADDR'};
+
+my %DNScache;
+my %DNSexp;
+my @lines;
+my %name;
+my %urlname;
+my %todaycook;
+my %todayvisit;
+my %ruri;
+my %files;
+my $cookie;
+my $totalvisit;
+my %todaynewvisit;
+my %todaybattavisit;
+my @RAW_LOG;
+my @NEW;
+my @ORIG_REFERER;
+my @REFERER;
+my @REFFILE;
+my @AGENT;
+my @AGENTSUM;
+my @COOKIE;
+my @OS;
+my @DATE;
+my @FILE;
+my @LINK_TO;
+my %BATTA_RURI;
+my @engine_links;
+my @new_search_engines;
+
+$admini->PrintHeader('HNS Log Analysis');
+&getBattaRuri;
+
+if ($ac == 2) {
+  $admini->CheckAuthorized;
+} elsif ($ac == 0) {
+} elsif ($ac == 3) {
+    CheckAuthorizedByDomain();
+} else {
+    print "<h1>認証に失敗しました</h1>";
+    $admini->PrintFooter("HNS Log Analysis-$version, ");
+    exit(0);
+}
+
+print "<pre>\n";
+&open_log;
+&scope;
+&recent_log;
+&recent_new;
+&daily;
+&recent_ref;
+&link_to;
+&recent_search_engine;
+&referer;
+&agentsum;
+&agent;
+&visitor;
+&os;
+&file; # v1.0.0-b04
+&dns_cache_save;
+
+&footer;
+
+# サブ・ルーチン
+sub CheckAuthorizedByDomain
+{
+    my $authorized = 0;
+    if (-f $auth_domain_file) {
+        open(AUTH,"$auth_domain_file") || 
+            die "Can't Open File: $auth_domain_file: $!";
+        while(<AUTH>) {
+            chomp($_);
+	    next if $_ eq '';
+            $authorized = 1 if ($hostname =~ /$_/);
+            $authorized = 1 if ($ipaddr =~ /$_/);
+            last if $authorized;
+        }
+        close(AUTH);
+    }
+    unless ($authorized) {
+	print "<h1>認証に失敗しました。</h1>\n";
+	$admini->PrintFooter("HNS Log Analysis-$version, ");
+	exit(0);
+    }
+}    
+
+sub getBattaRuri {
+  if (-f $batta_ruri_file) {
+    open(AUTH,"$batta_ruri_file") || 
+      die "Can't Open File: $batta_ruri_file: $!";
+    while(<AUTH>) {
+        $BATTA_RURI{$1} = 1 if ($_ =~ /^(RURI\w{13})/);
+    }
+    close(AUTH);
+  }    
+}
+
+sub open_log {
+  my (@tmplist);
+  my ($tmp_ruri, $tmp1, $tmp2);
+  my ($date, $time);
+  my %totalcook;
+
+  # read DNS cache
+  if (($DNSlookup) && (-f $DNScachefile)) {
+      open(DNS,"$DNScachefile") || 
+	  die "Can't Open DNS Cache File: $DNScachefile: $!";
+      while(<DNS>) {
+	  # FIXME: set good variable name
+	  my ($a, $b, $c) = split(/ /, $_, 3);
+	  $DNScache{$a} = $b;
+	  $DNSexp{$a} = $c;
+      }
+      close(DNS);
+  }
+  if (-f $map) {
+      open(MAP,"$map") || die "Can't Open Map File: $map: $!";
+      while (<MAP>) {
+	  CodeConv::toeuc(\$_);
+	    $name{$1} = $2 if (/^(RURI\w{13})\s+(.+)\s*/);
+	}
+      close(MAP);
+  }
+  
+  if (-f $url_map) {
+      open(URLMAP,"$url_map") || die "Can't Open URLMap File: $url_map: $!";
+      while (<URLMAP>) {
+	  CodeConv::toeuc(\$_);
+	    $urlname{$1} = $2 if (/^(\S+)\s+(.+)$/);
+	}
+      close(URLMAP);
+  }
+
+  # read referer_log
+  open(LOG, $log) || die "Can't Open Log File: $log: $!";
+  while(<LOG>) {
+      push(@tmplist, $_);
+      shift(@tmplist) if (@tmplist > $MAX_LINE);
+  }
+  close(LOG);
+
+  foreach (@tmplist) {
+    CodeConv::toeuc(\$_);
+
+    # convert to entity reference
+    s/&/&amp;/g;
+    s/>/&gt;/g;
+    s/</&lt;/g;
+    s/\%7E/~/gi;
+    s/:80\//\//g;
+
+    # ?NEW is special 
+    if ( ((!$query) || (/$query/) || ($query eq "NEW")) &&
+      (/\[(.*?)\] (.*?) (.*?) (.*?) \"(.*)\" \"(.*)\" \"(.*)\"/) ) {
+      my $datetime = $1;
+      my $host = $2;
+      my $host_ip = $host;
+      my $cookie = $3;
+      my $visit = $4;
+      my $file = $5;
+      my $referer = $6;
+      my $agent = $7;
+
+      # IPアドレス逆引き
+      if ($DNSlookup) {
+        if ($host =~ /^\d+\.\d+\.\d+\.\d+$/) {
+	   $host = &resolve($host);
+        }
+      }
+
+      # make host name lower case
+      if ($referer =~ /http:\/\/(.*?)\//i) {
+        my $hostName = $1;
+        $hostName =~ tr/A-Z/a-z/;
+        $referer =~ s/http:\/\/(.*?)\//http:\/\/$hostName\//i;
+      }
+
+      # ?NEW で 1回目の訪問者情報のみ抽出
+      if ((($query eq "NEW") && ($visit == 1)) || ($query ne "NEW")) {
+
+      # batta ruri なら BATTA に
+      $cookie = 'BATTA' if $BATTA_RURI{$cookie};
+
+      if ($datetime =~ /(\d{4})\/(\d{2})\/(\d{2}):(\d{2}):(\d{2}):(\d{2})/) {
+        $date = $1 . '/' . $2 . '/' . $3;
+        $time = $4 . ':' . $5 . ':' . $6;
+      }
+
+      # 最初の日時を取得
+      if ($start eq '') {
+        $start = $date . ' ' . $time;
+      }
+
+      # link to(&to=) 対応
+      $file =~ s/&amp;/&/g;
+      $file =~ s/&amp;/&/g;
+      if (($file =~ /(.*?)&to=(.*)/) || ($file =~ /(.*?)\+to=(.*)/)) {
+        $tmp1 = $tmp2 = $2;
+        $tmp2 =~ s/S/-S/;
+        $tmp2 =~ s/F/-F/;
+        $file = "<a href=\"$DiaryURI?". substr($tmp1,0,8) .
+                "#$tmp1\">" . substr($tmp2,0,8) . "-" .
+                substr($tmp2,8) . "</a>";
+                # contains Y10K problem
+      }
+ 
+      # 訪問者数の取得(日別)
+      $todaycook{$date . $cookie}++;
+      if ($todaycook{$date . $cookie} == 1 && $cookie ne 'BATTA') {
+        $todayvisit{$date}++;
+      }
+
+      # 訪問者数の取得(トータル)
+      $totalcook{$cookie}++;
+      $totalvisit++ if ($totalcook{$cookie} == 1);
+
+      my $cookname = $cookie;
+      if (exists($name{$cookie})) {
+        $cookname = $name{$cookie}; 
+        $tmp_ruri = "<a href=\"log.cgi?$cookie\">" . substr($cookname . 
+          '             ',0,18) . '</a>';
+      }
+      else {
+        $tmp_ruri = substr($cookname . "             ",0,18);
+      }
+      $ruri{$cookie} = "<a href=\"log.cgi?$cookie\">" . $tmp_ruri . '</a> - '
+        . $date . ' ' . $time . ' - ' . $host . ' - ' . $agent;
+      $ruri{$cookie} = '<a href="log.cgi?BATTA">BATTA</a>' 
+        if ($cookie eq "BATTA");
+
+      # 生ログ情報の取得
+      my $raw_log;
+      my $tmp_host = substr('                    ' . $host,-20,20);
+      if (($cookie ne 'BATTA') || ($query eq 'BATTA')) {
+        $raw_log = "[${datetime}] <a href=\"log.cgi?$host_ip\">" . 
+          $tmp_host . '</a> ' . $tmp_ruri . ' '. $visit . ' "' . $file . 
+          '" "' . $referer .  '" "' . $agent . "\"\n";
+        push (@RAW_LOG, $raw_log);
+      }
+
+      # 新しい訪問者を取得
+      if (($visit == 1) && ($cookie ne 'BATTA')) {
+        my $newdata = $raw_log;
+        push (@NEW, $newdata);
+        $todaynewvisit{$date}++;
+      }
+
+      # count today's BATTA visits
+      if ($cookie eq 'BATTA') {
+	$todaybattavisit{$date}++;
+      }
+
+      # via Proxy以下を削除
+      $agent =~ s/(.*?)\s+via (.*)/$1/;
+
+      # mozilla compatible browsers
+      if ($agent =~ /Mozilla\/.*? \(compatible; (.*?) ([0-9\w\.]+); (.*)\)/) {
+	  $agent = "$1/$2 ($3)";
+      }
+
+      # NetFront
+      if ($agent =~ /Mozilla\/.*? \((.*)\) NetFront\/([0-9\w\.]+)/) {
+          $agent = "NetFront/$2 ($1)";
+      }
+
+      # agent summary情報の取得
+      my $agentsum;
+      if ($agent =~ /([^\/]+)\/([0-9]+)./) {
+        $agentsum = $1 . '/' . $2;
+      }
+      else {
+        $agentsum = $agent;
+      }
+
+      my $os = '';
+
+      # OS情報の取得
+      SWITCH: {
+        $os = 'FreeBSD', last SWITCH if ($agent =~ /FreeBSD/);
+        $os = 'NetBSD', last SWITCH if ($agent =~ /NetBSD/); # v1.0.0-b04
+        $os = 'Linux', last SWITCH if ($agent =~ /Linux/);
+        $os = 'SunOS', last SWITCH if ($agent =~ /SunOS/);
+        $os = 'BSD/OS', last SWITCH if ($agent =~ /BSD\/OS/);
+        $os = 'HP-UX', last SWITCH if ($agent =~ /HP-UX/); # v1.0.0-b04
+        $os = 'IRIX', last SWITCH if ($agent =~ /IRIX/); # v1.0.0-b04
+        $os = 'Macintosh', last SWITCH if ($agent =~ /Mac/);
+        $os = 'Windoze', last SWITCH if ($agent =~ /Win/);
+        $os = 'Mainly Unix - Lynx', last SWITCH if ($agent =~ /^Lynx/);
+        $os = 'Mainly Unix - w3m', last SWITCH 
+          if ($agent =~ /^w3m/); # v1.0.0-b12
+        $os = 'BeOS', last SWITCH if ($agent =~ /BeOS/);
+        $os = 'BTRON', last SWITCH if ($agent =~ /BTRON/);
+        $os = 'Unix - Other X11', last SWITCH if ($agent =~ /X11/);
+	$os = 'BeOS', last SWITCH if ($agent =~ /NetPositive/);
+	$os = 'Linux - Zaurus', last SWITCH if ($agent =~ /SL-...0/);
+      }
+      if ($debug == 1) {
+        $os = $agent if ($os eq '');
+      }
+      else {
+        $os = 'Unknown' if ($os eq '');
+      }
+
+      if ($referer ne '' && ($cookie ne 'BATTA' || $query eq 'BATTA')) {
+        push(@ORIG_REFERER, $referer);
+
+        # remove argument of URL
+        if ($REMOVE_REF_ARG == 1) {
+          $referer =~ s/(.*)\?(.*)/$1/;
+          $referer =~ s/(.*)#(.*)/$1/;
+        }
+        push (@REFERER, $referer);
+        push (@REFFILE, $file);
+      }
+      push (@AGENT, $agent) if ($agent ne '');
+      push (@AGENTSUM, $agentsum) if ($agentsum ne '');
+      push (@COOKIE, $cookie);
+      push (@OS, $os) if ($os ne '');
+      push (@DATE, $date);
+      push (@FILE, $file);
+  }
+  }
+  }
+
+  # Recent情報の表示件数の自動増加
+  $new_last = $todaynewvisit{$date} if ($todaynewvisit{$date}>$new_last);
+  $log_last = $todayvisit{$date} if ($todayvisit{$date}>$log_last);
+  $ref_last = $todayvisit{$date} if ($todayvisit{$date}>$ref_last);
+
+  # 最終日時を取得
+  $end = $date . " " . $time;
+}
+
+sub scope {
+  print "<strong>Scope:</strong> $start through $end\n";
+  print "<strong>Net Visitor:</strong> $totalvisit\n\n";
+}
+
+
+sub footer {
+  print "\n";
+
+  print "<strong>Auth: none</strong>\n" if ($ac == 0);
+
+  my $DNSlookupp = "off";
+  $DNSlookupp = "on" if ($DNSlookup == 1);
+
+  print "DNS lookup: $DNSlookupp\n"; 
+
+  my $ftime = time;
+  my $rtime = $ftime - $ctime;
+
+  print "Running time: $rtime seconds";
+  print "</pre>";
+
+  $admini->PrintFooter("HNS Log Analysis-$version, ");
+}
+
+
+sub daily {
+  my($i, $j, $k, $l, $max);
+  my %dates;
+
+  print "<strong><a name=\"daily_access\">Daily Access:</a></strong>\n";
+  &jump;
+  print qq#           visitor(   <a href="log.cgi?NEW">new</a>)   hit( <a href="log.cgi?BATTA">batta</a>)  hit\n#;
+
+  foreach (@DATE) {
+    $dates{($_)[0]}++;
+    $i++;
+    $max = $dates{($_)[0]} if ($dates{($_)[0]} > $max);
+  }
+
+  foreach (sort keys %dates) {
+    print "$_<a href=\"log.cgi?$_\">:</a> ";
+    printf ("%6.0f", $todayvisit{$_});
+    printf ("(%6.0f)", $todaynewvisit{$_});
+    printf ("%6.0f", $dates{$_});
+    printf ("(%6.0f)", $todaybattavisit{$_});
+    my $ast = '*' x (($dates{$_} / $max) * 30);
+    print " :$ast\n";
+    $j = $j + $todayvisit{$_};
+    $k = $k + $todaynewvisit{$_};
+    $l = $l + $todaybattavisit{$_};
+  }
+
+  print "            ------         -----\n            ";
+  printf ("%6.0f", $j);
+  printf ("(%6.0f)", $k);
+  printf ("%6.0f", $i);
+  printf ("(%6.0f)", $l);
+  print "\n\n";
+
+}
+
+
+sub referer {
+  my($i, $j, $total, $total_percent, $refname);
+  my %refs;
+
+  print "<strong><a name=\"referer\">Referer:</a></strong>\n";
+  &jump;
+
+  foreach (@REFERER) {
+    $refs{($_)[0]}++;
+    $i++;
+  }
+
+  foreach (sort { $refs{$b} <=> $refs{$a} } keys %refs) {
+    $j++;
+    if (($j <= $ref_top) || ($refs{$_} >= $ref_min)) {
+      $total += $refs{$_};
+      my $percent = (int(10000 * ($refs{$_} / $i)) / 100);
+      $total_percent += $percent;
+
+      printf ("%6.0f", $refs{$_});
+      printf ("%6.1f", $percent);
+
+      if (exists($urlname{$_})) {
+        $refname = $urlname{$_}; 
+      } else {
+        $refname = $_; 
+      }
+
+      if ($_ =~ /^http:/i) {
+        print "% <a href=\"log.cgi?$_\">:</a> <a href=\"$_\">$refname</a>\n";
+      }
+      else {
+        print "% <a href=\"log.cgi?$_\">:</a> $refname\n";
+      }
+    }
+  }
+
+  print "------ -----\n";
+  printf ("%6.0f", $total);
+  printf ("%6.1f", $total_percent);
+  print "%\n\n";
+}
+
+
+sub agentsum {
+  my($i, $total, $total_percent);
+  my %agentsums;
+
+  print "<strong><a name=\"browser_summary\">Browser Summary:</a></strong>\n";
+  &jump;
+
+  foreach (@AGENTSUM) {
+    $agentsums{($_)[0]}++;
+    $i++;
+  }
+      
+  foreach (sort { $agentsums{$b} <=> $agentsums{$a} } keys %agentsums) {
+    if ($agentsums{$_} >= 1) {
+      $total += $agentsums{$_};
+      my $percent = (int(10000 * ($agentsums{$_} / $i)) / 100);
+      $total_percent += $percent;
+      
+      printf ("%6.0f", $agentsums{$_});
+      printf ("%6.1f", $percent);
+      print "% $_\n";
+    } 
+  } 
+
+  print "------ -----\n";
+  printf ("%6.0f", $total);
+  printf ("%6.1f", $total_percent);
+  print "%\n\n";
+} 
+
+
+sub agent {
+  my($i, $j, $total, $total_percent);
+  my %agents;
+
+  print "<strong><a name=\"browser\">Browser:</a></strong>\n";
+  &jump;
+
+  foreach (@AGENT) {
+    $agents{($_)[0]}++;
+    $i++;
+  }
+      
+  foreach (sort { $agents{$b} <=> $agents{$a} } keys %agents) {
+    $j++;
+    if (($j <= $brow_top) || ($agents{$_} >= $brow_min)) {
+      $total += $agents{$_};
+      my $percent = (int(10000 * ($agents{$_} / $i)) / 100);
+      $total_percent += $percent;
+
+      printf ("%6.0f", $agents{$_});
+      printf ("%6.1f", $percent);
+      print "% $_\n";
+    } 
+  } 
+
+  print "------ -----\n";
+  printf ("%6.0f", $total);
+  printf ("%6.1f", $total_percent);
+  print "%\n\n";
+} 
+
+
+sub visitor {
+  my($i, $j, $total, $total_percent);
+  my %cooks;
+
+  print "<strong><a name=\"visitor\">Visitor:</a></strong>\n";
+  &jump;
+
+  foreach (@COOKIE) {
+    $cooks{($_)[0]}++;
+    $i++;
+  }
+ 
+  foreach (sort { $cooks{$b} <=> $cooks{$a} } keys %cooks) {
+    $j++;
+    if (($j <= $cookie_top) || ($cooks{$_} >= $cookie_min)) {
+      $total += $cooks{$_};
+      my $percent = (int(10000 * ($cooks{$_} / $i)) / 100);
+      $total_percent += $percent;
+ 
+      printf ("%6.0f", $cooks{$_});
+      printf ("%6.1f", $percent);
+      print "% $ruri{$_}\n";
+    }
+  }
+ 
+  print "------ -----\n";
+  printf ("%6.0f", $total);
+  printf ("%6.1f", $total_percent);
+  print "%\n\n";
+}
+
+
+sub os {
+  my($i, $j, $total, $total_percent);
+  my %oses;
+
+  print "<strong><a name=\"os_share\">OS Share:</a></strong>\n";
+  &jump;
+
+  foreach (@OS) {
+    $oses{($_)[0]}++;
+    $i++;
+    if ($_ ne "Unknown") {
+      $j++;
+    }
+  } 
+
+  my ($total, $percent, $percent_net, $total_percent, $total_percent_net);
+  foreach (sort { $oses{$b} <=> $oses{$a} } keys %oses) {
+    if ($oses{$_} >= 1) {
+      $total += $oses{$_};
+      $percent = (int(10000 * ($oses{$_} / $i)) / 100);
+      $percent_net = (int(10000 * ($oses{$_} / $j)) / 100); 
+      if ($_ eq "Unknown") {
+        $percent_net = 0;
+      }
+      $total_percent += $percent;
+      $total_percent_net += $percent_net;
+
+      printf ("%6.0f", $oses{$_});
+      printf ("%6.1f", $percent);
+      print "%";
+      if ($_ eq "Unknown") {
+        print "   -.-";
+      }
+      else {
+        printf ("%6.1f", $percent_net);
+      }
+      print "% $_\n";
+    }
+  }
+  
+  print "------ -----  -----\n";
+  printf ("%6.0f", $total);
+  printf ("%6.1f", $total_percent);
+  print "%";
+  printf ("%6.1f", $total_percent_net);
+  print "%\n\n";
+}     
+
+
+sub recent_new {
+  my ($i, $j);
+
+  print "<strong><a name=\"recent_new_visitor\">Recent New Visitor:</a></strong>\n";
+  &jump;
+
+  $j = @NEW;
+
+  $i = $j - $new_last;
+  $i = 0 if ($i < 0);
+
+  for ($i; $i < $j; $i++) {
+    print "$NEW[$i]";
+  }
+  print "\n";
+
+}
+
+
+sub recent_log {
+  my ($i, $j);
+
+  print "<strong><a name=\"recent_log\">Recent Log:</a></strong>\n";
+  &jump;
+
+  $j = @RAW_LOG;
+
+  $i = $j - $log_last;
+  $i = 0 if ($i < 0);
+
+  for ($i; $i < $j; $i++) {
+    print "$RAW_LOG[$i]";
+  }
+  print "\n";
+
+}
+
+
+sub recent_ref {
+  my ($i, $j, $k, $c, $tmp, $refname);
+
+  print "<strong><a name=\"recent_ref\">Recent Referer:</a></strong>\n";
+  &jump;
+
+  $j = @REFERER;
+  $ref_last = $j if ($ref_last > $j);
+
+  my (@LASTREF);
+  for ($j; ($i < $ref_last) && ($j > -1); $j--) {
+    $c = 0;
+    $k = 0;
+    for ($k; $i > $k; $k++) { 
+      if ($LASTREF[$k] eq $REFERER[$j]) { 
+        $c = 1;
+      }
+    }
+    if (($c == 0) && ($REFERER[$j] ne "")) {
+      $LASTREF[$i] = $REFERER[$j]; 
+
+      if (exists($urlname{$REFERER[$j]})) {
+        $refname = $urlname{$REFERER[$j]}; 
+      } else {
+        $refname = $REFERER[$j]; 
+      }
+
+      my $tmp_ref;
+      if ($REFERER[$j] =~ /^http:/i) {
+        $tmp_ref = "<a href=\"$REFERER[$j]\">$refname</a>";
+      } 
+      else {
+        $tmp_ref = "$refname";
+      }
+      print "  $tmp_ref -> $REFFILE[$j]\n";
+      $i++;
+
+      # link to log
+      if ($REFFILE[$j] =~ /a href/) {
+        $tmp = $REFFILE[$j] . " <- " . $tmp_ref;
+        push (@LINK_TO, $tmp);
+      }
+    }
+  }
+
+  print "\n";
+}
+
+
+sub file {
+  my($i, $j, $total, $total_percent);
+
+  print "<strong><a name=\"file\">File:</a></strong>\n";
+  &jump;
+
+  foreach (@FILE) {
+    $files{($_)[0]}++;
+    $i++;
+  }
+      
+  foreach (sort { $files{$b} <=> $files{$a} } keys %files) {
+    $j++;
+    if (($j <= $file_top) || ($files{$_} >= $file_min)) {
+      $total += $files{$_};
+      my $percent = (int(10000 * ($files{$_} / $i)) / 100);
+      $total_percent += $percent;
+      
+      printf ("%6.0f", $files{$_});
+      printf ("%6.1f", $percent);
+      print "% $_\n";
+    } 
+  } 
+  print "------ -----\n";
+  printf ("%6.0f", $total);
+  printf ("%6.1f", $total_percent);
+  print "%\n\n";
+} 
+
+
+sub link_to {
+  my @tmp;
+
+  print "<strong><a name=\"link_to\">Link to:</a></strong>\n";
+  &jump;
+
+  @tmp = reverse sort @LINK_TO;
+
+  foreach (@tmp) {
+      print "  $_\n";
+  }
+
+  print "\n";
+}
+
+sub recent_search_engine {
+    my ($referer, $reffile);
+
+    print qq(<strong><a name="search">Recent Search Engine:</a></strong>\n);
+    &jump;
+
+    my $is = new HNS::IntelliSearch;
+    my @new_search_engines;
+    foreach my $i (0 .. $ref_last) {
+       $_ = $referer = pop(@ORIG_REFERER);
+       $reffile = pop(@REFFILE);
+
+       s/&lt;/</g;
+       s/&gt;/>/g;
+       s/&amp;/&/g;
+
+       # サーチエンジンのキーワード解析
+       my $keyword = $is->GetKeyword($_);
+       if ($keyword) {
+         my $engine = $is->search_engine;
+         print qq(  <a href="$referer">$engine : $keyword</a> -> $reffile\n);
+       }
+       elsif ($referer =~ /%/) { # new search engine?
+         push (@new_search_engines, $referer);
+       }
+    }
+    if (@new_search_engines) {
+       print "\n";
+       print " new search engine?\n";
+       foreach my $new_search_engine (@new_search_engines) {
+         print qq(  $new_search_engine\n);
+       };
+    };
+    print "\n";
+}
+
+sub jump {
+  print "(<a href=\"#recent_log\">Rcnt Log</a> | ";
+  print "<a href=\"#recent_new_visitor\">New Visit</a> | ";
+  print "<a href=\"#daily_access\">Daily</a> | ";
+  print "<a href=\"#recent_ref\">Rcnt Ref</a> | ";
+  print "<a href=\"#link_to\">Link to</a> | ";
+  print "<a href=\"#search\">Search Engine</a> | ";
+  print "<a href=\"#referer\">Ref</a> | ";
+  print "<a href=\"#browser_summary\">Brow Sum</a> | ";
+  print "<a href=\"#browser\">Brow</a> | ";
+  print "<a href=\"#visitor\">Visitor</a> | ";
+  print "<a href=\"#os_share\">OS</a> | ";
+  print "<a href=\"#file\">File</a>)";
+  print "\n";
+}
+
+
+sub resolve {
+  my($ip) = @_;
+  my($ipnum, $host, $aliases, $addrtype, $length, @addrs);
+
+  if ($DNScache{$ip} ne '') {
+    if ($DNSexp{$ip} > $ctime) {
+      return $DNScache{$ip};
+    }
+  }
+
+  $ipnum = pack('C4', split(/\./, $ip));
+  ($host, $aliases, $addrtype, $length, @addrs) = gethostbyaddr($ipnum, 2);
+
+  $host = $ip if ($host eq '');
+
+  $DNScache{$ip} = $host;
+  $DNSexp{$ip} = $ctime + $DNScacheexp;
+
+  return $host;
+}
+
+
+sub dns_cache_save {
+  if (($DNSlookup) && (-f $DNScachefile)) {
+    open(DNS,">$DNScachefile") || die "error\n";
+    flock(DNS,2);
+    foreach (sort { $DNScache{$b} <=> $DNScache{$a} } keys %DNScache) {
+      if ($DNSexp{$_} > $ctime) {
+        print DNS "$_ $DNScache{$_} $DNSexp{$_}\n";
+      }
+    }
+    close(DNS);
+  }
+}

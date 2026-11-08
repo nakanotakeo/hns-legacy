@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1 July 2005), see www.w3.org">
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=iso-2022-jp">
+  <link rel="stylesheet" href="hns.css" type="text/css">
+
+  <title>2.10-pl1 からの仕様変更</title>
+</head>
+
+<body>
+  <div class="c1">
+    <img src="hns-logo.png" width="200" height="40" alt=
+    "[hnsドキュメント]">
+
+    <h3>ハイパー日記システム Version 2.20</h3>
+
+    <h1>hns-2.10-pl1 からの仕様変更</h1>
+  </div>
+  <hr>
+
+  <h3>仕様変更</h3>
+
+  <ul>
+    <li>
+      <strong>テンプレート仕様(テーマ仕様)の変更</strong><br>
+
+      テーマでカスタマイズ可能な、テンプレートの仕様が変更されています。
+      テーマjapanese の <a href=
+      "diff-japanese-theme-ph.txt">変更点</a>
+      を参考に、必要な修正を行ってください。
+
+      <ul>
+        <li>theme-static.ph は不要になりました。
+        静的生成と動的生成のテンプレートが分離されたため、theme.ph
+        に動的生成用のテンプレート({dynamic})と
+        静的生成用のテンプレート({static})の両方の記述が可能になりました。</li>
+
+        <li>テンプレート中でのカレンダの日付は、%day
+        から %calendar_day に
+        変更されました。package HNS::Calendar::Table;
+        および package HNS::Calendar::NoTable;
+        は、以下のように変更してください。
+          <pre>
+$DayCurrentTemplate = qq(&lt;a href="%ruri#%{ymd}0"&gt;%calendar_day&lt;/a&gt;);
+$DayNonCurrentTemplate = qq(&lt;a href="%href"&gt;%calendar_day&lt;/a&gt;);
+</pre>この仕様変更により、hns-2.19.3
+対応でない、過去のテーマを使う場合、上記の
+修正を行わない限り、正しくカレンダからのリンクが張れません。
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><strong>hnf
+    の配置の変更(互換性の廃止)</strong><br>
+    ~/diary/ に hnf を置く方法は、廃止されました。 hnf
+    は，日記ディレクトリ(~/diary/)以下に年別のディレクトリを作成し置きます．
+    ~/diary/2002/ には， 2002年の hnf
+    を置きます。</li>
+  </ul>
+
+  <ul>
+    <li>
+    <strong>1セクション表示の場合、HTMLのタイトルにセクション・タイトルを
+    表示するように変更されました(2.19.6)。</strong></li>
+  </ul>
+  <hr>
+
+  <div class="c1">
+    <h3>ハイパー日記システム Version 2.20</h3>
+  </div>
+  <hr>
+
+  <p><a href="index-j.html">Index</a></p>
+  <!-- $Id: change_from_210-j.html,v 1.9 2005/08/22 13:42:56 kenji Exp $ -->
+</body>
+</html>

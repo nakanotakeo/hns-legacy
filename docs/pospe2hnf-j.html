@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>PostPet ひみつ日記の公開</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+
+    <div class="c1">
+      <h1>PostPet ひみつ日記の公開</h1>
+    </div>
+    <hr>
+
+    <h3>pospe2hnf.pl とは?</h3>
+
+    <p>pospe2hnf.pl とは，<a href=
+    "http://www.so-net.ne.jp/postpet/index_j.html">PostPet</a>
+    のペットが書いた「ひみつ日記」を 自動的に hnf
+    へ変換するためのツールです． pospe2hnf.pl
+    は標準では ~/diary/pospe/pospe2hnf.pl
+    にインストールされます．古い pospe2hnf.pl が
+    ある場合は，pospe2hnf.pl-old
+    として保存されます．pospe2hnf.pl は PostPet
+    v1.1以上を サポートしています．</p>
+
+    <div class="c2">
+      <span class="c1">注意:</span><br>
+       「ひみつ日記」の日付は送られたメールの
+      Date:ヘッダから 取得しています．この
+      Date:ヘッダは PostPet が付けるのではなく
+      受け取った MTA が付けるようです．MTA
+      が不正な Date:ヘッダを
+      付けた場合は，日付の判定に失敗する可能性があります．
+    </div>
+    <hr>
+
+    <h3>pospe2hnf.pl の設定</h3>
+
+    <ol>
+      <li>pospe2hnf.pl があるディレクトリに
+      移動します．<br>
+       $ <span class="c3">cd ~/diary/pospe</span><br>
+      </li>
+
+      <li>$ <span class="c3">vi pospe2hnf.pl</span><br>
+       <code>$diaryDir</code> は日記ディレクトリを
+      設定します．<br>
+       <code>$diaryDir = "<span class=
+      "c3">/home/hoge/diary</span>";</code><br>
+       <code>$NKF_USE</code> では、nkf
+      を使用するかどうかを 指定します。1 -&gt;
+      使用する、0 -&gt; 使用しない、です。デフォルトは
+      nkf を使用しません。<br>
+       <code>$NKF_USE = <span class="c3">0;</span></code><br>
+       <code>$nkf</code> に，nkf
+      へのパスを設定します．nkf
+      を使用しない場合は関係ありません。<br>
+       <code>$nkf = "<span class=
+      "c3">/usr/local/bin/nkf</span>";</code><br>
+      </li>
+    </ol>
+    <hr>
+
+    <h3>PostPetメールのサーバへのアップロード</h3>
+
+    <p>ひみつ日記が含まれる受信メールのファイル(Mac
+    では「受信メール」 Win
+    では「受信メイル.ppm」など)を <strong>
+    テキスト・モード</strong>でサーバ(~/diary/pospe/)へ
+    アップロードします．この時サーバ上でのファイル名は <span
+    class="c3">pospe.txt</span> として下さい． pospe2hnf.pl
+    はひみつ日記のみを重複せずに hnf へ追加しますので，
+    ひみつ日記以外のメールやすでに pospe2hnf.pl
+    で以前に hnf へ追加した
+    ひみつ日記が一緒に含まれていても問題はありません．</p>
+    <hr>
+
+    <h3>hnf への追加方法</h3>
+
+    <ol>
+      <li>pospe2hnf.pl とアップロードした pospe.txt
+      があるディレクトリに 移動します．<br>
+       $ <span class="c3">cd ~/diary/pospe</span><br>
+      </li>
+
+      <li>pospe2hnf.pl を実行します．<br>
+       $ <span class="c3">./pospe2hnf.pl pospe.txt</span><br>
+       ひみつ日記が hnf へ追加されます．</li>
+    </ol>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: pospe2hnf-j.html,v 1.14 2003/11/20 15:04:33 togawa Exp $ -->
+  </body>
+</html>
+

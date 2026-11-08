@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>ハイパー日記システムのアップグレード</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>ハイパー日記システムのアップグレード</h1>
+    </div>
+    <hr>
+
+    <h3>hns をアップグレードする</h3>
+
+    <p>アップグレードの場合も，
+    初めてのインストールと変わりません． <a href=
+    "install-j.html">ハイパー日記システムのインストール</a>
+    を参照の上，インストールしてください．
+    過去の日記が消えてしまうことはありません．<br>
+    <br>
+     hns-1.x での設定ファイル
+    ~/public_html/diary/config.phtml, config.php3 は
+    hns-2.00以降 では使用できません．theme.phtml,
+    theme.php3 も同様に互換性がありません．<br>
+    <br>
+     デフォルトのテーマは japanese です。<br>
+    <br>
+     仕様上の変更点の詳細は，<a href=
+    "change_from_210-j.html">hns-2.10-pl1 からの仕様変更</a>,
+    をご覧願います．<br>
+    <br>
+     必要と思われるファイルは，「ファイル名-old」として
+    保存されます．特に，<a href="config-j.html">設定ファイル
+    config.ph</a>はconfig.ph-oldとして保存され，config.phには
+    新バージョンのデフォルト値が上書きされますので，注意して下さい．
+    </p>
+    <hr>
+
+    <p>hns-1.x
+    のファイルを削除したい場合は，ウェブ日記ディレクトリに
+    移動して，</p>
+<pre>
+$ <span class="c3">cd ~/public_html/diary</span>
+$ <span class="c3">rm -f *.phtml *.php3</span>
+</pre>
+    などとして削除してください．<br>
+     <br>
+     
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: upgrade-j.html,v 1.15 2001/11/10 11:45:11 kenji Exp $ -->
+  </body>
+</html>
+

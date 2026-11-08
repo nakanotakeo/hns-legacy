@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="made" href="mailto:tom@morito.mgmt.waseda.ac.jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>日記のカスタマイズ</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>日記のカスタマイズ</h1>
+    </div>
+    <hr>
+
+    <h3>レイアウトのカスタマイズ</h3>
+
+    <p>hns の出力のレイアウトは、以下のように
+    5つの部分から構成されて います。</p>
+
+    <table border="1" summary="レイアウト構成">
+      <tr>
+        <td align="left">1. 静的ヘッダ(head.txt)</td>
+      </tr>
+
+      <tr>
+        <td align="left">2. 動的ヘッダ</td>
+      </tr>
+
+      <tr>
+        <td align="left">3. 日記本文</td>
+      </tr>
+
+      <tr>
+        <td align="left">4. 動的フッタ</td>
+      </tr>
+
+      <tr>
+        <td align="left">5. 静的フッタ(foot.txt)</td>
+      </tr>
+    </table>
+
+    <p>1. から 5. の順に出力されます。</p>
+
+    <h4>静的ヘッダ・フッタ</h4>
+
+    <p>~/diary/conf/head.txt, foot.txt に記載された HTML
+    がそのまま表示されます (テーマ・ディレクトリに
+    head.txt, foot.txt がある場合はそちらが
+    優先されます)． デフォルトでは，head.txt,
+    foot.txt ともに空になっており、何も表示されません．</p>
+
+    <h4>動的ヘッダ・フッタ</h4>
+
+    <p>動的ヘッダおよびフッタは、<a href=
+    "theme-j.html">テーマ</a> で定義されています。
+    theme.ph の package HNS::Style; 以下の変数</p>
+<pre>
+$Templates{...}-&gt;{head_style}
+$Templates{...}-&gt;{head_recent_style}
+</pre>
+    が、動的ヘッダのテンプレート、 
+<pre>
+$Templates{...}-&gt;{foot_style}
+$Templates{...}-&gt;{foot_recent_style}
+</pre>
+
+    <p>が動的フッタの定義です。_recent
+    がついているものが、最近分のテンプレート、
+    そうでない方が、過去分のテンプレートです。最近分と過去分のテンプレートが
+    分離されていますので、</p>
+
+    <ul>
+      <li>最近分の日記はカレンダを下(フッタ)に、
+      過去分の日記はカレンダを上(ヘッダ)に表示</li>
+    </ul>
+
+    <p>といったことも可能です。</p>
+
+    <h4>スタイルとは?</h4>
+
+    <p>$Templates{...} の ...
+    には、スタイル名が入ります。つまり、 $Templates{Table}
+    は、Table
+    という名前のスタイルを定義しています。標準では、Table
+    と NoTable の
+    2つのスタイルが定義されていますが、
+    スタイルは自由に定義でき、特定のブラウザでのアクセスに特定のスタイルで
+    表示するように設定します。</p>
+
+    <p>ブラウザ毎にどのスタイルを使用するかは、
+    ~diary/conf/browser_style.txt で定義します。
+    記述方法は、</p>
+<pre>
+ブラウザ名[スペース]スタイル[スペース]カレンダ・スタイル
+</pre>
+
+    <p>です。 browser_style.txt
+    に書いてないブラウザの場合 Table
+    が摘要されます。</p>
+    <hr>
+
+    <h3>アピアランス(見た目)のカスタマイズ</h3>
+
+    <p>
+    自分の日記のアピアランス(スタイル，背景，文字色，出力されるHTML)を
+    変更するには， <a href="theme-j.html">テーマ</a>
+    を利用します． ~/public_html/diary/
+    にテーマ名でディレクトリを作成します．
+    そのディレクトリ内にグラフィック・ファイルと theme.ph
+    を作成します．詳細は，<a href=
+    "theme-j.html">テーマ機能</a> を参照願います．</p>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: customize-j.html,v 1.13 2001/12/02 00:35:32 kenji Exp $ -->
+  </body>
+</html>
+

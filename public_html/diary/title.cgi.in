@@ -1,0 +1,70 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem Title List for hns 2.20 or later
+# version 0.2.1
+# 2001/11/10  Kenji Suzuki <kenji@h14m.org>
+
+# Special Thanks:
+# Akihiro Arisawa <ari@nijino.com>
+# Akihiko Hayashi <hayashi@totalware.gifu.gifu.jp>
+# Yasunori Kimura <yasunori@kimuralab.org>
+
+# Copyright (C) 1998-2001  Kenji Suzuki, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: title.cgi.in,v 1.37 2003/01/03 10:47:58 bonaim Exp $
+
+use lib qw(lib);
+use HNS::Tools::Title;
+use HNS::AccessControl;
+
+$HNS::Tools::Title::Version = "0.2.1";
+
+#require './config.ph'; moved to HNS::Tools::Title
+
+################################################################
+# Changing cache directory if executed from command line.
+unless ($ENV{'SCRIPT_NAME'}) {
+	$HNS::System::CacheDir = $HNS::System::CacheDir . "_static";
+}
+
+################################################################
+# access control
+my $acl = new HNS::AccessControl;
+
+################################################################
+# theme Overriding
+if ($HNS::System::Theme) {
+    my $theme_ph = "$HNS::System::Theme/theme.ph";
+    my $theme_static_ph;
+
+    if (! $ENV{'SCRIPT_NAME'}) {
+	$theme_static_ph = "$HNS::System::Theme/theme-static.ph";
+	if (-f "$theme_static_ph") {
+	    $theme_ph = $theme_static_ph;
+	}
+    }
+    unless (-f "$theme_ph"){
+	die "no theme file : $theme_ph";
+    }
+    require "$theme_ph";
+} else {
+    die 'no theme';
+}
+
+$HNS::Status = new HNS::Status;
+HNS::Tools::Title->new->main();
+

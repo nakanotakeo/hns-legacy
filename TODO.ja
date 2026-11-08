@@ -1,0 +1,25 @@
+HyperNikkiSystem To Do List
+2001/3/24
+
+
+* perldoc による解説の埋め込み
+* ドキュメント Inside hns
+
+
+* サーバ・バージョン
+* 画像ファイル置場の標準化
+* mail2nikki 添付画像処理
+* HTML 4.01 Strict
+  <font>tag の廃止
+* 特定カテゴリ表示
+* WAI 完全対応
+* Perl版インストーラ
+* XML 対応
+* Apache mod_hns
+* Y10K 対応
+* hina.di 生成??
+* 新リンク方式??
+* HyperTuutiSystem機構??
+  version up 情報などを自動通知
+
+

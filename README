@@ -1,0 +1,57 @@
+HyperNikkiSystem
+version 2.19.9
+
+2006/11/5
+Copyright (C) 1998-2006  HyperNikkiSystem Project
+                           http://www.h14m.org/
+
+This software is OSI Certified Open Source Software.
+OSI Certified is a certification mark of the Open Source Initiative.
+
+
+This is beta release from hns-2.2-current.
+
+***** IMPORTANT ! ******************************************
+hns-2.19.6 and before contain vulnerability to spammers.
+hns-2.19.8 and before contain XSS vulnerability in webif.cgi
+Don't use them, please.
+************************************************************
+
+* Japanese documentation is almost completed. But no English document.
+* "i system" doesn't recognize RT command and Exclusive GRP.
+* Themes except 'english' and 'japanese' are not hns-2.2-current savvy.
+* Only theme 'english' and 'japanese' can be used for static diary(HTML) 
+ generation. 
+* Template definition in Calendar was changed. You must change %day to
+ %calendar_day in Calendar Templates.
+
+
+See ChangeLog for the detail.
+
+
+See http://yar-3.net/isystem/ for the i system details.
+"i system" is a free software by yar-3 and masato-3.
+
+
+If you have claims, bugs, encouragement or so, please
+feel free to send us.
+
+
+There are litte English documentation. If you can read
+both Japanese and English, please translate the Japanese
+document to English.
+
+
+To install:
+
+$ sh hns-setup.en
+
+and answer the questions.
+
+
+Special Thanks:
+ ObjectTemplate.pm by Sriram Srinivasan <sriram@weblogic.com>
+  /pub/CPAN/authors/SRIRAM/examples.tar.gz
+ jcode.pl by Kazumasa Utashiro <utashiro@iij.ad.jp>
+  ftp://ftp.iij.ad.jp/pub/IIJ/dist/utashiro/perl/
+

@@ -1,0 +1,626 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rev="MADE" href="mailto:hnsmaster@h14m.org">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>How to Write hnf</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hns documentation]"> 
+
+      <h3>Hyper NIKKI System Version 2.10</h3>
+
+      <h1>How to Write hnf</h1>
+    </div>
+    <hr>
+
+    <h3>Overview of Hyper NIKKI File</h3>
+
+    <p>You write your diary in hnf(Hyper Nikki File) when you use
+hns. hnf is very simple text file. It's file name is "dYYYYMMDD.hnf".
+For example, hnf of December 1st, 1999 is "d19991201.hnf"(without quotes). 
+    </p>
+
+    <p>You must put hnf in your diary directory(~/diary/).
+    In "~/diary/1999/" you put hnfs of year 1999.
+    </p>
+
+    <p>hnf's last modified time is used variously.
+If you copy hnf, you should use
+"tar" or "cp -p" command that keeps the last modified time information.
+    </p>
+
+    <p>Basic rules of hnf is follows:</p>
+
+    <ul>
+      <li>put Command at the top of a line.
+      If a space is the first letter of a line, the line has no Commands.</li>
+
+      <li>One Command in one line.</li>
+
+      <li>
+      All Commands are capital.</li>
+
+      <li>Separator of Arguments is space.</li>
+
+      <li>"~" at the end of a line will be replaced by &lt;BR&gt;.
+      </li>
+
+      <li>hnf consists of header part and body part.</li>
+
+      <li>
+      Between hnf header and hnf body must be one blank line.</li>
+
+      <li>You may write <a href="user_var-j.html">
+      User Variables</a> in hnf header.
+      </li>
+
+      <li>No blank line in hnf header.</li>
+
+      <li>
+      The bottom line of hnf header is "OK".</li>
+
+      <li>If there is no OK at the bottom line of hnf header, the diary
+ of the day doesn't appear.
+      </li>
+
+      <li>hnf body must start Command NEW.</li>
+
+      <li>The first all captial word of a line may be Command in the
+future. So we recommend that putting a space at first letter of a line to
+ avoid future miss recognition as Command.
+      </li>
+    </ul>
+    <hr>
+
+    <h3>Example of hnf</h3>
+
+    <p>hnf is a simple file like below.</p>
+<pre>
+----- start -----
+WETHER Cloudy
+OK
+
+NEW Namazu for hns 1.0.2 release
+Bug fix version 1.0.2 was released.
+~
+The document of Namazu for hns in hns-1.02.tar.gz is old.
+See on the web.
+
+NEW No hnf bug
+The firest bug was discovered. But this bug has no effect when 
+you write one day diary.
+~
+See 
+LINK http://www.h14m.org/docs/known_bugs-j.html バグ報告
+for the detail. Patch to it comming soon.
+----- end -----
+</pre>
+
+    <p>You can see working sample of hns and hnf at <a href=
+    "http://www.h14m.org/official_diary/official_diary/">
+    hnf of Official Diary</a> and <a href=
+    "http://www.h14m.org/official_diary/">Official Diary</a>
+    (Japanese).</p>
+    <hr>
+
+    <h3>コマンド一覧</h3>
+
+    <p>コマンドが生成する HTMLタグ は， <a href=
+    "theme-j.html">テーマ設定</a>(theme.ph)によって
+    ほぼカスタマイズ可能です．
+    カスタマイズ可能ですが，コマンドの意味は変わりません．
+    また，変えてはいけません．なお，日記は以下の「基本コマンド」のみで
+    書くことができます．</p>
+
+    <h3>基本コマンド</h3>
+
+    <dl>
+      <dt><a name="NEW"><strong>NEW</strong></a></dt>
+
+      <dd><b>文法: NEW 1行の文章</b><br>
+       セクションのタイトルを記述します．
+      タイトル行は，リンク可能なように自動的にアンカー(a
+      name) が定義されます．アンカー
+      は上から順に数字が増えていきますので， NEW と NEW
+      の間に新しいセクションを追加してはいけません． NEW
+      と NEW
+      の間に新しいセクションを追加するととこかのページから
+      リンクされている場合，リンク先がずれてしまいます． NEW
+      は必須のコマンドです．必ず記述してください．</dd>
+    </dl>
+
+    <dl>
+      <dt><a name="SUB"><strong>SUB</strong></a></dt>
+
+      <dd><b>文法: SUB 1行の文章</b><br>
+       セクション内のサブ・セクションのタイトルを記述します．
+      サブ・セクションもリンク可能なように自動的にアンカー(a
+      name) が定義されます．SUB と SUB
+      の間に新しいサブ・セクションを
+      追加してはいけません．理由は NEW
+      と同じです．</dd>
+    </dl>
+
+    <dl>
+      <dt><a name="~"><strong>~</strong></a></dt>
+
+      <dd><b>文法: ~</b><br>
+       タグ&lt;br&gt;
+      を表示します．つまり改行されます．このコマンドは，
+      文末にあったときのみコマンドして認識されます．</dd>
+    </dl>
+    <hr>
+
+    <h3>応用コマンド</h3>
+
+    <h4>基本コマンド拡張コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="CAT"><strong>CAT</strong></a></dt>
+
+      <dd><b>文法: CAT カテゴリ1 [カテゴリ2
+      ...]</b><br>
+       <b>例: CAT lynx install</b><br>
+       セクションのカテゴリ(分類)を記述します．日記の内容を，
+      カテゴリで分類したい場合に使用します．使用しなくても
+      構いません． CATコマンドは NEW, LNEW または
+      RLNEW の直前にのみ指定できます．
+      タイトル行にカテゴリ別のアイコンを表示させることも可能です．
+      詳細は，<a href=
+      "cat-j.html">日記のカテゴリ分類の方法</a>をご覧下さい．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="LNEW"><strong>LNEW</strong></a></dt>
+
+      <dd><b>文法: LNEW url 1行の文章</b><br>
+       <b>例: LNEW http://www.h14m.org/
+      ハイパー日記システム</b><br>
+       <a href="#NEW">NEW</a>
+      と同様セクションのタイトルを指定しますが，url
+      へリンクが 張られます．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a href="#RLNEW"><strong>
+      RLNEW</strong></a></dt>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="LSUB"><strong>LSUB</strong></a></dt>
+
+      <dd><b>文法: LSUB url 1行の文章</b><br>
+       <b>例: LSUB http://www.h14m.org/
+      ハイパー日記システム</b><br>
+       <a href="#SUB">SUB</a>
+      と同様サブ・セクションのタイトルを指定しますが，url
+      へリンクが張られます．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a href="#RLSUB"><strong>
+      RLSUB</strong></a></dt>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="P"><strong>P</strong></a></dt>
+
+      <dd><b>文法: P</b><br>
+       タグ&lt;p&gt;
+      を表示します。段落を分けます。Pコマンドは、
+      /Pコマンドで閉じる必要があります。</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/P"><strong>/P</strong></a></dt>
+
+      <dd><b>文法: /P</b><br>
+       Pコマンドを閉じます。タグ&lt;/p&gt;
+      を表示します。</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="GRP"><strong>GRP</strong></a></dt>
+
+      <dd><b>文法: GRP グループ1 [グループ2
+      ...]</b><br>
+       <b>例: GRP ruri shinomu</b><br>
+       <a href="grp-j.html">
+      ひみつ交換日記機能</a>を利用します。
+      GRPコマンドはそのセクションに CAT
+      がある場合は、CAT の直前に、 CAT
+      がない場合は、NEW, LNEW または RLNEW
+      の直前にのみ指定できます． 詳細は，<a href=
+      "grp-j.html">ひみつ交換日記機能</a>をご覧下さい．</dd>
+    </dl>
+
+    <h4>リンク・コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="LINK"><strong>LINK</strong></a></dt>
+
+      <dd><b>文法: LINK url 説明文章</b><br>
+       <b>例: LINK http://www.h14m.org/
+      ハイパー日記システム</b><br>
+       リンクを張ります． 例は，「 <a href=
+      "http://www.h14m.org/ ">ハイパー日記システム</a>
+      」と表示されます．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="URL"><strong>URL</strong></a></dt>
+
+      <dd><b>文法: URL url 説明文章</b><br>
+       <b>例: URL http://www.h14m.org/
+      ハイパー日記システム</b><br>
+       URL を記述しリンクを張ります．例では「 <a href=
+      "http://www.h14m.org/">
+      ハイパー日記システム(http://www.h14m.org/)</a>
+      」と表示されます．URL
+      を明示したい場合に使用します．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="RLINK"><strong>
+      RLINK</strong></a></dt>
+
+      <dd>
+        <b>文法: RLINK 引数1 引数2
+        説明文章</b><br>
+         <b>例: RLINK hoge ?19981201 説明文章</b><br>
+         「説明文章」としてリンクされる点は，<a href=
+        "#LINK">LINK</a>コマンド と同様ですが，
+        ~/diary/conf/rlink.txt で定義した URL に最初の
+        引数1 が置き換えられます． よくリンクする
+        URL
+        を設定し日記の記述を省略するために用意されました．<br>
+
+         定義ファイルrlink.txt は 
+<pre>
+定義文字列[スペース]URL
+</pre>
+        と記述します。例えば， 
+<pre>
+hoge http://www.example.ne.jp/~hoge/diary/
+</pre>
+        のように記述します．
+        この場合，上記のコマンド例は，
+        http://www.example.ne.jp/~hoge/diary/?19981201
+        へのリンクを張ります．
+      </dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="RLNEW"><strong>
+      RLNEW</strong></a></dt>
+
+      <dd><b>文法: RLNEW 引数1 引数2
+      1行の文章</b><br>
+       <a href="#NEW">
+      NEW</a>コマンド同様、新しいセクションのタイトルを
+      記述しますが、 同時に<a href=
+      "#RLINK">RLINK</a>コマンド同様にリンクを指定します。</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="RLSUB"><strong>
+      RLSUB</strong></a></dt>
+
+      <dd><b>文法: RLSUB 引数1 引数2
+      1行の文章</b><br>
+       <a href="#SUB">
+      SUB</a>コマンド同様、新しいサブ・セクションのタイトルを
+      記述しますが、 同時に<a href=
+      "#RLINK">RLINK</a>コマンド同様にリンクを指定します。</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a href="#LNEW"><strong>LNEW</strong></a></dt>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a href="#LSUB"><strong>LSUB</strong></a></dt>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a href="#LSTRIKE"><strong>
+      LSTRIKE</strong></a></dt>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a href="#LIMG"><strong>LIMG</strong></a></dt>
+    </dl>
+
+    <h4>装飾コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="FONT"><strong>FONT</strong></a></dt>
+
+      <dd><b>文法: FONT 引数1 引数2
+      文章</b><br>
+       <b>例: FONT COLOR red 赤い文字</b><br>
+       タグ&lt;font&gt;
+      を表示します．上記例では，「<span class=
+      "c3">赤い文字</span>」と表示されます．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="STRIKE"><strong>
+      STRIKE</strong></a></dt>
+
+      <dd><b>文法: STRIKE 文章</b><br>
+       タグ&lt;strike&gt; を表示します．
+      「<strike>文章</strike>」と表示されます．</dd>
+    </dl>
+
+    <dl>
+      <dt><a name="LSTRIKE"><strong>LSTRIKE</strong></a></dt>
+
+      <dd><b>文法: LSTRIKE url 文章</b><br>
+       <b>例: LSTRIKE http://www.h14m.org/
+      ルリ少佐万歳</b><br>
+       STRIKEコマンドと同様 タグ&lt;strike&gt;
+      を表示しますが，同時に リンクを張ります．</dd>
+    </dl>
+
+    <dl>
+      <dt><a name="STRONG"><strong>STRONG</strong></a></dt>
+
+      <dd><b>文法: STONG 文章</b><br>
+       <b>例: STRONG ルリ少佐万歳</b><br>
+       タグ&lt;strong&gt; を表示します．例は，
+      「<strong>ルリ少佐万歳</strong>」と表示されます．</dd>
+    </dl>
+
+    <dl>
+      <dt><a name="SPAN"><strong>SPAN</strong></a></dt>
+
+      <dd><b>文法: SPAN class_name 文章</b><br>
+       タグ&lt;span class="class_name"&gt;
+      を表示します． class は CSS
+      で事前に定義しておく必要があります。</dd>
+    </dl>
+
+    <h4>画像コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="IMG"><strong>IMG</strong></a></dt>
+
+      <dd><b>文法: IMG {r|l|n} ファイル名
+      説明文字列</b><br>
+       <b>例: IMG l pic1.gif ルリの写真</b><br>
+       タグ&lt;img src&gt; を表示します．r
+      は画像を右に，l は画像を左に表示します．1.03-pl1
+      からは n も指定可能に なりました．n
+      を指定すると align
+      を付けません．説明文字列は画像の説明を
+      記述します。なお、画像の表示サイズは、 <a href=
+      "config-j.html#ImgWidthMaxSize">ImgWidthMaxSize</a>
+      により自動的に調整されます。</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="LIMG"><strong>LIMG</strong></a></dt>
+
+      <dd><b>文法: LIMG url {r|l|n} ファイル名
+      説明文字列</b><br>
+       <b>例: LIMG http://www.h14m.org/ l pic1.gif
+      ルリの写真</b><br>
+       タグ&lt;img src&gt; を表示しリンクを張ります。r
+      は画像を右に，l は画像を左に表示します． n
+      を指定すると align
+      を付けません．説明文字列は画像の説明を
+      記述します。</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="MARK"><strong>MARK</strong></a></dt>
+
+      <dd><b>文法: MARK 引数</b><br>
+       <b>例: MARK !!</b><br>
+       あらかじめ定義されたアイコンを表示します．
+      引数もあらかじめ定義されたものを指定します． MARK
+      は <a href="theme-j.html">テーマ</a>
+      により定義されています．また，自分で定義することも可能です．
+      アイコンを指定する引数については，互換性を確保する観点から，
+      ハイパー日記システム・プロジェクトで <a href=
+      "mark-j.html">
+      標準マーク</a>を定めて公開します．</dd>
+    </dl>
+
+    <h4>箇条書コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="UL"><strong>UL</strong></a></dt>
+
+      <dd><b>文法: UL</b><br>
+       タグ&lt;ul&gt; を表示します．UL
+      の後には，LIコマンドが必要です．また，/UL
+      で ULコマンドを 閉じる必要があります．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/UL"><strong>/UL</strong></a></dt>
+
+      <dd><b>文法: /UL</b><br>
+       タグ&lt;/ul&gt; を表示します．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="OL"><strong>OL</strong></a></dt>
+
+      <dd><b>文法: OL</b><br>
+       タグ&lt;ol&gt; を表示します．OL
+      の後には，LIコマンドが必要です．また，/OL
+      で OLコマンドを 閉じる必要があります．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/OL"><strong>/OL</strong></a></dt>
+
+      <dd><b>文法: /OL</b><br>
+       タグ&lt;/ol&gt; を表示します．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="LI"><strong>LI</strong></a></dt>
+
+      <dd><b>文法: LI 文章</b><br>
+       タグ&lt;li&gt; を表示します．LI を書く前に
+      ULまたはOLコマンドが必要です．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="DL"><strong>DL</strong></a></dt>
+
+      <dd><b>文法: DL</b><br>
+       タグ&lt;dl&gt; を表示します．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="DT"><strong>DT</strong></a></dt>
+
+      <dd><b>文法: DT 文章</b><br>
+       タグ&lt;dt&gt; を表示します．DT を書く前に
+      DLコマンドが必要です．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="DD"><strong>DD</strong></a></dt>
+
+      <dd><b>文法: DD 文章</b><br>
+       タグ&lt;dd&gt; を表示します．DD を書く前に
+      DLコマンドが必要です．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/DL"><strong>/DL</strong></a></dt>
+
+      <dd><b>文法: /DL</b><br>
+       タグ&lt;/dl&gt; を表示します．</dd>
+    </dl>
+
+    <h4>引用系コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="PRE"><strong>PRE</strong></a></dt>
+
+      <dd><b>文法: PRE</b><br>
+       タグ&lt;pre&gt; を表示します．PRE は /PRE
+      で閉じる必要があります．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/PRE"><strong>/PRE</strong></a></dt>
+
+      <dd><b>文法: /PRE</b><br>
+       タグ&lt;/pre&gt; を表示します．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="CITE"><strong>CITE</strong></a></dt>
+
+      <dd><b>文法: CITE</b><br>
+       タグ&lt;blockquote&gt;
+      を表示します．引用を記述する場合に使います．
+      /CITEコマンドで閉じる必要があります．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/CITE"><strong>
+      /CITE</strong></a></dt>
+
+      <dd><b>文法: /CITE</b><br>
+       タグ&lt;/blockquote&gt; を表示します．</dd>
+    </dl>
+
+    <h4>コメント系コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="!"><strong>!</strong></a></dt>
+
+      <dd><b>文法: ! 一行の文章</b><br>
+       HTMLでのコメント &lt;!-- 一行の文章 --&gt;
+      を表示します．つまり通常ブラウザでは表示されません．ただし
+      HTMLソースを 読むと見ることができます． <a href=
+      "unagi2-j.html">Namazu for hns</a>
+      では検索可能です．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="!#"><strong>!#</strong></a></dt>
+
+      <dd><b>文法: !# 一行の文章</b><br>
+       なにも表示されません．HTMLソースにも表示されません．
+      ただし，Namazu for hns では検索可能です．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="FN"><strong>FN</strong></a></dt>
+
+      <dd><b>文法: FN</b><br>
+       脚注を記載します．FNコマンドは引数をとりません．
+      脚注の内容は，次の行以降に記載して下さい．
+      /FNコマンドで閉じる必要があります． FN 〜
+      /FN内には <a href="#LINK">LINK</a>, <a href="#STRIKE">
+      STRIKE</a>, <a href="#~">~</a>コマンド
+      のみが使用可能です．脚注は各セクションの末尾に表示されます．</dd>
+    </dl>
+
+    <dl>
+      <dt class="c2"><a name="/FN"><strong>/FN</strong></a></dt>
+
+      <dd><b>文法: /FN</b><br>
+       FNコマンドを閉じます．</dd>
+    </dl>
+
+    <h4>置換コマンド</h4>
+
+    <dl>
+      <dt class="c2"><a name="ALIAS"><strong>
+      ALIAS</strong></a></dt>
+
+      <dd>
+        <b>文法: ALIAS 引数</b><br>
+         <b>例: ALIAS hns</b><br>
+         ~/diary/conf/alias.txt で定義した 文字列に
+        引数 が置き換えられます． よくリンクする
+        URLなど
+        を設定し日記の記述を省略するために用意されました．<br>
+
+         定義ファイルalias.txt は， 
+<pre>
+引数[スペース]置き換えたい文字列
+</pre>
+        と記述します． 例えば， 
+<pre>
+hns &lt;a accesskey="L" href="http://www.h14m.org/"&gt;ハイパー日記システム&lt;/a&gt;
+</pre>
+        のように記述します．
+        この場合，上記のコマンド例は， 「<a accesskey=
+        "L" href=
+        "http://www.h14m.org/">ハイパー日記システム</a>」と変換されます．
+      </dd>
+    </dl>
+    <hr>
+
+    <div class="c1">
+      <h3>Hyper NIKKI System Version 2.10</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-e.html">Index</a></p>
+  </body>
+</html>
+

@@ -1,0 +1,4527 @@
+2006-11-05 10:05  kenji
+
+	* diary/2006/: d20061105.hnf (1.1), y200611 (1.1): add new sample
+	  hnf files
+
+2006-11-05 10:04  kenji
+
+	* Makefile (1.79), Makefile.in (1.79), README (1.36), README.ja
+	  (1.27), public_html/diary/webif.cgi.in (1.27),
+	  public_html/diary/lib/HNS.pm (1.74): update for 2.19.9 release
+
+2006-07-05 11:43  kenji
+
+	* public_html/diary/board.cgi.in (1.14): add spam word list,
+	  [hns-users:65]
+
+2006-03-07 20:42  kenji
+
+	* README (1.35), README.ja (1.26), public_html/diary/lib/HNS.pm
+	  (1.73): update for 2.19.8 release
+
+2006-03-06 21:52  kenji
+
+	* public_html/diary/make-rurimap.cgi.in (1.16): fix perl syntax
+
+2006-03-06 21:51  kenji
+
+	* test.sh (1.1): simple test script
+
+2006-02-28 19:21  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.84), english/theme.ph
+	  (1.31): fix missing semi colon
+
+2006-02-28 19:09  kenji
+
+	* README (1.34), README.ja (1.25),
+	  public_html/diary/make-rurimap.cgi.in (1.15),
+	  public_html/diary/lib/HNS.pm (1.72): update for 2.19.7 release
+
+2005-10-04 19:14  kenji
+
+	* public_html/diary/: english/theme.ph (1.30), japanese/theme.ph
+	  (1.83), lib/HNS/Hnf/Command.pm (1.40): update bk1 search URL,
+	  [hns-users:42]
+
+2005-09-01 16:06  kenji
+
+	* public_html/diary/lib/HNS.pm (1.71): version 2.19.7
+
+2005-09-01 11:36  kenji
+
+	* README (1.33), README.ja (1.24), public_html/diary/webif.cgi.in
+	  (1.26), public_html/diary/lib/HNS.pm (1.70): update for 2.19.6
+	  release
+
+2005-08-21 11:12  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.22): update MSN
+
+2005-05-01 10:51  kenji
+
+	* public_html/diary/index.cgi.in (1.41): fix one section including
+	  GRP, [hns-dev:43]
+
+2005-04-25 21:23  kenji
+
+	* public_html/diary/index.cgi.in (1.40): section title as html
+	  title on one section display, [hns-dev:38]
+
+2005-04-25 21:22  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.7): fix: convert & to
+	  &amp;, [hns-dev:39]
+
+2005-02-23 20:37  kenji
+
+	* public_html/diary/: english/theme.ph (1.29), japanese/theme.ph
+	  (1.82): RSS auto-discovery
+
+2005-01-06 07:44  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.35): fix only header hnf to
+	  print, [hns-users:38]
+
+2004-05-09 11:34  kenji
+
+	* public_html/diary/index.cgi.in (1.39): set cookies on
+	  inteli-search, [hns-dev:33]
+
+2004-02-23 19:00  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.6): fix RSS output in
+	  case tab in hnf
+
+2003-11-22 17:58  togawa
+
+	* public_html/diary/lib/HNS/Collection.pm (1.19): if "OK" is not
+	  found is hnf file, it must be not counted to recent diarys.
+
+2003-10-28 01:40  togawa
+
+	* public_html/diary/: config.ph.in (1.55), lib/HNS/PIM/Schedule.pm
+	  (1.31): add HNS::PIM::Schedule $PrintOverMaxNum (default is 0)
+
+2003-10-25 15:38  togawa
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.30): fix line end
+	  code
+
+2003-10-24 18:12  togawa
+
+	* public_html/diary/make-rurimap.cgi.in (1.14): fix CR->CRLF when
+	  writeing mail.
+
+2003-10-23 18:44  togawa
+
+	* public_html/diary/webif.cgi.in (1.25): fix bug: in ftp and webif
+	  mode, last lf is lost.  so if using CRLF, file is broken.
+
+2003-10-23 12:40  togawa
+
+	* public_html/diary/english/theme.ph (1.28): sync to japanese "n
+	  nen nikki"(japanese) is "n years ago"
+
+2003-10-22 22:28  togawa
+
+	* public_html/diary/anti-windoze/theme.ph (1.20): support making
+	  static diary.
+
+2003-10-21 22:05  togawa
+
+	* public_html/diary/ruribaka/theme.ph (1.18): make static config.
+
+2003-10-17 20:39  togawa
+
+	* tools/make-diary.pl.in (1.6): commit bug #2501
+
+2003-10-07 23:53  kenji
+
+	* public_html/diary/japanese/theme.ph (1.81): add amazon.co.jp ISBN
+	  template, [hns-dev:14]
+
+2003-07-07 12:03  kenji
+
+	* public_html/diary/log.cgi.in (1.40): update OS info Sharp Linux
+	  Zaurus
+
+2003-06-04 20:07  togawa
+
+	* public_html/diary/: japanese/theme.ph (1.80), english/theme.ph
+	  (1.27), anti-windoze/theme.ph (1.19): "Saturday" "Sunday"
+	  "Caution" used <font> tag.  Now it use CSS and <span> tag.
+
+2003-05-30 21:47  togawa
+
+	* public_html/diary/webif.cgi.in (1.24): use CodeConv not jcode.pl
+
+2003-05-30 21:43  togawa
+
+	* public_html/diary/lib/CodeConv.pm (1.7): $NKF was strings
+	  "jcode.pl" or "NKF" or "Jcode".  I change it to number.  0:
+	  jcode.pl 1: NKF.pm 2: Jcode.pm I found speed of process is faster
+	  6%.
+
+2003-05-30 21:24  togawa
+
+	* public_html/diary/: make-rurimap.cgi.in (1.13), lib/CodeConv.pm
+	  (1.6): make-rurimap.cgi used jcode.pl.  So I change to use
+	  CodeConv.  add tojis() to CodeConv.
+
+2003-05-28 13:52  togawa
+
+	* public_html/diary/lib/: Board/System.pm (1.6), HNS/PIM/Link.pm
+	  (1.3), HNS/PIM/Schedule.pm (1.29), HNS/PIM/Todo.pm (1.10),
+	  HNS/Tools/Title.pm (1.8): Argument of CodeConv::toeuc() and
+	  CodeCond::tosjis() is changed to reference, not typeglob.
+
+2003-05-28 13:15  togawa
+
+	* hns-setup.ja (1.22), hns-setup.en (1.14): use gmake, not pmake
+
+2003-04-24 23:09  togawa
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.21): add lycon
+
+2003-04-03 23:35  kenji
+
+	* diary/conf/i_browser.txt (1.7): add DDIPOCKET for AirH" Phone,
+	  [hns-dev:00905]
+
+2003-03-23 20:27  kenji
+
+	* public_html/diary/lib/HNS.pm (1.69): add RSS update logic
+
+2003-03-23 12:33  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.5): LastModified time
+	  comparison before getFileList
+
+2003-03-23 12:16  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.4): use
+	  log/LastModified info to update RSS cache
+
+2003-03-23 11:44  kenji
+
+	* public_html/diary/rss.cgi.in (1.1): RSS generator
+
+2003-03-23 11:43  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.3): change rss cache
+	  file location
+
+2003-03-23 11:31  kenji
+
+	* Makefile (1.78), Makefile.in (1.78): add RSS and trivial bug fix
+
+2003-03-23 11:30  kenji
+
+	* Makefile.in (1.77): sync with Makefile
+
+2003-03-23 11:11  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.2): change rss cache
+	  file location
+
+2003-03-23 11:07  kenji
+
+	* public_html/diary/lib/HNS/Tools/RSS.pm (1.1): RSS module by
+	  ishinao
+
+2003-03-16 22:12  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.28): fix GRPed
+	  repeat schedule
+
+2003-03-02 23:06  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.27): GRPed repeat
+	  schedule
+
+2003-02-15 22:13  bonaim
+
+	* diary/link (1.3): removed Kondara.
+
+2003-01-08 23:39  togawa
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.20): Add
+	  websearch.yahoo.co.jp
+
+2003-01-03 19:47  bonaim
+
+	* Makefile (1.77), public_html/diary/config.ph.in (1.54),
+	  public_html/diary/headline.cgi.in (1.5),
+	  public_html/diary/title.cgi.in (1.37): removed NKF, NKF_USE from
+	  {title,headline}.cgi and moved to config.ph
+
+2003-01-03 19:26  bonaim
+
+	* hns-lite.sh (1.13): remove the routine to change CacheDir for
+	  config.ph's change
+
+2003-01-03 19:23  bonaim
+
+	* public_html/diary/config.ph.in (1.53): changed the default value
+	  of CacheDir into $DiaryDir/cache
+
+2002-12-28 23:59  bonaim
+
+	* public_html/diary/intelli-search.pl (1.3): removed
+
+2002-12-28 23:53  bonaim
+
+	* Makefile (1.76), Makefile.in (1.76): cleaning makefile
+
+2002-12-28 23:32  bonaim
+
+	* public_html/diary/intelli-search.pl.in (1.3): moved from .pl
+
+2002-12-28 23:06  kenji
+
+	* public_html/diary/log.cgi.in (1.39): update OS info Sharp Linux
+	  Zaurus
+
+2002-12-28 22:29  bonaim
+
+	* tools/pospe2hnf.pl.in (1.9): moved from tools/pospe2hnf/
+
+2002-12-28 22:28  bonaim
+
+	* tools/make-diary.pl.in (1.5): moved from tools/make-diary/
+
+2002-12-28 22:27  bonaim
+
+	* tools/mail2nikki.pl.in (1.21): moved from tools/mail2nikki/
+
+2002-12-28 18:57  bonaim
+
+	* GPL-j.txt (1.4): changed the translation of GPL
+
+2002-12-28 18:49  bonaim
+
+	* Makefile (1.75), Makefile.in (1.75): update makefile for
+	  transferring tools
+
+2002-12-28 18:28  bonaim
+
+	* public_html/diary/webif.cgi.in (1.23): moved from tools/webif/
+
+2002-12-28 18:26  bonaim
+
+	* public_html/diary/view.cgi.in (1.5): moved from tools/view/
+
+2002-12-28 18:25  bonaim
+
+	* public_html/diary/title_wrapper.cgi.in (1.4): moved from
+	  tools/title_wrapper/
+
+2002-12-28 18:23  bonaim
+
+	* public_html/diary/title.cgi.in (1.36): moved from tools/title/
+
+2002-12-28 18:21  bonaim
+
+	* public_html/diary/: intelli-search.pl (1.2), logging.pl.in (1.2):
+	  moved from tools/static/
+
+2002-12-28 18:19  bonaim
+
+	* public_html/diary/rotate_log.cgi.in (1.11): moved from
+	  tools/rotate_log/
+
+2002-12-28 18:18  bonaim
+
+	* public_html/diary/make-rurimap.cgi.in (1.12): moved from
+	  tools/make-rurimap/
+
+2002-12-28 18:17  bonaim
+
+	* public_html/diary/log.cgi.in (1.38): moved from tools/log/
+
+2002-12-28 18:15  bonaim
+
+	* public_html/diary/headline.cgi.in (1.4): moved from
+	  tools/headline/
+
+2002-12-28 18:14  bonaim
+
+	* public_html/diary/di.cgi.in (1.9): moved from tools/di/
+
+2002-12-28 18:12  bonaim
+
+	* public_html/diary/clear_cache.cgi.in (1.6): moved from
+	  tools/clear_cache/
+
+2002-12-28 18:03  bonaim
+
+	* public_html/diary/board.cgi.in (1.13): moved from tools/board
+
+2002-12-28 18:00  bonaim
+
+	* public_html/diary/admini.cgi.in (1.23): moved from tools/admini
+
+2002-11-03 14:17  kenji
+
+	* public_html/diary/lib/: DateTime/Qreki.pm (1.1), HNS/Diary.pm
+	  (1.34): add Tenpo Calendar display function, [hns-dev:00880]
+
+2002-11-03 14:09  kenji
+
+	* public_html/diary/: english/theme.ph (1.26), japanese/theme.ph
+	  (1.79), lib/HNS/Style.pm (1.18), lib/HNS/Calendar/NoTable.pm
+	  (1.18), lib/HNS/Calendar/Table.pm (1.20): category specified
+	  links from calender, [hns-dev:00876]
+
+2002-10-05 22:55  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Direct.pm (1.5):
+	  s/index.cgi/$HNS::System::MyDiaryURI/
+
+2002-09-11 23:17  togawa
+
+	* public_html/diary/lib/CodeConv.pm (1.5): - disable MIME decode.
+	  - Clear that order of filter.    1) Jcode.pm	  2) NKF.pm    3)
+	  jcode.pl
+
+2002-09-11 23:03  togawa
+
+	* public_html/diary/lib/HNS/Diary.pm (1.33): fix code convert bug.
+	  ([hns-dev:00869])
+
+2002-07-14 22:30  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.26): GRPed schedule,
+	  [hns-users:01099]
+
+2002-06-25 22:27  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.19): add alltheweb
+
+2002-06-22 21:49  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.18): update and add
+	  OCN(excite)
+
+2002-06-19 22:37  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.40): Template
+	  simplification FN bug fix, [hns-dev:00866]
+
+2002-04-16 08:29  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.17): add google
+	  as_q
+
+2002-04-14 12:35  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.32): fix: category
+	  specified output doesn't work in command line mode
+
+2002-04-08 23:37  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.16): add
+	  search.nifty.com
+
+2002-04-06 00:36  bonaim
+
+	* public_html/diary/lib/Board.pm (1.9): Board version 0.1.1
+
+2002-04-06 00:35  bonaim
+
+	* public_html/diary/lib/Board/Article.pm (1.8): diary link specify
+	  a scope temporarily
+
+2002-04-05 00:11  bonaim
+
+	* hns-lite.sh (1.12): use hns version; add 'set -e'
+
+2002-04-04 22:02  bonaim
+
+	* public_html/diary/lib/Board.pm (1.8): Board version 0.1.0
+
+2002-04-04 21:28  kenji
+
+	* public_html/diary/lib/HNS.pm (1.68): version 2.19.6
+
+2002-04-04 21:24  bonaim
+
+	* public_html/diary/lib/Board/System.pm (1.5): auto remove articles
+	  over MaxArticles
+
+2002-04-04 21:21  bonaim
+
+	* public_html/diary/lib/Board/Article.pm (1.7): add IsFakeRoot()
+
+2002-04-04 20:37  kenji
+
+	* public_html/diary/lib/HNS.pm (1.67): version 2.19.5
+
+2002-04-04 19:54  kenji
+
+	* README (1.32), README.ja (1.23), hns-lite.sh (1.11): update for
+	  2.19.5 release
+
+2002-04-04 18:56  bonaim
+
+	* public_html/diary/lib/Board/Article.pm (1.6): increase values
+	  Delete() removes; check null message severely when showing
+	  References
+
+2002-04-02 21:16  kenji
+
+	* public_html/diary/lib/HNS/Tools/Title.pm (1.7): fix another Cross
+	  Site Scripting bug reported by office
+
+2002-03-30 20:37  kenji
+
+	* hns-lite.sh (1.3.2.2), public_html/diary/lib/HNS.pm (1.55.2.2):
+	  version 2.10-pl3
+
+2002-03-30 20:33  kenji
+
+	* hns-lite.sh (1.10), public_html/diary/lib/HNS.pm (1.66): version
+	  2.19.4
+
+2002-03-29 20:26  kenji
+
+	* README (1.23.2.2), README.ja (1.14.2.2): update for 2.10-pl3
+	  release
+
+2002-03-29 19:55  kenji
+
+	* README (1.31), README.ja (1.22): update for 2.19.4 release
+
+2002-03-29 01:10  kenji
+
+	* public_html/diary/lib/HNS/System.pm (1.12.2.1): escape
+	  request_uri to avoid css
+
+2002-03-29 01:04  kenji
+
+	* public_html/diary/lib/HNS/System.pm (1.17): escape request_uri to
+	  avoid css
+
+2002-03-28 23:00  kenji
+
+	* public_html/diary/lib/: CGI/Tools.pm (1.3.2.1),
+	  HNS/Calendar/NoTable.pm (1.11.2.1), HNS/Calendar/Table.pm
+	  (1.12.2.1): fix Cross Site Scripting bug reported by office
+
+2002-03-28 22:42  kenji
+
+	* public_html/diary/lib/HNS/Calendar/: NoTable.pm (1.17), Table.pm
+	  (1.19): fix Cross Site Scripting bug reported by office
+
+2002-03-13 17:12  togawa
+
+	* public_html/diary/: anti-windoze/theme.ph (1.18),
+	  english/theme.ph (1.25), japanese/theme.ph (1.78),
+	  ruribaka/theme.ph (1.17): Fix NoMatch text mismatch.
+	  [hns-dev:00819]
+
+2002-03-06 20:33  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.15): add gogle.com
+
+2002-03-03 09:33  kenji
+
+	* public_html/diary/lib/HNS.pm (1.65): version up to 2.19.4
+
+2002-03-02 08:01  bonaim
+
+	* diary/repeat (1.5): removed birthday of tomoko yoshida
+
+2002-02-14 22:50  bonaim
+
+	* public_html/diary/lib/Board/System.pm (1.4): some fixes
+
+2002-02-12 21:13  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.14): add DION
+
+2002-02-11 20:39  kenji
+
+	* public_html/diary/lib/HNS.pm (1.64): changed public version to
+	  2.19.3
+
+2002-02-11 20:38  kenji
+
+	* public_html/diary/lib/HNS.pm (1.55.2.1): changed current/public
+	  version to 2.10-pl2
+
+2002-02-11 20:37  kenji
+
+	* hns-lite.sh (1.3.2.1): changed lite version to 0.9
+
+2002-02-11 13:49  kenji
+
+	* README (1.23.2.1), README.ja (1.14.2.1): update for hns-2.10-pl2
+	  css bug fix release
+
+2002-02-11 13:47  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.4.2.2): update
+	  search engine pattern and fix Cross Site Scripting bug
+
+2002-02-11 13:45  kenji
+
+	* README (1.30), README.ja (1.21): update for hns-2.19.3 css bug
+	  fix release
+
+2002-02-11 13:43  kenji
+
+	* public_html/diary/lib/HNS/Tools/Title.pm (1.6): fix Cross Site
+	  Scripting bug
+
+2002-02-11 13:43  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.13): update
+	  altavista pattern and fix Cross Site Scripting bug
+
+2002-02-11 00:48  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.39): fix @ISA bug,
+	  [hns-dev:00793]
+
+2002-02-07 19:56  togawa
+
+	* public_html/diary/lib/HNS/Diary.pm (1.31): Fix CAT japanese bug
+	  ([hns-users:01076]).	Remove CAT %20 delimiter code.
+
+2002-02-06 23:44  bonaim
+
+	* public_html/diary/lib/Board/Article.pm (1.5): fixed operator(ne)
+	  mistake
+
+2002-02-06 23:39  bonaim
+
+	* public_html/diary/: config.ph.in (1.52), lib/Board.pm (1.7),
+	  lib/Board/Article.pm (1.4): newmark is not shown in diaries
+
+2002-02-05 23:42  bonaim
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.38): removed
+	  meaningless templ variable; this is a mistake
+
+2002-02-05 23:35  bonaim
+
+	* public_html/diary/: config.ph.in (1.51), japanese/theme.ph
+	  (1.77), lib/Board.pm (1.6), lib/HNS/Hnf/Command.pm (1.37): added
+	  HideReadLinkWhenNoMsg
+
+2002-02-04 10:02  bonaim
+
+	* public_html/diary/lib/Board/Article.pm (1.3): fixed behavier of
+	  the site field
+
+2002-02-04 01:00  bonaim
+
+	* Makefile (1.74), Makefile.in (1.74), hns-lite.sh (1.9),
+	  hns-setup.en (1.13), hns-setup.ja (1.21),
+	  public_html/diary/lib/HNS/System.pm (1.16): changed foo.bar.jp to
+	  example.ne.jp
+
+2002-02-04 00:39  bonaim
+
+	* public_html/diary/lib/Board/System.pm (1.3): not reverse at
+	  LoadLightly()
+
+2002-02-03 23:17  bonaim
+
+	* hns-lite.sh (1.8): re-enabled lha
+
+2002-02-03 23:14  bonaim
+
+	* hns-lite.sh (1.7): changed delimiter of sed; added explanation of
+	  boarddata.txt
+
+2002-02-03 21:10  bonaim
+
+	* public_html/diary/: config.ph.in (1.50), index.cgi.in (1.38),
+	  japanese/theme.ph (1.76), lib/Board.pm (1.5),
+	  lib/Board/Article.pm (1.2), lib/Board/System.pm (1.2),
+	  lib/HNS/Diary.pm (1.30), lib/HNS/Hnf/TreeBuilder.pm (1.39):
+	  changed update routine; implemented board on hns feature
+
+2002-02-03 15:58  bonaim
+
+	* public_html/diary/config.ph.in (1.49): set HnsPath as
+	  $HNS::System::MyDiaryURI
+
+2002-02-03 15:39  bonaim
+
+	* Makefile.in (1.73): synchronized Makefile.in with Makefile
+
+2002-02-03 15:38  kenji
+
+	* public_html/diary/lib/HNS.pm (1.63): version to 2.19.3
+
+2002-02-03 14:55  bonaim
+
+	* Makefile (1.73), hns-setup.en (1.12), hns-setup.ja (1.20),
+	  public_html/diary/config.ph.in (1.48): change installer for
+	  board.cgi; fixed some bugs
+
+2002-02-03 14:49  bonaim
+
+	* public_html/diary/lib/Board.pm (1.4): changed a function's name
+
+2002-02-03 14:47  bonaim
+
+	* public_html/diary/lib/HNS/Cache.pm (1.6): fixed the name of a
+	  variable
+
+2002-02-03 14:17  bonaim
+
+	* public_html/diary/japanese/theme.ph (1.75): add prefs for
+	  board.cgi
+
+2002-02-03 14:13  bonaim
+
+	* public_html/diary/lib/Board/: Article.pm (1.1), System.pm (1.1):
+	  add modules for board.cgi
+
+2002-02-03 14:07  bonaim
+
+	* public_html/diary/: config.ph.in (1.47), index.cgi.in (1.37),
+	  anti-windoze/theme.ph (1.17), english/theme.ph (1.24),
+	  japanese/theme.ph (1.74), lib/Board.pm (1.3), lib/HNS/Cache.pm
+	  (1.5), lib/HNS/Hnf/TreeBuilder.pm (1.38), ruribaka/theme.ph
+	  (1.16): abolished 'bbs'; new configuration; replaced Board.pm
+
+2002-02-03 13:12  kenji
+
+	* Makefile (1.72), Makefile.in (1.72): update sample hnf
+
+2002-02-02 21:19  kenji
+
+	* public_html/diary/lib/HNS/Tools/Title.pm (1.5): fix Title CAT
+	  Cache bug, [hns-users:01077]
+
+2002-02-02 18:57  bonaim
+
+	* public_html/diary/lib/CGI/Tools.pm (1.5): added
+	  CGI::Tools::{URIEscape,URIUnEscape}
+
+2002-02-02 18:49  bonaim
+
+	* public_html/diary/lib/CGI/Tools.pm (1.4): replace double
+	  quotation with  &quot; in CGI::Tools::Escape
+
+2002-02-01 21:19  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.12): add ODN
+
+2002-01-31 13:29  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.11): add TOCC and
+	  Metcha, [hns-dev:00770]
+
+2002-01-27 23:16  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.10): update Search
+	  Englne Definition
+
+2002-01-26 19:58  kenji
+
+	* public_html/diary/lib/Board.pm (1.2): remove comma in "use var
+	  qw()" to avoid Perl 5.6.0 error
+
+2002-01-26 16:24  kenji
+
+	* public_html/diary/: ruribaka/theme.ph (1.15),
+	  anti-windoze/theme.ph (1.16): calendar link template change
+
+2002-01-26 16:21  kenji
+
+	* public_html/diary/english/theme.ph (1.23): updated (same as
+	  japanese) and calendar link template change
+
+2002-01-26 16:19  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.73),
+	  lib/HNS/Calendar/NoTable.pm (1.16), lib/HNS/Calendar/Table.pm
+	  (1.18): bug fix: link from calendar to one digit day,
+	  [hns-users:01060]
+
+2002-01-24 20:46  kenji
+
+	* public_html/diary/lib/: CodeConv.pm (1.4), HNS/IntelliSearch.pm
+	  (1.9): using Jcode.pm if installed to decode utf8 intellisearch
+	  keyword, [hns-dev:00754]
+
+2002-01-24 20:44  kenji
+
+	* public_html/diary/dot.htaccess (1.7): add AddType charset=EUC-JP
+	  example
+
+2001-12-23 20:25  kenji
+
+	* README (1.29), README.ja (1.20), hns-lite.sh (1.6),
+	  public_html/diary/lib/HNS.pm (1.62): update for hns-2.19.2
+	  release
+
+2001-12-22 09:06  kenji
+
+	* public_html/diary/lib/HNS.pm (1.61): add comment on theme name
+
+2001-12-15 00:04  kenji
+
+	* public_html/diary/lib/HNS.pm (1.60): changed version number to
+	  2.19.2
+
+2001-12-14 22:53  togawa
+
+	* public_html/diary/: config.ph.in (1.46), index.cgi.in (1.36),
+	  anti-windoze/theme.ph (1.15), english/theme.ph (1.22),
+	  japanese/theme.ph (1.72), lib/Board.pm (1.1), lib/HNS/Cache.pm
+	  (1.4), lib/HNS/Hnf/TreeBuilder.pm (1.37), ruribaka/theme.ph
+	  (1.14): Merge from hns-bbs.  Note: In default hns do not use
+	  hns-bbs.	  hns-bbs scripts is not merged yet.
+
+2001-12-12 19:12  togawa
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.8): Add
+	  wisenut(lycos).  FIXME: There is some possibility that they
+	  encode characters using UTF-8,	but this code can't decode
+	  it.
+
+2001-12-11 22:17  togawa
+
+	* hns-setup.en (1.11), hns-setup.ja (1.19): Add -f option in
+	  hns-setup.*
+
+	      -f setupfilename
+		 Specify setupfile. Default is ~/.hnssetup
+
+2001-12-10 16:31  togawa
+
+	* Makefile (1.71), Makefile.in (1.71), hns-setup.en (1.10),
+	  hns-setup.ja (1.18): Change STARTYEAR to 2001.
+
+2001-12-03 19:50  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.7): add @nifty
+
+2001-12-01 20:52  kenji
+
+	* public_html/diary/japanese/theme.ph (1.71): add ISBN,CD templates
+	  samples
+
+2001-11-26 19:36  masato
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.25): read repeat
+	  Yotei file.
+
+2001-11-17 12:08  kenji
+
+	* hns-lite.sh (1.5): update version number for hns-2.19.1 release
+
+2001-11-17 10:44  kenji
+
+	* public_html/diary/lib/HNS.pm (1.59): update version number for
+	  hns-2.19.1 release
+
+2001-11-17 10:38  kenji
+
+	* README (1.28), README.ja (1.19): update for hns-2.19.1 release
+
+2001-11-17 10:20  kenji
+
+	* public_html/diary/ruribaka/theme.ph (1.13): fix HTML error
+
+2001-11-17 10:09  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.36): fix RT colgroup
+	  tag position.
+
+2001-11-15 23:07  kenji
+
+	* Makefile (1.70), Makefile.in (1.70): update sample hnf
+
+2001-11-15 21:44  kenji
+
+	* public_html/diary/: index.cgi.in (1.35),
+	  lib/HNS/Diary/Template.pm (1.3), lib/HNS/Tools/HeadLine.pm (1.3),
+	  lib/HNS/Tools/Title.pm (1.4): title.cgi backward compatible
+	  patch, [hns-dev:00694]
+
+2001-11-15 19:06  kenji
+
+	* README (1.27), README.ja (1.18): update
+
+2001-11-11 10:23  kenji
+
+	* README (1.26), README.ja (1.17): update
+
+2001-11-07 20:36  kenji
+
+	* public_html/diary/: config.ph.in (1.45), japanese/theme.ph
+	  (1.70), lib/HNS/Diary.pm (1.29), lib/HNS/PIM/Schedule.pm (1.24),
+	  lib/HNS/Tools/Title.pm (1.3): add Schedule view as User variables
+	  and Exclusive GRP [hns-dev:00645][hns-dev:00690]
+
+2001-11-06 21:13  kenji
+
+	* diary/conf/robotlist.txt (1.19.2.1): updated from current
+
+2001-11-06 21:11  kenji
+
+	* diary/conf/robotlist.txt (1.21): add ZyBorg
+
+2001-11-03 22:26  kenji
+
+	* public_html/diary/lib/HNS.pm (1.58): version to 2.19.0
+
+2001-11-03 22:24  kenji
+
+	* README (1.25), README.ja (1.16): update
+
+2001-11-02 22:47  kenji
+
+	* public_html/diary/index.cgi.in (1.34): HTTP Title: header for
+	  Natsumikan, [hns-dev:00688]
+
+2001-10-31 21:59  kenji
+
+	* public_html/diary/lib/HNS/Tools/: HeadLine.pm (1.2), Title.pm
+	  (1.2): removed \r
+
+2001-10-09 23:04  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.4.2.1): merged from
+	  curent
+
+2001-09-30 12:41  kenji
+
+	* public_html/diary/lib/HNS/Admini.pm (1.13): changed copyright
+	  year to 2001
+
+2001-09-29 15:53  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.29): now
+	  theme-static.ph is not needed
+
+2001-09-28 18:43  kenji
+
+	* hns-setup.en (1.9), hns-setup.ja (1.17): changed version# to 2.2
+
+2001-09-28 18:33  kenji
+
+	* hns-lite.sh (1.4): changed to /bin/sh
+
+2001-09-27 12:17  kenji
+
+	* public_html/diary/lib/HNS/PIM/: Schedule.pm (1.23), Schedule.pm
+	  (1.21.2.1): fix typo
+
+2001-09-15 10:56  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.22): fix: robotlist &
+	  browser_list evaluated as regrex bug
+
+2001-09-13 02:06  MAKOPi
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.35): fix RT table
+	  enhancement
+
+2001-09-12 23:29  MAKOPi
+
+	* diary/conf/robotlist.txt (1.20): change [hns-dev:00665]
+
+2001-08-23 15:11  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.6): add Yahoo!
+	  Japan google
+
+2001-08-23 14:57  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.5): add kensaku.jp
+
+2001-08-15 06:55  MAKOPi
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.28), Hnf/Command.pm
+	  (1.34): RT table enhancement
+
+2001-08-11 16:45  kenji
+
+	* public_html/diary/index.cgi.in (1.33): fix hard coded IncludeDir,
+	  hns-bug#32
+
+2001-07-08 12:04  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.27): improved specific
+	  category output; no the category, no the day head,
+	  [hns-dev:00633]
+
+2001-07-07 12:00  kenji
+
+	* README (1.24), README.ja (1.15): update for 2.2-beta release
+
+2001-07-07 11:11  kenji
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.26), System.pm (1.15),
+	  Hnf/TreeBuilder.pm (1.36): category specified output,
+	  [hns-users:00908]
+
+2001-06-24 00:15  kenji
+
+	* public_html/diary/lib/HNS/System.pm (1.14): add missing default
+	  valiables
+
+2001-06-22 20:56  kenji
+
+	* public_html/diary/japanese/theme.ph (1.69): fix title2.cgi to
+	  title.cgi
+
+2001-06-22 19:54  kenji
+
+	* public_html/diary/japanese/theme.ph (1.68): add link to ML
+	  function sample code, [hns-dev:00607]
+
+2001-06-22 19:42  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.33): link
+	  enhancement, [hns-dev:00607]
+
+2001-06-18 22:09  kenji
+
+	* Makefile (1.69), Makefile.in (1.69),
+	  public_html/diary/japanese/theme.ph (1.67): packaged title.cgi or
+	  so, [hns-dev:00600]
+
+2001-06-18 22:07  kenji
+
+	* diary/repeat (1.4): add a entry
+
+2001-06-18 22:05  kenji
+
+	* public_html/diary/lib/HNS/Tools/: HeadLine.pm (1.1), Title.pm
+	  (1.1): New module by Akihiro Arisawa, [hns-dev:00600]
+
+2001-05-10 20:34  kenji
+
+	* public_html/diary/english/: theme.ph (1.21), theme.ph (1.20.2.1):
+	  fix broken english theme, hns-bug#27
+
+2001-04-23 21:04  kenji
+
+	* public_html/diary/: config.ph.in (1.44),
+	  lib/HNS/Calendar/NoTable.pm (1.15): add strict calendar link
+	  function
+
+2001-04-23 20:49  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.17): bug fix:
+	  strict calender link
+
+2001-04-23 20:35  kenji
+
+	* public_html/diary/lib/HNS/Calendar/: NoTable.pm (1.14), Table.pm
+	  (1.16): Template simplification bug fix, [hns-dev:00568]
+
+2001-04-20 23:09  kenji
+
+	* public_html/diary/lib/HNS/: Collection.pm (1.18), System.pm
+	  (1.13), Calendar/Table.pm (1.15): strict calender link, no link
+	  if there is no hnf, [hns-dev:00541]
+
+2001-04-20 20:24  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.66),
+	  lib/HNS/Calendar/NoTable.pm (1.13), lib/HNS/Calendar/Table.pm
+	  (1.14), lib/HNS/Diary/Template.pm (1.2), lib/HNS/Hnf/Command.pm
+	  (1.32): link enhancement, [hns-dev:00555]
+
+2001-04-15 08:42  kenji
+
+	* public_html/diary/japanese/theme.ph (1.65): new style theme, now
+	  you can separate dynamic and static Templatein one theme file,
+	  [hns-dev:00543]
+
+2001-04-15 08:34  kenji
+
+	* public_html/diary/lib/HNS/Diary/Template.pm (1.1): new class for
+	  Template simplification, [hns-dev:00544]
+
+2001-04-15 08:31  kenji
+
+	* public_html/diary/: config.ph.in (1.43), lib/HNS.pm (1.57),
+	  lib/HNS/CategoryList.pm (1.9), lib/HNS/Collection.pm (1.17),
+	  lib/HNS/Diary.pm (1.25), lib/HNS/ExtHTML.pm (1.5),
+	  lib/HNS/Status.pm (1.21), lib/HNS/Style.pm (1.17),
+	  lib/HNS/Calendar/NoTable.pm (1.12), lib/HNS/Calendar/Table.pm
+	  (1.13), lib/HNS/Hnf/Command.pm (1.31), lib/HNS/Hnf/TreeBuilder.pm
+	  (1.35), lib/HNS/PIM/Link.pm (1.2), lib/HNS/PIM/Schedule.pm
+	  (1.22), lib/HNS/PIM/Todo.pm (1.9): Template Simplification,
+	  [hns-dev:00543]
+
+2001-04-13 22:13  kenji
+
+	* public_html/diary/lib/: HNS.pm (1.56), HNS/ExtHTML.pm (1.4):
+	  separate ExtHTML::Head and Head_recent
+
+2001-04-07 10:45  kenji
+
+	* public_html/diary/lib/HNS/Hnf/: Command.pm (1.30), Command.pm
+	  (1.29.2.1): fix typo, hns-bug#23
+
+2001-03-29 20:24  kenji
+
+	* hns-lite.sh (1.3), public_html/diary/lib/HNS.pm (1.55): public
+	  version to hns-2.10-pl1
+
+2001-03-29 20:22  kenji
+
+	* diary/link (1.2): fix typo
+
+2001-03-24 14:07  kenji
+
+	* README (1.23), README.ja (1.14): update for hns-2.10-pl1 release
+
+2001-03-24 14:06  kenji
+
+	* TODO.ja (1.17): update
+
+2001-03-24 14:05  kenji
+
+	* public_html/diary/english/theme.ph (1.20): fix n year diary link,
+	  add %link to template
+
+2001-03-24 14:04  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.28), theme.ph
+	  (1.64): add %link to NoTable template
+
+2001-03-24 13:23  kenji
+
+	* Makefile (1.68), Makefile.in (1.68), diary/link (1.1): add
+	  PIM:Link link sample file
+
+2001-03-24 12:49  kenji
+
+	* Makefile (1.67), Makefile.in (1.67): update sample hnf
+
+2001-03-24 12:47  kenji
+
+	* diary/: repeat (1.3), todo (1.3): new samples
+
+2001-03-20 22:35  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.27): fix: bad link,
+	  [hns-dev:00499]
+
+2001-03-18 14:55  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.26), theme.ph
+	  (1.63): add PIM::Link template
+
+2001-03-18 14:53  kenji
+
+	* public_html/diary/lib/HNS/Style.pm (1.16): add PIM::Link,
+	  [hns-users:00819]
+
+2001-03-18 14:52  kenji
+
+	* public_html/diary/lib/HNS/PIM/Link.pm (1.1): new class PIM::Link,
+	  [hns-users:00819]
+
+2001-03-17 16:53  kenji
+
+	* diary/conf/i_browser.txt (1.6): add ASTEL, [hns-dev:00495]
+
+2001-02-21 21:57  kenji
+
+	* public_html/diary/: index.cgi.in (1.32), japanese/theme.ph
+	  (1.62), lib/HNS/IntelliSearch.pm (1.4), lib/HNS/Status.pm (1.20),
+	  lib/HNS/Style.pm (1.15): IntelleSearch improvement,
+	  [hns-dev:00484]
+
+2001-02-17 22:03  kenji
+
+	* public_html/diary/lib/HNS.pm (1.54): Natsumikan 3.1 compatible LM
+	  push, [hns-dev:00481]
+
+2001-02-04 16:12  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.3): add IEresult
+	  msn, [hns-dev:00455]
+
+2001-02-02 23:16  bonaim
+
+	* hns-lite.sh (1.2): version 0.7; change site address
+
+2001-01-27 00:38  kenji
+
+	* public_html/diary/lib/HNS/Admini.pm (1.12): bug fix: don't send
+	  cookie to BATTA
+
+2001-01-10 20:49  kenji
+
+	* public_html/diary/config.ph.in (1.42): add @antenna sample
+	  setting (to hoshino)
+
+2001-01-08 19:24  kenji
+
+	* public_html/diary/lib/HNS.pm (1.53): add argument $col to
+	  DynamicPrintFunc, [hns-dev:00438]
+
+2001-01-08 19:23  kenji
+
+	* public_html/diary/lib/CodeConv.pm (1.3): add tosjis function,
+	  [hns-dev:00438]
+
+2001-01-07 22:34  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.15): improve IP
+	  address access control, [hns-dev:00434]
+
+2001-01-07 22:18  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.2): ad hoc
+	  improvement
+
+2001-01-07 22:01  kenji
+
+	* public_html/diary/: config.ph.in (1.41), index.cgi.in (1.31): add
+	  IntelliSearch code (experimental)
+
+2001-01-07 22:00  kenji
+
+	* public_html/diary/lib/HNS/IntelliSearch.pm (1.1): new module,
+	  IntelliSearch, redirect user from search engine to Namazu for hns
+	  (experimental)
+
+2001-01-07 11:55  kenji
+
+	* public_html/diary/lib/HNS.pm (1.52): improved Natsu-mikan posting
+	  patch, [hns-dev:00428]
+
+2000-12-24 17:26  kenji
+
+	* public_html/diary/: anti-windoze/theme.ph (1.14),
+	  english/theme.ph (1.19), japanese/theme-static.ph (1.25),
+	  japanese/theme.ph (1.61), lib/HNS/Hnf/Command.pm (1.29),
+	  ruribaka/theme.ph (1.12): fix LI line end bug(ad hoc), hns-bug#14
+
+2000-12-24 17:11  kenji
+
+	* public_html/diary/: english/theme.ph (1.18),
+	  japanese/theme-static.ph (1.24), japanese/theme.ph (1.60): add
+	  body in CSS, hns-bug#20
+
+2000-12-10 21:08  kenji
+
+	* public_html/diary/config.ph.in (1.40): add $Range to title.cgi
+
+2000-12-09 13:40  kenji
+
+	* Makefile (1.66), Makefile.in (1.66),
+	  public_html/diary/config.ph.in (1.39),
+	  public_html/diary/lib/HNS.pm (1.51): add function to separate
+	  BATTA's access to referer_batta_log, [hns-users:00779]
+
+2000-12-07 21:49  kenji
+
+	* public_html/diary/lib/HTTP.pm (1.1): HTTP module, [hns-dev:00417]
+
+2000-12-07 20:16  kenji
+
+	* public_html/diary/: config.ph.in (1.38), lib/HNS.pm (1.50),
+	  lib/LIRS.pm (1.1): pushing LM info to antenna, [hns-dev:00419]
+
+2000-12-07 19:29  kenji
+
+	* public_html/diary/config.ph.in (1.37): fix: cookie setting
+	  explanation, [hns-users:00775]
+
+2000-11-19 22:17  kenji
+
+	* Makefile (1.65), Makefile.in (1.65): add .htaccess to redirect
+	  from i system dir, [hns-dev:00405]
+
+2000-11-17 22:32  kenji
+
+	* public_html/diary/dot.htaccess (1.6): deny *-old file
+
+2000-11-17 22:31  kenji
+
+	* public_html/diary/lib/HNS.pm (1.49): VERSION to hns-2.10-pl1
+
+2000-11-06 14:20  kenji
+
+	* diary/conf/i_browser.txt (1.5): add 2 agents; [hns-users:00766]
+
+2000-10-31 18:40  kenji
+
+	* public_html/diary/lib/HNS.pm (1.48): version hns-2.10-pl0
+
+2000-10-31 11:11  kenji
+
+	* README (1.22), README.ja (1.13): update
+
+2000-10-28 18:48  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.28): fix LIMG
+	  template bug, [hns-users:00761]
+
+2000-10-23 22:47  bonaim
+
+	* hns-lite.sh (1.1): add hns-lite.sh
+
+2000-10-23 18:24  kenji
+
+	* README (1.21), README.ja (1.12): update
+
+2000-10-22 13:28  kenji
+
+	* public_html/diary/: english/theme.ph (1.17),
+	  japanese/theme-static.ph (1.23), japanese/theme.ph (1.59): add
+	  WALK,RUN
+
+2000-10-21 20:32  kenji
+
+	* public_html/diary/lib/HNS/Hnf/UserVar.pm (1.9): add WALK, RUN
+
+2000-10-20 22:09  kenji
+
+	* diary/conf/robotlist.txt (1.19): add MuscatFerret
+	  http://www.webtop.com/
+
+2000-10-16 22:38  kenji
+
+	* Makefile (1.64), Makefile.in (1.64): changed sample hnf
+
+2000-10-15 17:14  kenji
+
+	* README (1.20), README.ja (1.11): update
+
+2000-10-14 22:09  kenji
+
+	* README (1.19), README.ja (1.10): README for hns-2.10-pl0 release
+
+2000-10-14 21:30  kenji
+
+	* public_html/diary/lib/jcode.pl (1.7): version 2.13
+
+2000-09-29 23:37  kenji
+
+	* public_html/diary/message.html (1.4): correct HTML
+
+2000-09-29 23:12  kenji
+
+	* README.ja (1.9), public_html/diary/lib/HNS.pm (1.47): for
+	  hns-2.10-beta10 release
+
+2000-09-29 23:03  kenji
+
+	* public_html/diary/anti-windoze/theme.ph (1.13): update
+
+2000-09-29 22:58  kenji
+
+	* public_html/diary/ruribaka/theme.ph (1.11): update
+
+2000-09-29 22:44  kenji
+
+	* Makefile (1.63), Makefile.in (1.63): update sample hnf
+
+2000-09-28 23:01  kenji
+
+	* public_html/diary/icons/README_HNS.ja (1.2): update
+
+2000-09-28 22:57  kenji
+
+	* public_html/diary/icons/: CHANGELOG_usa (1.1), COPYRIGHT_usa
+	  (1.1): new file at usaicon-1.1
+
+2000-09-28 22:56  kenji
+
+	* public_html/diary/icons/: README_usa (1.2), README_usa.jis (1.2),
+	  usaase.png (1.2), usaback.png (1.2), usabaka.png (1.2), usabe.png
+	  (1.2), usabe2.png (1.2), usadoki.png (1.2), usahatena.png (1.2),
+	  usaheno.png (1.2), usaheno2.png (1.2), usamemo.png (1.2),
+	  usamesen.png (1.2), usanaze.png (1.2), usaniko.png (1.2),
+	  usapeko.png (1.2), usasho.png (1.2), usasmile.png (1.2),
+	  usasmile2.png (1.2), usauru.png (1.2), usauru2.png (1.2),
+	  usav.png (1.2): update to usaicon-1.1
+
+2000-09-24 22:33  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.22): add missing
+	  div.uservar
+
+2000-09-24 21:01  kenji
+
+	* public_html/diary/english/theme.ph (1.16): merge theme 'japanese'
+	  changes
+
+2000-09-23 08:57  kenji
+
+	* public_html/diary/lib/jcode.pl (1.6): version 2.11
+
+2000-09-23 08:54  kenji
+
+	* hns-setup.en (1.8): add some customizable settings; fix some Y/N
+	  default settings
+
+2000-09-22 23:49  kenji
+
+	* hns-setup.ja (1.16): fix: setting of last additional items
+
+2000-09-22 23:23  kenji
+
+	* hns-setup.ja (1.15): fix some Y/N default settings
+
+2000-09-22 23:21  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.21), theme.ph
+	  (1.58): add div.bold-red for DIV command sample
+
+2000-09-22 23:20  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.27): add DIV command;
+	  add URI attr to CITE command; some trivial code style changes
+
+2000-09-22 22:11  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.20): add logging.pl
+	  SSI command
+
+2000-09-19 22:28  kenji
+
+	* hns-setup.ja (1.14): add some customizable settings
+
+2000-09-19 22:27  kenji
+
+	* public_html/diary/dot.htaccess (1.5): add .pl file to deny access
+
+2000-09-19 22:26  kenji
+
+	* public_html/diary/config.ph.in (1.36): adding some items
+	  configurable in Makefile
+
+2000-09-19 22:23  kenji
+
+	* Makefile (1.62), Makefile.in (1.62): add some configs and
+	  logging.pl
+
+2000-08-27 10:44  kenji
+
+	* public_html/diary/index.cgi.in (1.30): correct GPL notice
+
+2000-08-27 10:44  kenji
+
+	* public_html/diary/lib/HNS.pm (1.46): version to hns-2.10-beta10
+
+2000-08-26 21:25  kenji
+
+	* public_html/diary/lib/HNS/: AccessControl.pm (1.14), System.pm
+	  (1.12): moved access control error messages to System.pm and
+	  changed to Apache-like messages
+
+2000-08-19 16:23  kenji
+
+	* diary/conf/robotlist.txt (1.18): add Links2Go Similarity Engine
+
+2000-08-15 13:49  kenji
+
+	* diary/conf/browser_list.txt (1.4): add, [hns-users:00709]
+
+2000-08-02 20:50  kenji
+
+	* README.ja (1.8), public_html/diary/lib/HNS.pm (1.45): for
+	  hns-2.10-beta9 release
+
+2000-08-02 20:20  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.19), theme.ph
+	  (1.57): changed user variable HON output
+
+2000-08-02 18:17  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.19): BATTA is BATTA in
+	  denial_log
+
+2000-08-02 18:04  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.13): log first time
+	  visitor's RURI code as NONE when access denied
+
+2000-08-02 18:02  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.18): add sub AsDenialLog
+	  for denial_logging
+
+2000-08-02 01:15  masato
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.21): fix: don't
+	  display last month schedules bug, [hns-dev:00388]
+
+2000-08-01 21:39  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.12): add \r in http
+	  header and set default error code 404.
+
+2000-08-01 20:52  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.18): fix: no </h2>
+	  bug, hns-bug#15; add new user variables
+
+2000-08-01 20:51  kenji
+
+	* public_html/diary/japanese/theme.ph (1.56): add new user
+	  variables
+
+2000-08-01 20:48  kenji
+
+	* public_html/diary/lib/HNS/Hnf/UserVar.pm (1.8): add new user
+	  variables
+
+2000-08-01 09:34  kenji
+
+	* Makefile (1.61), Makefile.in (1.61): prev commit was
+	  misunderstanding. :-)
+
+2000-08-01 09:26  kenji
+
+	* Makefile (1.60), Makefile.in (1.60): fix; hard coded public_html
+	  directory, [hns-users:00688]
+
+2000-07-30 21:39  kenji
+
+	* public_html/diary/: config.ph.in (1.35), lib/HNS/System.pm
+	  (1.11), lib/HNS/Hnf/Command.pm (1.26): add
+	  $HNS::System::IncludeDir for INCLUDE command, fix INCLUDE command
+	  missing end template
+
+2000-07-30 12:53  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.24): remove <!-- xhnf_break
+	  --> in final HTML output
+
+2000-07-27 20:01  kenji
+
+	* TODO.ja (1.16): updated
+
+2000-07-27 19:33  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.25): restrict path of
+	  file in INCLUDE
+
+2000-07-26 22:24  kenji
+
+	* public_html/diary/anti-windoze/theme.ph (1.12): add title.cgi
+	  customization
+
+2000-07-24 23:39  kenji
+
+	* public_html/diary/lib/HNS/Hnf/: Command.pm (1.24), Warning.pm
+	  (1.6): add INCLUDE command
+
+2000-07-24 22:18  kenji
+
+	* public_html/diary/: japanese/theme-static.ph (1.17),
+	  japanese/theme.ph (1.55), lib/HNS/Hnf/Command.pm (1.23): add SPAN
+	  command, SPAN class_name text (one-line)
+
+2000-07-21 21:15  masato
+
+	* public_html/diary/lib/DateTime/Date.pm (1.11): fix  $date -= '0D'
+	  and $date += '0D' bug.
+
+2000-07-20 12:55  kenji
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.23), Hnf/TreeBuilder.pm
+	  (1.34): now don't create xhnf cache file when caching is off
+
+2000-07-20 12:53  kenji
+
+	* public_html/diary/lib/SimpleDB/Base.pm (1.6): add a little debug
+	  info
+
+2000-07-20 09:59  kenji
+
+	* diary/repeat (1.2): add
+
+2000-07-18 23:00  kenji
+
+	* diary/conf/browser_list.txt (1.3): add, [hns-users:00683]
+	  [hns-users:00684]
+
+2000-07-18 21:41  kenji
+
+	* public_html/diary/config.ph.in (1.34): add recently added
+	  variables
+
+2000-07-18 21:12  kenji
+
+	* public_html/diary/lib/HNS/Hnf/UserVar.pm (1.7): add user
+	  variables aliasing
+
+2000-07-17 18:12  kenji
+
+	* public_html/diary/lib/HNS.pm (1.44): changed version number to
+	  hns-2.10-beta9
+
+2000-07-17 18:08  kenji
+
+	* public_html/diary/lib/HNS.pm (1.43): add meta author tag,
+	  [hns-dev:00273]
+
+2000-07-17 18:00  kenji
+
+	* Makefile (1.59), Makefile.in (1.59): installing sample hnf at
+	  only initial installation, [hns-dev:00276]
+
+2000-07-16 20:39  kenji
+
+	* README.ja (1.7), public_html/diary/lib/HNS.pm (1.42): for
+	  hns-2.10-beta8 release
+
+2000-07-16 20:36  kenji
+
+	* Makefile (1.58), Makefile.in (1.58): changed sample hnf
+
+2000-07-16 20:33  kenji
+
+	* public_html/diary/index.cgi.in (1.29): add test code to switch to
+	  i system
+
+2000-07-16 13:12  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.16): added CAT
+	  template
+
+2000-07-15 22:36  kenji
+
+	* public_html/diary/: index.cgi.in (1.28), lib/HNS/Cache.pm (1.3):
+	  moved auto cache clear function to HNS::Cache, added cat.txt
+	  modification time watching to auto cache clear fucntion
+
+2000-07-15 22:35  kenji
+
+	* public_html/diary/japanese/theme.ph (1.54): added CAT template
+
+2000-07-15 22:34  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.33): added
+	  missing params conversion to CAT template
+
+2000-07-15 22:32  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.22): add GRP in
+	  AllowCommands of implicit Command::HNF
+
+2000-07-15 10:12  kenji
+
+	* diary/conf/browser_list.txt (1.2): add, [hns-dev:00268]
+
+2000-07-14 22:37  kenji
+
+	* public_html/diary/lib/HNS/Hnf/: Command.pm (1.21), TreeBuilder.pm
+	  (1.32): add link to title.cgi from CAT, [hns-users:00509]
+
+2000-07-14 21:47  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.15): faking link
+	  anchor no link using CSS by yar-3
+
+2000-07-14 21:45  kenji
+
+	* public_html/diary/japanese/theme.ph (1.53): only ':link' of link
+	  anchor is faking non-link, [hns-users:00670]
+
+2000-07-14 21:32  kenji
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.22), Hnf/TreeBuilder.pm
+	  (1.31): output error message when cache file is not writable
+
+2000-07-14 21:31  kenji
+
+	* public_html/diary/lib/HNS/Style.pm (1.14): update Namazu Home URI
+
+2000-07-13 17:33  kenji
+
+	* public_html/diary/japanese/theme.ph (1.52): faking link anchor no
+	  link using CSS by yar-3
+
+2000-07-13 12:57  kenji
+
+	* public_html/diary/japanese/theme.ph (1.51): faking link anchor no
+	  link using CSS by yar-3
+
+2000-07-12 21:56  kenji
+
+	* public_html/diary/lib/HNS/Hnf/: Command.pm (1.20), TreeBuilder.pm
+	  (1.30): changed $Entities{'Comment'} that is FN from Block to
+	  Inline
+
+2000-07-12 14:34  kenji
+
+	* diary/conf/robotlist.txt (1.17): remove WWWOFFLE, CERN which are
+	  not really BATTA
+
+2000-07-11 22:33  kenji
+
+	* Makefile (1.57), Makefile.in (1.57),
+	  public_html/diary/lib/HNS/Status.pm (1.17): changed BATTA
+	  judgement, conf/browser_list.txt is the list of browsers that
+	  know cookies
+
+2000-07-11 22:31  kenji
+
+	* public_html/diary/lib/HNS.pm (1.41): version to hns-2.10-beta8
+
+2000-07-11 22:30  kenji
+
+	* diary/conf/browser_list.txt (1.1): list of browser which eats
+	  cookies
+
+2000-07-11 18:09  kenji
+
+	* public_html/diary/config.ph.in (1.33): %7E no redirect is now
+	  default
+
+2000-07-07 22:06  kenji
+
+	* Makefile (1.56), Makefile.in (1.56), hns-setup.en (1.7),
+	  hns-setup.ja (1.13): move i system installation from hns-setup to
+	  Makefile
+
+2000-07-02 13:56  kenji
+
+	* README.ja (1.6), public_html/diary/lib/HNS.pm (1.40): for
+	  hns-2.10-beta7 release
+
+2000-07-02 13:37  kenji
+
+	* TODO.ja (1.15): update
+
+2000-07-02 12:38  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.16): add missing
+	  attributes
+
+2000-07-02 12:35  kenji
+
+	* Makefile (1.55), Makefile.in (1.55): add %HTMLDIR% replacement in
+	  index.cgi
+
+2000-07-02 12:34  kenji
+
+	* diary/conf/i_browser.txt (1.4): remove system auto judgement
+	  agents
+
+2000-07-02 12:29  kenji
+
+	* public_html/diary/index.cgi.in (1.27): moved i system switching
+	  judgement to HNS::Status
+
+2000-07-02 12:27  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.15): add is_mobile for i
+	  system switching judgement
+
+2000-07-02 11:45  kenji
+
+	* diary/conf/i_browser.txt (1.3): add
+
+2000-07-01 10:32  kenji
+
+	* Makefile (1.54), Makefile.in (1.54): ANTENNA default OK to NG
+
+2000-06-29 23:28  kenji
+
+	* public_html/diary/: japanese/theme-static.ph (1.14),
+	  japanese/theme.ph (1.50), lib/HNS/Diary.pm (1.21): separate user
+	  var template from head template
+
+2000-06-29 21:44  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.13), theme.ph
+	  (1.49): changed COCTYPE to HTML 4.01 added TITLE attribute to A
+	  element,  http://www.w3.org/TR/WAI-WEBCONTENT-TECHS/#links
+
+2000-06-29 21:06  kenji
+
+	* hns-setup.en (1.6), hns-setup.ja (1.12): i system integration
+	  install Hoshino Antenna default NG
+
+2000-06-29 21:04  kenji
+
+	* public_html/diary/config.ph.in (1.32): i system is default.
+
+2000-06-29 20:36  kenji
+
+	* public_html/diary/index.cgi.in (1.26): i system integration patch
+	  [hns-dev:00213]
+
+2000-06-29 16:03  kenji
+
+	* diary/conf/i_browser.txt (1.2): add UP.Browser
+
+2000-06-28 22:28  kenji
+
+	* public_html/diary/index.cgi.in (1.25): using conf/i_browser.txt
+	  to switch to i system
+
+2000-06-28 22:25  kenji
+
+	* Makefile (1.53), Makefile.in (1.53): add conf/i_browser.txt for i
+	  system browser list
+
+2000-06-28 22:23  kenji
+
+	* diary/conf/i_browser.txt (1.1): browser list for i system
+	  switching
+
+2000-06-26 21:59  kenji
+
+	* public_html/diary/lib/HNS/Admini.pm (1.11): add charset=EUC-JP in
+	  Content-Type header fix: http header ending with \r\n
+
+2000-06-26 21:31  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.14): fix: http header
+	  ending with \r\n
+
+2000-06-26 21:30  kenji
+
+	* public_html/diary/lib/HNS.pm (1.39): add charset=EUC-JP in
+	  Content-Type header fix: http header ending with \r\n
+
+2000-06-26 21:28  kenji
+
+	* public_html/diary/index.cgi.in (1.24): fix: http header ending
+	  with \r\n add charset=EUC-JP in Content-Type header fix: head
+	  request no logging
+
+2000-06-26 01:04  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.19): fix typo
+
+2000-06-25 22:24  kenji
+
+	* public_html/diary/lib/HNS/Hnf/: Command.pm (1.18), Warning.pm
+	  (1.5): remote image patch [hns-dev:00215] fix: Warning not
+	  NotAccounted but NotDefined bug
+
+2000-06-20 15:29  kenji
+
+	* public_html/diary/config.ph.in (1.31): fix path to i system
+
+2000-06-20 15:16  kenji
+
+	* public_html/diary/lib/HNS.pm (1.38): version to hns-2.10-beta7
+
+2000-06-20 15:15  kenji
+
+	* public_html/diary/: config.ph.in (1.30), index.cgi.in (1.23): i
+	  system integration, Northeye Method;
+	  http://northeye.org/diary/?20000317#200003175S2
+
+2000-06-11 14:25  kenji
+
+	* README.ja (1.5), public_html/diary/lib/HNS.pm (1.37): for
+	  hns-2.10-beta6 release
+
+2000-06-01 22:17  kenji
+
+	* Makefile (1.52), Makefile.in (1.52): changed sample files
+
+2000-05-27 23:15  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.12): fix no </tr>
+	  in calendar, [hns-users:00615] <paz@mapletown.net>
+
+2000-05-23 18:42  kenji
+
+	* public_html/diary/: config.ph.in (1.29), index.cgi.in (1.22):
+	  hns-perl-author.patch by ari-3
+
+2000-05-18 16:44  masato
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.20): Add past
+	  schedule display grace days.	Add past, today schedule
+	  ContentTemplate.
+
+2000-05-17 02:20  masato
+
+	* public_html/diary/lib/HNS/Collection.pm (1.16): Correct typo
+	  'reverse_sec' :-).
+
+2000-05-16 23:25  kenji
+
+	* public_html/diary/: config.ph.in (1.28), lib/HNS/Collection.pm
+	  (1.15), lib/HNS/Diary.pm (1.20), lib/HNS/System.pm (1.10): add
+	  NewReverse option for reverse display of sections, masato3 patch
+
+2000-05-16 09:59  masato
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.19): repeat plan
+	  with available term.
+
+2000-05-12 22:04  kenji
+
+	* public_html/diary/japanese/theme.ph (1.48): add n-year diary link
+	  by yar-3
+
+2000-05-04 22:47  kenji
+
+	* TODO.ja (1.14): update
+
+2000-05-04 22:41  kenji
+
+	* TODO.ja (1.13): update
+
+2000-04-25 22:56  kenji
+
+	* public_html/diary/lib/HNS.pm (1.36): GRP no-cache patch,
+	  [hns-dev:00097] This spec must be debated more!
+
+2000-04-25 22:43  kenji
+
+	* public_html/diary/index.cgi.in (1.21): command line auto static
+	  theme patch [hns-dev:00096]
+
+2000-04-25 22:18  kenji
+
+	* hns-setup.en (1.5), hns-setup.ja (1.11): trivial fix
+
+2000-04-21 21:26  kitame
+
+	* public_html/diary/lib/DateTime/Date.pm (1.10): Fixed value($num)
+	  missing in Increment/Decrement
+
+2000-04-16 12:14  kitame
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.18): Added repeat
+	  range
+
+2000-04-16 12:13  kitame
+
+	* public_html/diary/config.ph.in (1.27): Added repeat range:
+	  $RRange
+
+2000-04-11 22:42  masato
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.29): fix NEW
+	  section termination before RLNEW bug.
+
+2000-04-09 10:14  kenji
+
+	* TODO.ja (1.12): add
+
+2000-04-08 21:03  kenji
+
+	* public_html/diary/lib/: HNS.pm (1.35), HNS/Status.pm (1.13):
+	  merge mod_perl support patch <chiba10181.allnet.ne.jp>,
+	  hns-bug#10
+
+2000-04-04 09:11  kenji
+
+	* diary/conf/robotlist.txt (1.16): add xyro_
+
+2000-04-03 21:44  kenji
+
+	* Makefile (1.51), Makefile.in (1.51): webif ftp mode
+
+2000-04-01 20:44  kenji
+
+	* public_html/diary/english/theme.ph (1.15): update
+
+2000-04-01 20:28  kenji
+
+	* public_html/diary/lib/HNS.pm (1.34): public version to 2.10-beta5
+
+2000-04-01 20:27  kenji
+
+	* Makefile (1.50), Makefile.in (1.50): update sample files
+
+2000-04-01 20:26  kenji
+
+	* README.ja (1.4): add
+
+2000-04-01 20:25  kenji
+
+	* diary/repeat (1.1): sample file
+
+2000-03-29 21:18  masato
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.17): sort same date
+	  schedules by content alphabetical order.
+
+2000-03-29 19:54  kenji
+
+	* README.ja (1.3), TODO.ja (1.11),
+	  public_html/diary/japanese/theme-static.ph (1.12),
+	  public_html/diary/japanese/theme.ph (1.47): changes because of
+	  new usa icons
+
+2000-03-29 19:51  kenji
+
+	* public_html/diary/icons/: usaase.png (1.1), usaback.png (1.1),
+	  usabaka.png (1.1), usabe.png (1.1), usabe2.png (1.1), usadoki.png
+	  (1.1), usahatena.png (1.1), usaheno.png (1.1), usaheno2.png
+	  (1.1), usamemo.png (1.1), usamesen.png (1.1), usanaze.png (1.1),
+	  usaniko.png (1.1), usapeko.png (1.1), usasho.png (1.1),
+	  usasmile.png (1.1), usasmile2.png (1.1), usauru.png (1.1),
+	  usauru2.png (1.1), usav.png (1.1): new usa icons, these are
+	  really free nice icons.
+
+2000-03-29 19:49  kenji
+
+	* public_html/diary/icons/usa_index_j.html (1.1): usa icons' index
+
+2000-03-29 19:49  kenji
+
+	* public_html/diary/icons/: README_HNS.ja (1.1), README_usa (1.1),
+	  README_usa.jis (1.1): new README with usa icons's one
+
+2000-03-29 19:48  kenji
+
+	* public_html/diary/icons/: README (1.3), README_1.02 (1.2),
+	  README_1.03 (1.2), ase_13.png (1.2), baka_13.png (1.2), be_13.png
+	  (1.2), fu_13.png (1.2), haji_13.png (1.2), hatena_13.png (1.2),
+	  hns_icon.html (1.2), naku_13.png (1.2), neko_13.png (1.2),
+	  nomal_13.png (1.2), ojigi_13.png (1.2), okoru_13.png (1.2),
+	  ruri-bg.png (1.2), ruri.png (1.2), ruriase.png (1.2),
+	  ruribaka.png (1.2), ruriodor.png (1.2), ruriusiro.png (1.2),
+	  ruriv.png (1.2), ruriwarau.png (1.2), usiro_13.png (1.2),
+	  v_13.png (1.2), warau_13.png (1.2), yasum_13.png (1.2): good bye,
+	  beloved ruri icons. thanks.
+
+2000-03-28 20:47  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.11), theme.ph
+	  (1.46): output HTML adjustment including [hns-users:00542]
+
+2000-03-27 21:45  kenji
+
+	* README.ja (1.2): for hns-2.10-beta5 release
+
+2000-03-27 20:20  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.10), theme.ph
+	  (1.45): add user varibable, HOSUi, steps in a day.
+
+2000-03-25 20:47  kenji
+
+	* Makefile (1.49), Makefile.in (1.49): hns-bug#9 or so.
+
+2000-03-24 21:26  masato
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.16): fix don't
+	  display monthly numeric day schedule bug
+
+2000-03-22 13:37  kenji
+
+	* TODO.ja (1.10): add
+
+2000-03-22 09:56  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.15): reducing repeat
+	  file reading, [hns-dev:00023]
+
+2000-03-21 21:45  kenji
+
+	* public_html/diary/lib/DateTime/Date.pm (1.9): changed Compare
+	  logic(allow less than one day)  [hns-dev:00019]
+
+2000-03-19 22:09  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.14): 2 letter day
+	  and case insentive patch [hns-dev:00011]
+
+2000-03-18 20:59  kenji
+
+	* public_html/diary/lib/Image/Size.pm (1.9.2.1): fix png height
+	  bug, hns-bug#8
+
+2000-03-18 20:54  kenji
+
+	* public_html/diary/lib/Image/Size.pm (1.11): fix: png height bug,
+	  hns-bug#8
+
+2000-03-18 09:45  kenji
+
+	* diary/conf/robotlist.txt (1.15): add
+
+2000-03-17 20:32  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.13): repeat patch
+	  from masato-3 [hns-dev:00003]
+
+2000-03-16 09:44  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.12): i system yearly
+	  schedule compatible patch,
+	  http://www.orange.co.jp/~masato/diary/?200003b&to=200003157#200003157
+
+2000-03-15 11:30  kenji
+
+	* Makefile (1.48), Makefile.in (1.48): fix typo [hns-users:00511]
+
+2000-03-14 15:32  kenji
+
+	* TODO.ja (1.9): update
+
+2000-03-14 15:29  kenji
+
+	* TODO.ja (1.8): update
+
+2000-03-11 20:57  kenji
+
+	* public_html/diary/lib/HNS.pm (1.33): version to hns-2.10-beta5
+	  Copyright to Powered
+
+2000-03-11 20:55  kenji
+
+	* public_html/diary/lib/HNS/Cache.pm (1.2): remove glob, patch from
+	  Kenji Gotoh <juan@super.win.ne.jp>
+
+2000-03-10 13:02  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.11): isystem monthly
+	  function
+	  http://www.orange.co.jp/~masato/diary/?200003a&to=200003096#200003096
+
+2000-03-03 15:37  kenji
+
+	* public_html/diary/: config.ph.in (1.26), config.ph.in (1.8.2.2):
+	  Namazu official url changed
+
+2000-02-27 22:54  kenji
+
+	* public_html/diary/lib/DateTime/Date.pm (1.4.2.2): fix `Thr' in
+	  Last-Modified hns-bug#7, maybe
+
+2000-02-26 19:25  kenji
+
+	* public_html/diary/lib/DateTime/Date.pm (1.8): fix `Thr' in
+	  Last-Modified hns-bug#7, maybe
+
+2000-02-24 22:06  kenji
+
+	* README (1.18), README.ja (1.1): mv README README.ja
+
+2000-02-24 22:05  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.28): hns-bug#6
+
+2000-02-21 22:25  kenji
+
+	* diary/conf/robotlist.txt (1.14): add
+
+2000-02-21 20:44  kenji
+
+	* Makefile (1.47), Makefile.in (1.47): di.cgi.in
+
+2000-02-19 23:43  kenji
+
+	* public_html/diary/lib/HNS.pm (1.32): for hns-2.10-beta4 release
+
+2000-02-19 23:42  kenji
+
+	* README (1.17): for 2.10-beta4 release
+
+2000-02-19 22:07  kenji
+
+	* README (1.10.2.9): add
+
+2000-02-18 20:05  kenji
+
+	* README (1.10.2.8): for 2.00-pl4
+
+2000-02-18 20:04  kenji
+
+	* public_html/diary/lib/HNS.pm (1.18.2.6): public version to
+	  2.00-pl4
+
+2000-02-16 17:59  kenji
+
+	* TODO.ja (1.7): update
+
+2000-02-16 17:59  kenji
+
+	* Makefile (1.46), Makefile.in (1.46): add di.cgi
+
+2000-02-15 12:59  kenji
+
+	* Makefile (1.45), Makefile.in (1.45): fix hns-bug#5
+
+2000-02-14 10:01  kenji
+
+	* Makefile (1.44), Makefile.in (1.44): .htaccess.old ->
+	  .htaccess-old
+
+2000-02-14 09:59  kenji
+
+	* Makefile (1.43), Makefile.in (1.43): .htaccess backup
+
+2000-02-13 23:23  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.11.2.3): fix
+	  hns-bug#4 PRE remove \n bug
+
+2000-02-13 23:19  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.27): fix
+	  hns-bug#4 PRE remove \n bug
+
+2000-02-13 17:07  kenji
+
+	* public_html/diary/ruribaka/ruri-bg.gif (1.1.1.1.2.1): remove gif
+	  file
+
+2000-02-13 17:05  kenji
+
+	* public_html/diary/: icons/ase_13.gif (1.4.2.1), icons/baka_13.gif
+	  (1.4.2.1), icons/be_13.gif (1.4.2.1), icons/fu_13.gif (1.4.2.1),
+	  icons/haji_13.gif (1.4.2.1), icons/hatena_13.gif (1.4.2.1),
+	  icons/hns-2.0-icon.gif (1.1.2.1), icons/hns-logo.gif (1.4.2.1),
+	  icons/mark00.gif (1.4.2.1), icons/mark01.gif (1.4.2.1),
+	  icons/naku_13.gif (1.4.2.1), icons/neko_13.gif (1.3.2.1),
+	  icons/nomal_13.gif (1.4.2.1), icons/ojigi_13.gif (1.4.2.1),
+	  icons/okoru_13.gif (1.3.2.1), icons/ruri-bg.gif (1.4.2.1),
+	  icons/ruri.gif (1.4.2.1), icons/ruriase.gif (1.3.2.1),
+	  icons/ruribaka.gif (1.3.2.1), icons/ruriodor.gif (1.4.2.1),
+	  icons/ruriusiro.gif (1.4.2.1), icons/ruriv.gif (1.3.2.1),
+	  icons/ruriwarau.gif (1.3.2.1), icons/usiro_13.gif (1.3.2.1),
+	  icons/v_13.gif (1.4.2.1), icons/warau_13.gif (1.4.2.1),
+	  icons/yasum_13.gif (1.4.2.1), cat/A.gif (1.3.2.1), cat/B.gif
+	  (1.4.2.1), cat/C.gif (1.3.2.1), cat/D.gif (1.3.2.1), cat/E.gif
+	  (1.3.2.1), cat/F.gif (1.4.2.1), cat/G.gif (1.3.2.1), cat/H.gif
+	  (1.3.2.1), cat/I.gif (1.4.2.1), cat/J.gif (1.4.2.1), cat/K.gif
+	  (1.3.2.1), cat/L.gif (1.3.2.1), cat/M.gif (1.4.2.1), cat/N.gif
+	  (1.4.2.1), cat/O.gif (1.4.2.1), cat/P.gif (1.4.2.1), cat/Q.gif
+	  (1.3.2.1), cat/R.gif (1.3.2.1), cat/S.gif (1.4.2.1), cat/T.gif
+	  (1.4.2.1), cat/U.gif (1.3.2.1), cat/V.gif (1.4.2.1), cat/W.gif
+	  (1.4.2.1), cat/X.gif (1.4.2.1), cat/Y.gif (1.4.2.1), cat/Z.gif
+	  (1.3.2.1), cat/nikki.gif (1.3.2.1), cat/toko.gif (1.3.2.1),
+	  anti-windoze/002.gif (1.1.1.1.2.1), anti-windoze/hns-logo-2.gif
+	  (1.1.1.1.2.1), anti-windoze/ruribaka.gif (1.1.1.1.2.1),
+	  anti-windoze/ruriusiro.gif (1.1.1.1.2.1): remove all gif files
+
+2000-02-13 17:01  kenji
+
+	* Makefile (1.25.2.5), Makefile.in (1.25.2.5), README (1.10.2.7),
+	  public_html/diary/anti-windoze/theme.ph (1.5.2.4),
+	  public_html/diary/japanese/theme-old.ph (1.7.2.4),
+	  public_html/diary/japanese/theme-static.ph (1.1.2.2),
+	  public_html/diary/japanese/theme.ph (1.32.2.3),
+	  public_html/diary/lib/HNS.pm (1.18.2.5),
+	  public_html/diary/ruribaka/theme.ph (1.5.2.3): remove all gif
+	  files and add png files
+
+2000-02-13 14:31  kenji
+
+	* public_html/diary/: cat/A.gif (1.4), cat/B.gif (1.5), cat/C.gif
+	  (1.4), cat/D.gif (1.4), cat/E.gif (1.4), cat/F.gif (1.5),
+	  cat/G.gif (1.4), cat/H.gif (1.4), cat/I.gif (1.5), cat/J.gif
+	  (1.5), cat/K.gif (1.4), cat/L.gif (1.4), cat/M.gif (1.5),
+	  cat/N.gif (1.5), cat/O.gif (1.5), cat/P.gif (1.5), cat/Q.gif
+	  (1.4), cat/R.gif (1.4), cat/S.gif (1.5), cat/T.gif (1.5),
+	  cat/U.gif (1.4), cat/V.gif (1.5), cat/W.gif (1.5), cat/X.gif
+	  (1.5), cat/Y.gif (1.5), cat/Z.gif (1.4), cat/nikki.gif (1.4),
+	  cat/toko.gif (1.4), icons/ase_13.gif (1.5), icons/baka_13.gif
+	  (1.5), icons/be_13.gif (1.5), icons/fu_13.gif (1.5),
+	  icons/haji_13.gif (1.5), icons/hatena_13.gif (1.5),
+	  icons/hns-logo.gif (1.5), icons/mark00.gif (1.5),
+	  icons/mark01.gif (1.5), icons/naku_13.gif (1.5),
+	  icons/neko_13.gif (1.4), icons/nomal_13.gif (1.5),
+	  icons/ojigi_13.gif (1.5), icons/okoru_13.gif (1.4),
+	  icons/ruri-bg.gif (1.5), icons/ruri.gif (1.5), icons/ruriase.gif
+	  (1.4), icons/ruribaka.gif (1.4), icons/ruriodor.gif (1.5),
+	  icons/ruriusiro.gif (1.5), icons/ruriv.gif (1.4),
+	  icons/ruriwarau.gif (1.4), icons/usiro_13.gif (1.4),
+	  icons/v_13.gif (1.5), icons/warau_13.gif (1.5),
+	  icons/yasum_13.gif (1.5), anti-windoze/002.gif (1.2),
+	  anti-windoze/hns-logo-2.gif (1.2), anti-windoze/ruribaka.gif
+	  (1.2), anti-windoze/ruriusiro.gif (1.2), ruribaka/ruri-bg.gif
+	  (1.2): remove all gif files
+
+2000-02-13 14:30  kenji
+
+	* Makefile (1.42), Makefile.in (1.42),
+	  public_html/diary/anti-windoze/theme.ph (1.11),
+	  public_html/diary/icons/README (1.2),
+	  public_html/diary/japanese/theme-static.ph (1.9),
+	  public_html/diary/japanese/theme.ph (1.44),
+	  public_html/diary/ruribaka/theme.ph (1.10): gif to png
+
+2000-02-12 21:25  kenji
+
+	* public_html/diary/: cat/A.png (1.1.2.1), cat/B.png (1.1.2.1),
+	  cat/C.png (1.1.2.1), cat/D.png (1.1.2.1), cat/E.png (1.1.2.1),
+	  cat/F.png (1.1.2.1), cat/G.png (1.1.2.1), cat/H.png (1.1.2.1),
+	  cat/I.png (1.1.2.1), cat/J.png (1.1.2.1), cat/K.png (1.1.2.1),
+	  cat/L.png (1.1.2.1), cat/M.png (1.1.2.1), cat/N.png (1.1.2.1),
+	  cat/O.png (1.1.2.1), cat/P.png (1.1.2.1), cat/Q.png (1.1.2.1),
+	  cat/R.png (1.1.2.1), cat/S.png (1.1.2.1), cat/T.png (1.1.2.1),
+	  cat/U.png (1.1.2.1), cat/V.png (1.1.2.1), cat/W.png (1.1.2.1),
+	  cat/X.png (1.1.2.1), cat/Y.png (1.1.2.1), cat/Z.png (1.1.2.1),
+	  cat/nikki.png (1.1.2.1), cat/toko.png (1.1.2.1), icons/ase_13.png
+	  (1.1.2.1), icons/baka_13.png (1.1.2.1), icons/be_13.png
+	  (1.1.2.1), icons/fu_13.png (1.1.2.1), icons/haji_13.png
+	  (1.1.2.1), icons/hatena_13.png (1.1.2.1), icons/hns-2.0-icon.png
+	  (1.1.2.1), icons/hns-logo.png (1.1.2.1), icons/mark00.png
+	  (1.1.2.1), icons/mark01.png (1.1.2.1), icons/naku_13.png
+	  (1.1.2.1), icons/neko_13.png (1.1.2.1), icons/nomal_13.png
+	  (1.1.2.1), icons/ojigi_13.png (1.1.2.1), icons/okoru_13.png
+	  (1.1.2.1), icons/ruri-bg.png (1.1.2.1), icons/ruri.png (1.1.2.1),
+	  icons/ruriase.png (1.1.2.1), icons/ruribaka.png (1.1.2.1),
+	  icons/ruriodor.png (1.1.2.1), icons/ruriusiro.png (1.1.2.1),
+	  icons/ruriv.png (1.1.2.1), icons/ruriwarau.png (1.1.2.1),
+	  icons/usiro_13.png (1.1.2.1), icons/v_13.png (1.1.2.1),
+	  icons/warau_13.png (1.1.2.1), icons/yasum_13.png (1.1.2.1),
+	  anti-windoze/002.png (1.1.2.1), anti-windoze/hns-logo-2.png
+	  (1.1.2.1), anti-windoze/ruribaka.png (1.1.2.1),
+	  anti-windoze/ruriusiro.png (1.1.2.1), ruribaka/ruri-bg.png
+	  (1.1.2.1): add png file
+
+2000-02-12 20:58  kenji
+
+	* public_html/diary/: anti-windoze/002.png (1.1),
+	  anti-windoze/hns-logo-2.png (1.1), anti-windoze/ruribaka.png
+	  (1.1), anti-windoze/ruriusiro.png (1.1), ruribaka/ruri-bg.png
+	  (1.1): add png file
+
+2000-02-12 20:34  kenji
+
+	* public_html/diary/: cat/A.png (1.1), cat/B.png (1.1), cat/C.png
+	  (1.1), cat/D.png (1.1), cat/E.png (1.1), cat/F.png (1.1),
+	  cat/G.png (1.1), cat/H.png (1.1), cat/I.png (1.1), cat/J.png
+	  (1.1), cat/K.png (1.1), cat/L.png (1.1), cat/M.png (1.1),
+	  cat/N.png (1.1), cat/O.png (1.1), cat/P.png (1.1), cat/Q.png
+	  (1.1), cat/R.png (1.1), cat/S.png (1.1), cat/T.png (1.1),
+	  cat/U.png (1.1), cat/V.png (1.1), cat/W.png (1.1), cat/X.png
+	  (1.1), cat/Y.png (1.1), cat/Z.png (1.1), cat/nikki.png (1.1),
+	  cat/toko.png (1.1), icons/ase_13.png (1.1), icons/baka_13.png
+	  (1.1), icons/be_13.png (1.1), icons/fu_13.png (1.1),
+	  icons/haji_13.png (1.1), icons/hatena_13.png (1.1),
+	  icons/hns-logo.png (1.1), icons/mark00.png (1.1),
+	  icons/mark01.png (1.1), icons/naku_13.png (1.1),
+	  icons/neko_13.png (1.1), icons/nomal_13.png (1.1),
+	  icons/ojigi_13.png (1.1), icons/okoru_13.png (1.1),
+	  icons/ruri-bg.png (1.1), icons/ruri.png (1.1), icons/ruriase.png
+	  (1.1), icons/ruribaka.png (1.1), icons/ruriodor.png (1.1),
+	  icons/ruriusiro.png (1.1), icons/ruriv.png (1.1),
+	  icons/ruriwarau.png (1.1), icons/usiro_13.png (1.1),
+	  icons/v_13.png (1.1), icons/warau_13.png (1.1),
+	  icons/yasum_13.png (1.1): add png file
+
+2000-02-11 16:24  kenji
+
+	* TODO.ja (1.6): add
+
+2000-02-09 23:04  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.12): bug fix: Loging RURI
+	  code even if CookieFlag is off bug
+
+2000-02-08 21:48  kenji
+
+	* public_html/diary/lib/HNS/System.pm (1.9): add $AdminCookieFlag
+
+2000-02-07 23:40  kenji
+
+	* public_html/diary/: config.ph.in (1.25), lib/HNS/Admini.pm
+	  (1.10), lib/HNS/Status.pm (1.11): add $AdminCookieFlag
+	  (config.ph.in, Admini.pm, Status.pm)
+
+2000-02-02 09:04  kitame
+
+	* public_html/diary/: anti-windoze/theme.ph (1.10),
+	  english/theme.ph (1.14), japanese/theme-static.ph (1.8),
+	  japanese/theme.ph (1.43), ruribaka/theme.ph (1.9): Support RLNEW,
+	  RLSUB command template.
+
+2000-02-02 09:02  kitame
+
+	* public_html/diary/lib/HNS/Hnf/: Command.pm (1.17), TreeBuilder.pm
+	  (1.26): Added RLNEW, RLSUB commands.
+
+2000-02-02 09:01  kitame
+
+	* public_html/diary/index.cgi.in (1.20): Up to 2.10-beta3 in source
+	  header.
+
+2000-01-30 11:35  kenji
+
+	* public_html/diary/japanese/theme.ph (1.42): add recent_sytle for
+	  NoTable
+
+2000-01-29 10:15  kenji
+
+	* public_html/diary/config.ph.in (1.24): add # -*- Perl -*- in
+	  first line for emacs color display
+
+2000-01-27 18:50  kenji
+
+	* TODO.ja (1.5): add
+
+2000-01-23 21:20  kenji
+
+	* public_html/diary/lib/HNS.pm (1.31): $VERSION = "2.10-beta3";
+
+2000-01-23 21:16  kenji
+
+	* public_html/diary/: japanese/theme-static.ph (1.7),
+	  japanese/theme.ph (1.41), english/theme.ph (1.13): add
+	  recent_style
+
+2000-01-20 12:21  kenji
+
+	* TODO.ja (1.4): update
+
+2000-01-11 21:55  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.19): fix group privacy bug
+
+2000-01-09 21:43  kenji
+
+	* README (1.16): add OSI Certified
+
+2000-01-09 20:40  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.6): update
+
+2000-01-09 20:40  kenji
+
+	* public_html/diary/japanese/theme.ph (1.40): remove Schedule
+	  $Range
+
+2000-01-09 00:54  kenji
+
+	* public_html/diary/lib/HNS.pm (1.30): public version 2.10-beta2
+
+2000-01-09 00:51  kenji
+
+	* README (1.15): for hns-2.10-beta2
+
+2000-01-09 00:44  kenji
+
+	* public_html/diary/config.ph.in (1.23): add Lang
+
+2000-01-08 23:43  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.5): remove &amp; in
+	  day head
+
+2000-01-07 23:52  kenji
+
+	* Makefile (1.41), Makefile.in (1.41): add make-diary.pl
+
+2000-01-07 21:27  kenji
+
+	* public_html/diary/index.cgi.in (1.19): change cache dir if
+	  executed in command line
+
+2000-01-07 21:24  kenji
+
+	* Makefile (1.40), Makefile.in (1.40): update sample hnf
+
+2000-01-06 22:00  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.25): fix: wrong
+	  CAT of GRP section bug. This fix is also ad hoc.
+
+2000-01-03 10:23  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.6.2.1): fix New Year
+	  Recent Display bug
+
+2000-01-03 00:23  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.16): prev is not
+	  correct. :-)
+
+2000-01-03 00:20  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.15): ad hoc fix: GRP
+	  closing bug [hns-users:00372]
+
+2000-01-02 15:42  kenji
+
+	* public_html/diary/lib/HNS.pm (1.29): add copyright year 2000
+
+2000-01-01 13:45  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.14): fix New Year
+	  Recent Display bug
+
+1999-12-28 23:01  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.4): update comment
+
+1999-12-28 22:58  kenji
+
+	* public_html/diary/: english/theme.ph (1.12), japanese/theme.ph
+	  (1.39): %mark for GRP
+
+1999-12-28 22:57  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.24): %mark for
+	  GRP fix GRP sub section counting
+
+1999-12-28 22:56  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.14): add $Mark for
+	  GRP
+
+1999-12-28 22:54  kenji
+
+	* public_html/diary/: anti-windoze/theme.ph (1.9),
+	  ruribaka/theme.ph (1.8): %mark for GRP
+
+1999-12-28 22:53  kenji
+
+	* Makefile (1.39), Makefile.in (1.39): rm CVS dir
+
+1999-12-24 22:41  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.23): support GRP
+	  command CAT command xhnf control code output
+
+1999-12-24 22:40  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.18): support GRP command
+
+1999-12-24 22:38  kenji
+
+	* public_html/diary/index.cgi.in (1.18): support GRP one section
+	  display
+
+1999-12-24 22:34  kenji
+
+	* Makefile (1.38), Makefile.in (1.38): update
+
+1999-12-21 20:42  kenji
+
+	* public_html/diary/lib/HNS.pm (1.18.2.4): for hns-2.00-pl3
+
+1999-12-21 20:39  kenji
+
+	* README (1.10.2.6): for hns-2.00-pl3
+
+1999-12-21 20:39  kenji
+
+	* Makefile (1.25.2.4), Makefile.in (1.25.2.4): change sample hnf
+
+1999-12-20 20:20  kenji
+
+	* public_html/diary/lib/HNS/: Status.pm (1.10), Status.pm
+	  (1.6.2.3): fix RURI code 14-digit bug
+
+1999-12-20 09:38  kenji
+
+	* public_html/diary/lib/HNS.pm (1.28): $VERSION to 2.10-beta2
+
+1999-12-19 23:55  kenji
+
+	* public_html/diary/lib/CodeConv.pm (1.2): fix
+
+1999-12-19 23:22  kenji
+
+	* TODO.ja (1.3): update
+
+1999-12-19 22:33  kenji
+
+	* public_html/diary/lib/: CodeConv.pm (1.1), HNS/Diary.pm (1.17),
+	  HNS/PIM/Schedule.pm (1.10), HNS/PIM/Todo.pm (1.8): support NKF.pm
+	  (CodeConv.pm)
+
+1999-12-19 19:30  kenji
+
+	* public_html/diary/: english/theme.ph (1.11), ruribaka/theme.ph
+	  (1.7): for hns-2.10
+
+1999-12-19 18:46  kenji
+
+	* public_html/diary/anti-windoze/: README (1.3), theme.ph (1.8):
+	  for hns-2.10
+
+1999-12-19 18:00  kenji
+
+	* public_html/diary/lib/HNS/Admini.pm (1.9): add meta robots none
+	  tag
+
+1999-12-17 19:37  kenji
+
+	* public_html/diary/icons/hns-2.1-icon.png (1.1): icon for hns-2.1
+
+1999-12-17 19:36  kenji
+
+	* public_html/diary/icons/hns-2.0-icon.gif (1.2): remove old
+	  hns-2.0 icon
+
+1999-12-14 11:14  kenji
+
+	* TODO.ja (1.2): add
+
+1999-12-11 16:32  kenji
+
+	* public_html/diary/update.html (1.4): obsolete
+
+1999-12-11 12:26  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.22): change
+	  comment html; TNX ari@nijino.com
+
+1999-12-10 21:42  kenji
+
+	* public_html/diary/lib/HNS.pm (1.27): public 2.10-beta1
+
+1999-12-09 17:33  kenji
+
+	* public_html/diary/config.ph.in (1.22): add range of schedule
+
+1999-12-09 12:24  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.9): support MM/a,
+	  MM/b, MM/c style
+
+1999-12-09 10:15  kenji
+
+	* TODO.ja (1.1): new
+
+1999-12-08 22:57  kenji
+
+	* public_html/diary/lib/HNS.pm (1.26): add html lang judgement
+
+1999-12-08 22:51  kenji
+
+	* public_html/diary/japanese/: theme-static.ph (1.3), theme.ph
+	  (1.38): add lang
+
+1999-12-08 22:44  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.37), lib/HNS.pm (1.25):
+	  add lang
+
+1999-12-08 22:16  kenji
+
+	* public_html/diary/lib/HNS.pm (1.24): version 2.00-beta1
+
+1999-12-08 22:14  kenji
+
+	* diary/todo (1.2), README (1.14), public_html/diary/index.cgi.in
+	  (1.17): for hns-2.10-beta1
+
+1999-12-08 22:12  kenji
+
+	* Makefile (1.37), Makefile.in (1.37): for hns-2.00-beta1
+
+1999-12-06 23:05  kenji
+
+	* public_html/diary/: config.ph.in (1.21), index.cgi.in (1.16): add
+	  NoRedirect
+
+1999-12-06 18:59  kenji
+
+	* public_html/diary/lib/HNS/Hnf/UserVar.pm (1.6): add missing =cut
+
+1999-12-05 22:04  kenji
+
+	* public_html/diary/index.cgi.in (1.15): fix auto cache clear
+	  timing
+
+1999-12-05 21:23  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.13): add MMDD request
+
+1999-12-05 21:22  kenji
+
+	* public_html/diary/index.cgi.in (1.14): auto cache clear & ?MMDD
+	  request (n year diary)
+
+1999-12-05 21:21  kenji
+
+	* public_html/diary/config.ph.in (1.20): add $AutoCacheClear
+
+1999-12-05 21:20  kenji
+
+	* Makefile.in (1.36), Makefile (1.36): add LM directory for auto
+	  cache clear
+
+1999-12-05 21:19  kenji
+
+	* public_html/diary/lib/HNS/Cache.pm (1.1): new object
+
+1999-12-02 14:42  kenji
+
+	* public_html/diary/anti-windoze/: theme.ph (1.7), theme.ph
+	  (1.5.2.3): change awwu URL
+
+1999-11-24 00:56  tom
+
+	* public_html/diary/lib/: CGI/Cookie.pm (1.6), CGI/QueryString.pm
+	  (1.3), CGI/Tools.pm (1.3), DateTime/Date.pm (1.7),
+	  DateTime/Time.pm (1.4), HNS/Admini.pm (1.8), HNS/CategoryList.pm
+	  (1.8), HNS/Collection.pm (1.12), HNS/DateSelect.pm (1.9),
+	  HNS/Diary.pm (1.16), HNS/Status.pm (1.9), HNS/Style.pm (1.13),
+	  HNS/Template.pm (1.3), HNS/Calendar/Direct.pm (1.4),
+	  HNS/Calendar/NoTable.pm (1.11), HNS/Calendar/Table.pm (1.11),
+	  HNS/Hnf/Command.pm (1.13), HNS/Hnf/TreeBuilder.pm (1.21),
+	  HNS/Hnf/UserVar.pm (1.5), HNS/Hnf/Warning.pm (1.4),
+	  HNS/PIM/Schedule.pm (1.8), HNS/PIM/Todo.pm (1.7),
+	  SimpleDB/Append.pm (1.3), SimpleDB/Base.pm (1.5),
+	  SimpleDB/Hash.pm (1.3), SimpleDB/Scalar.pm (1.3): document added
+
+1999-11-20 16:30  kenji
+
+	* public_html/diary/config.ph.in (1.19): CacheLog off
+
+1999-11-15 22:30  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.11): add 2 items
+	  for the future
+
+1999-11-15 00:32  kenji
+
+	* public_html/diary/index.cgi.in (1.13): auto cache clear judgement
+	  (no clear yet)
+
+1999-11-15 00:31  kenji
+
+	* public_html/diary/config.ph.in (1.18): changed var order
+
+1999-11-14 20:59  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.15): fix typo
+
+1999-11-14 19:54  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.20): don't warn
+	  if in PRE (ad hoc)
+
+1999-11-14 11:47  kenji
+
+	* Makefile (1.35), Makefile.in (1.35): add clear_cache
+
+1999-11-13 22:56  kenji
+
+	* hns-setup.en (1.4), hns-setup.ja (1.10): remove \@, add PATH
+	  /usr/sbin
+
+1999-11-13 22:39  kenji
+
+	* hns-setup.ja (1.9): remove \@ in mail address
+
+1999-11-13 22:38  kenji
+
+	* Makefile (1.34), Makefile.in (1.34): remove web2nikki, \@
+
+1999-11-12 22:32  kenji
+
+	* public_html/diary/: config.ph.in (1.17), lib/HNS/Collection.pm
+	  (1.11), lib/HNS/Diary.pm (1.14): fix no cache update bug and add
+	  $HNS::System::AllowCacheOnly flag TNX! masato@orange.co.jp
+
+1999-11-07 21:36  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.13): cache logging off when
+	  caching off
+
+1999-11-07 21:08  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.12): cache off
+
+1999-11-07 14:49  kenji
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.11), Hnf/Command.pm
+	  (1.12), Hnf/TreeBuilder.pm (1.19): caching off, only cache
+	  display
+
+1999-11-07 14:48  kenji
+
+	* public_html/diary/config.ph.in (1.16): caching on/off
+
+1999-11-07 14:47  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.10): for only cache
+	  display
+
+1999-11-03 12:37  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.10): add parameter
+
+1999-11-03 10:01  kenji
+
+	* public_html/diary/lib/HNS.pm (1.23): public version 2.00-pl2
+
+1999-11-02 21:34  kenji
+
+	* public_html/diary/japanese/theme.ph (1.36): support abc (ari
+	  patch)
+
+1999-11-02 21:32  kenji
+
+	* public_html/diary/lib/HNS/: DateSelect.pm (1.8), PIM/Schedule.pm
+	  (1.7): abc support (ari patch)
+
+1999-11-02 13:16  kenji
+
+	* diary/conf/robotlist.txt (1.13): tanpopo Rbn-Antenna
+
+1999-10-30 21:52  kenji
+
+	* public_html/diary/japanese/theme.ph (1.35): support not / base
+	  href
+
+1999-10-30 21:39  kenji
+
+	* public_html/diary/japanese/theme.ph (1.32.2.2): support not /
+	  base href
+
+1999-10-30 21:37  kenji
+
+	* public_html/diary/japanese/theme-old.ph (1.9): no longer
+	  supported
+
+1999-10-30 21:37  kenji
+
+	* public_html/diary/japanese/theme-old.ph (1.7.2.3): add no longer
+	  supported statement
+
+1999-10-30 10:10  kenji
+
+	* diary/conf/robotlist.txt (1.12): remove blank line
+
+1999-10-21 00:11  tom
+
+	* public_html/diary/lib/: HNS.pm (1.22), Image/Size.pm (1.10):
+	  perldoc sample
+
+1999-10-20 23:00  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.9.2.1): merge from
+	  current
+
+1999-10-20 22:57  kenji
+
+	* public_html/diary/lib/HNS.pm (1.18.2.3): version number 2.00-pl2
+
+1999-10-20 22:56  kenji
+
+	* README (1.10.2.5): for 2.00-pl2
+
+1999-10-20 22:46  kenji
+
+	* Makefile (1.25.2.3), Makefile.in (1.25.2.3): for 2.00-pl2
+
+1999-10-20 22:44  kenji
+
+	* diary/: d19990717.hnf (1.1.2.2), y199907 (1.1.2.2): remove old
+	  sample
+
+1999-10-20 22:40  kenji
+
+	* diary/conf/robotlist.txt (1.1.1.1.2.2): merge from current
+
+1999-10-18 09:50  kenji
+
+	* diary/conf/robotlist.txt (1.11): add
+	  Mozilla/3.01C-PBWF-ip3000.com-crawler
+
+1999-10-17 20:52  kenji
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.10), Hnf/TreeBuilder.pm
+	  (1.18): add xhnf control code output
+
+1999-10-16 22:58  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.17): add xhnf
+	  control code: NEW
+
+1999-10-16 20:40  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.10): fix: [bug]
+	  19990824 Calender table output
+
+1999-10-15 09:44  kenji
+
+	* public_html/diary/lib/SimpleDB/Base.pm (1.4): fix: [bug] 19991012
+	  make-rurimap.cgi ruri-map overwrite
+
+1999-10-11 17:59  kenji
+
+	* public_html/diary/config.ph.in (1.15), Makefile (1.33),
+	  Makefile.in (1.33): changed cache dir to ~/diary/cache
+
+1999-10-11 11:08  kenji
+
+	* public_html/diary/index.cgi.in (1.7.2.3): direct calender
+	  redirect change [h14m:02802]
+
+1999-10-10 13:02  kenji
+
+	* Makefile (1.32), Makefile.in (1.32),
+	  public_html/diary/config.ph.in (1.14),
+	  public_html/diary/lib/HNS/Diary.pm (1.9): cache_log; hit or miss
+	  logging added
+
+1999-10-10 12:59  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.9): log file name
+	  change: deny_log -> denial_log
+
+1999-10-10 03:55  kenji
+
+	* Makefile (1.31), Makefile.in (1.31),
+	  public_html/diary/config.ph.in (1.13),
+	  public_html/diary/lib/HNS/Diary.pm (1.8),
+	  public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.16): persistent
+	  cache experimental implimentation
+
+1999-10-09 12:56  kenji
+
+	* public_html/diary/config.ph.in (1.12): make-rurimap.cgi sendmail
+	  option
+
+1999-10-04 22:09  kenji
+
+	* public_html/diary/lib/SimpleDB/: Base.pm (1.3), Base.pm
+	  (1.2.2.1): fix readonly typo
+
+1999-10-02 09:34  kenji
+
+	* public_html/diary/lib/DateTime/Date.pm (1.4.2.1): inc/dec bug Sep
+	  Nov Oct bug fix
+
+1999-10-02 09:30  kenji
+
+	* public_html/diary/lib/DateTime/Date.pm (1.6): Sep Nov Oct bug fix
+
+1999-09-14 09:05  kenji
+
+	* diary/conf/robotlist.txt (1.10): ia_archiver
+
+1999-09-13 21:21  kenji
+
+	* Makefile (1.30), Makefile.in (1.30): fix sample hnf install
+	  directory to 1999
+
+1999-09-12 19:17  kenji
+
+	* diary/conf/robotlist.txt (1.9): add NATSU-MICAN
+
+1999-09-12 14:44  tom
+
+	* public_html/diary/index.cgi.in (1.12): nul
+
+1999-09-05 11:45  kenji
+
+	* public_html/diary/message.html (1.3): removed textarea white
+	  space
+
+1999-09-03 01:50  tom
+
+	* public_html/diary/lib/DateTime/Date.pm (1.5): inc/dec bug
+
+1999-08-25 18:28  kenji
+
+	* Makefile (1.29), Makefile.in (1.29): make 1999 yearly distributed
+	  directory
+
+1999-08-25 18:24  kenji
+
+	* diary/: d19990717.hnf (1.3), y199907 (1.3): mv to 1999
+	  distributed directory
+
+1999-08-22 10:32  kenji
+
+	* public_html/diary/lib/HNS/: CategoryList.pm (1.7),
+	  Hnf/TreeBuilder.pm (1.15): don't show img tag when img file in
+	  cat/cat.txt doesn't exist
+
+1999-08-19 09:19  kenji
+
+	* diary/conf/robotlist.txt (1.8): add
+
+1999-08-10 09:50  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.8): change error
+	  message
+
+1999-08-04 10:47  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.7): HTTP status
+	  code output
+
+1999-08-03 18:39  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.6): some changes
+
+1999-07-30 17:51  kenji
+
+	* public_html/diary/english/: theme.ph (1.10), theme.ph (1.8.2.3):
+	  Thr -> Thu
+
+1999-07-30 09:11  kenji
+
+	* diary/conf/robotlist.txt (1.7): add Openfind Robot
+
+1999-07-27 17:57  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.5): add deny_log
+	  function, but...
+
+1999-07-26 09:30  kenji
+
+	* Makefile.in (1.28), Makefile (1.28): add webif to target (fix)
+
+1999-07-26 09:26  kenji
+
+	* Makefile.in (1.27), Makefile (1.27): add webif install
+
+1999-07-24 22:51  kenji
+
+	* public_html/diary/lib/HNS/System.pm (1.8): add LessOutput
+
+1999-07-24 22:50  kenji
+
+	* public_html/diary/lib/HNS.pm (1.21): add Lessoutput option
+
+1999-07-24 22:49  kenji
+
+	* public_html/diary/config.ph.in (1.11): add LessOutput option
+
+1999-07-24 20:29  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.4): some fixes
+
+1999-07-24 14:45  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.3): rewrite some
+	  code
+
+1999-07-24 09:48  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.2): fix typo
+
+1999-07-23 23:03  kenji
+
+	* public_html/diary/index.cgi.in (1.11): access control & direct
+	  calender redirect change [h14m:02802]
+
+1999-07-23 23:01  kenji
+
+	* public_html/diary/lib/HNS/AccessControl.pm (1.1): access control
+	  package
+
+1999-07-20 10:34  kenji
+
+	* diary/conf/robotlist.txt (1.6): add Pockey
+
+1999-07-18 21:33  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.11): add LIMG command
+
+1999-07-17 13:42  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.8), hns-setup.ja (1.8):
+	  merge from hns-200-pl1
+
+1999-07-17 13:41  kenji
+
+	* public_html/diary/lib/HNS.pm (1.20): public version change
+
+1999-07-17 13:39  kenji
+
+	* public_html/diary/: japanese/theme-old.ph (1.8),
+	  japanese/theme-static.ph (1.2), lib/HNS/Admini.pm (1.7): merge
+	  from hns-200-pl1
+
+1999-07-17 13:38  kenji
+
+	* public_html/diary/english/theme.ph (1.9): merger from hns-200-pl1
+
+1999-07-17 13:33  kenji
+
+	* Makefile.in (1.26), Makefile (1.26),
+	  public_html/diary/ruribaka/theme.ph (1.6),
+	  public_html/diary/anti-windoze/README (1.2),
+	  public_html/diary/anti-windoze/theme.ph (1.6): merge from
+	  hns-200-pl1
+
+1999-07-17 13:32  kenji
+
+	* diary/: d19990603.hnf (1.3), y199906 (1.2): old sample
+
+1999-07-17 13:32  kenji
+
+	* diary/: d19990717.hnf (1.2), y199907 (1.2): new sample file
+
+1999-07-17 12:36  kenji
+
+	* public_html/diary/lib/HNS.pm (1.18.2.2): $PUBLIC_VERSION =
+	  "2.00-pl1"
+
+1999-07-16 21:59  kenji
+
+	* public_html/diary/english/theme.ph (1.8.2.2): 2 byte @ to 1 byte
+	  @
+
+1999-07-16 21:19  kenji
+
+	* public_html/diary/english/theme.ph (1.8.2.1): & -> &amp; in href
+
+1999-07-15 21:45  kenji
+
+	* public_html/diary/: ruribaka/theme.ph (1.5.2.2),
+	  japanese/theme-old.ph (1.7.2.2): remove fn end </dd>
+
+1999-07-14 21:46  kenji
+
+	* Makefile.in (1.25.2.2), Makefile (1.25.2.2), README (1.10.2.4):
+	  for hns-2.00-pl1 release
+
+1999-07-14 21:45  kenji
+
+	* diary/: d19990603.hnf (1.2.2.1), y199906 (1.1.2.1): remove old
+	  sample
+
+1999-07-14 21:44  kenji
+
+	* diary/: d19990717.hnf (1.1.2.1), y199907 (1.1.2.1): new sample
+	  for hns-2.00-pl1 release
+
+1999-07-14 20:52  kenji
+
+	* Makefile (1.25.2.1), Makefile.in (1.25.2.1): no cookie log now
+
+1999-07-14 10:02  kenji
+
+	* public_html/diary/: config.ph.in (1.10), lib/HNS/System.pm (1.7),
+	  lib/HNS/Hnf/TreeBuilder.pm (1.14): fix fn count bug
+
+1999-07-11 19:25  kenji
+
+	* public_html/diary/: config.ph.in (1.8.2.1), lib/HNS/System.pm
+	  (1.5.2.1), lib/HNS/Hnf/TreeBuilder.pm (1.11.2.2): fix fn count
+	  bug
+
+1999-07-11 18:45  kenji
+
+	* README (1.10.2.3): add
+
+1999-07-09 21:47  kenji
+
+	* public_html/diary/lib/HNS/: Admini.pm (1.6.2.1), Status.pm
+	  (1.6.2.2): set ruri code from admini.cgi or so
+
+1999-07-09 09:29  kenji
+
+	* public_html/diary/anti-windoze/README (1.1.1.1.2.1): adjustment
+
+1999-07-09 09:29  kenji
+
+	* public_html/diary/anti-windoze/theme.ph (1.5.2.2): some messages
+	  are changed
+
+1999-07-09 09:22  kenji
+
+	* public_html/diary/lib/HNS.pm (1.18.2.1): $VERSION to hns-2.00-pl1
+
+1999-07-09 09:21  kenji
+
+	* README (1.10.2.2): add
+
+1999-07-08 21:44  kenji
+
+	* README (1.10.2.1): for hns-2.00-pl1 pre
+
+1999-07-08 21:23  kenji
+
+	* public_html/diary/index.cgi.in (1.7.2.2): support japanese RedHat
+	  & Perl 5.004_04_jp980303 (require config.ph problem fix)CVS:
+	  ----------------------------------------------------------------------
+
+1999-07-08 21:19  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.6.2.1): fix is_robot bug
+
+1999-07-07 21:47  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.7): fix is_robot bug
+
+1999-07-07 21:18  kenji
+
+	* public_html/diary/index.cgi.in (1.10): support japanese RedHat &
+	  Perl 5.004_04_jp980303 (require config.ph problem fix)
+
+1999-07-03 21:50  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.10): add P command
+
+1999-07-01 21:46  kenji
+
+	* diary/conf/robotlist.txt (1.1.1.1.2.1): merge from current
+
+1999-07-01 21:41  kenji
+
+	* public_html/diary/: ruribaka/theme.ph (1.5.2.1),
+	  japanese/theme-old.ph (1.7.2.1), japanese/theme-static.ph
+	  (1.1.2.1), japanese/theme.ph (1.32.2.1), anti-windoze/theme.ph
+	  (1.5.2.1): & -> &amp; in href
+
+1999-07-01 21:35  kenji
+
+	* public_html/diary/index.cgi.in (1.7.2.1): fix 19990701 HEAD
+	  request no logging bug
+
+1999-07-01 21:32  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.11.2.1): fix sub
+	  end wrong $self->{top}->{pos} bug
+
+1999-07-01 21:29  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.8.2.1): fix Sub
+	  Entities AllowCommands typo
+
+1999-07-01 14:38  kenji
+
+	* diary/conf/robotlist.txt (1.5): Drip
+	  http://www.vector.co.jp/soft/win95/net/se053467.html
+
+1999-07-01 13:34  kenji
+
+	* public_html/diary/index.cgi.in (1.9): fix 19990701 HEAD request
+	  no logging bug
+
+1999-06-25 10:48  kenji
+
+	* README (1.13): add notice
+
+1999-06-25 09:51  kenji
+
+	* diary/conf/robotlist.txt (1.4): WDB/0.11 (WWW-Dancing-Bee; )
+
+1999-06-25 09:49  kenji
+
+	* diary/conf/robotlist.txt (1.3): RaBot/1.0
+	  Agent-admin/chkim@icec.or.kr
+
+1999-06-24 21:15  kenji
+
+	* public_html/diary/: index.cgi.in (1.8), lib/HNS/Diary.pm (1.7),
+	  lib/HNS/Hnf/TreeBuilder.pm (1.13): add function of one section
+	  display (?19990624S1)
+
+1999-06-22 10:53  kenji
+
+	* diary/conf/robotlist.txt (1.2): gazz (gazz@nttrd.com) from
+	  infobee.ne.jp
+
+1999-06-19 17:36  kenji
+
+	* public_html/diary/lib/HNS/Style.pm (1.12): Ari
+	  head_recent_style,foot_recent_style patch merged & default value
+	  imported from theme japanese
+
+1999-06-19 13:42  kenji
+
+	* public_html/diary/lib/HNS/Diary.pm (1.6): CR+LF to LF
+
+1999-06-17 22:04  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.12): fix sub end
+	  wrong $self->{top}->{pos} bug
+
+1999-06-17 22:02  kenji
+
+	* public_html/diary/lib/HNS/Hnf/Command.pm (1.9): add DL DT DD
+	  command fix Sub entitiy allowed command typo bug
+
+1999-06-14 23:18  kenji
+
+	* public_html/diary/japanese/theme.ph (1.34): %high -> %abc
+
+1999-06-14 22:48  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.9): remove typo 'e'
+
+1999-06-13 15:05  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.8): fix AlwaysReverse
+	  displays reverse reverse recent diary bug
+
+1999-06-12 21:17  kenji
+
+	* public_html/diary/lib/HNS/: Collection.pm (1.7), System.pm (1.6):
+	  support AlwaysReverse
+
+1999-06-12 21:17  kenji
+
+	* public_html/diary/lib/HNS.pm (1.19): change version# and
+	  head.txt/foot.txt theme overriding
+
+1999-06-12 21:14  kenji
+
+	* public_html/diary/config.ph.in (1.9): add $AlwaysReverse
+
+1999-06-12 21:13  kenji
+
+	* README (1.12): some expression change for hns-2.1-current
+
+1999-06-11 09:17  kenji
+
+	* hns-setup.ja (1.7.2.1): fix typo
+
+1999-06-10 15:25  kenji
+
+	* public_html/diary/japanese/theme.ph (1.33): & -> &amp; in href
+	  (may be HTML 4.0 validdation)
+
+1999-06-10 15:18  kenji
+
+	* README (1.11): for hns-2.1-current
+
+1999-06-03 21:25  kenji
+
+	* public_html/diary/lib/HNS.pm (1.18): official release of
+	  hns-2.00-pl0
+
+1999-06-02 10:30  kenji
+
+	* README (1.10): mail2nikki update
+
+1999-06-01 16:42  kenji
+
+	* public_html/diary/icons/hns-2.0-icon.gif (1.1): hns-2.0-icon
+	  (Nagisa by Osayo)
+
+1999-06-01 16:42  kenji
+
+	* public_html/diary/icons/README (1.1): copyright notice
+
+1999-06-01 09:48  kenji
+
+	* public_html/diary/lib/HNS/Calendar/NoTable.pm (1.10): fix no
+	  space among linked days
+
+1999-05-31 21:29  kenji
+
+	* public_html/diary/lib/HNS.pm (1.17): change version number to
+	  hns-2.00-pl0 & add " to attribute
+
+1999-05-31 21:27  kenji
+
+	* public_html/diary/index.cgi.in (1.7): changed version number to
+	  2.00-pl0
+
+1999-05-31 00:16  kenji
+
+	* public_html/diary/japanese/theme-static.ph (1.1): imported
+
+1999-05-31 00:12  kenji
+
+	* public_html/diary/lib/HNS.pm (1.16): add <hr> before foot.txt
+
+1999-05-30 16:11  kenji
+
+	* GPL-j.txt (1.3): reimport
+
+1999-05-30 16:10  kenji
+
+	* GPL-j.txt (1.2): remove for reimport with on keyword replacement
+
+1999-05-30 15:55  kenji
+
+	* diary/d19990603.hnf (1.2),
+	  public_html/diary/anti-windoze/theme.ph (1.5),
+	  public_html/diary/english/theme.ph (1.8),
+	  public_html/diary/japanese/theme-old.ph (1.7),
+	  public_html/diary/japanese/theme.ph (1.32),
+	  public_html/diary/lib/HNS/CategoryList.pm (1.6),
+	  public_html/diary/lib/HNS/DateSelect.pm (1.7),
+	  public_html/diary/lib/HNS/Calendar/Direct.pm (1.3),
+	  public_html/diary/ruribaka/theme.ph (1.5): fix
+	  HNS::CategoryList::SubmitLabel doesn't work bug & changes some
+	  output
+
+1999-05-30 14:30  kenji
+
+	* public_html/diary/: anti-windoze/theme.ph (1.4),
+	  japanese/theme-old.ph (1.6), japanese/theme.ph (1.31),
+	  lib/HNS/Calendar/NoTable.pm (1.9), lib/HNS/Calendar/Table.pm
+	  (1.9), ruribaka/theme.ph (1.4): change %s -> %ruri (requested
+	  uri) in calendar link template
+
+1999-05-30 14:27  kenji
+
+	* dir.txt (1.2), public_html/diary/dir.txt (1.2): remove
+
+1999-05-29 16:19  kenji
+
+	* README (1.9): for hns-2.00-pl0
+
+1999-05-28 10:37  kenji
+
+	* public_html/diary/: anti-windoze/theme.ph (1.3),
+	  japanese/theme-old.ph (1.5), japanese/theme.ph (1.30),
+	  lib/HNS/Calendar/NoTable.pm (1.8), lib/HNS/Calendar/Table.pm
+	  (1.8), ruribaka/theme.ph (1.3): calender link template rewrited
+	  (not tested) %s -> requested url %ymd -> YYYYMMDD added at
+	  calendar template
+
+1999-05-26 20:06  kenji
+
+	* Makefile (1.25), Makefile.in (1.25): remove one schedule file
+	  unneeded
+
+1999-05-25 23:07  kenji
+
+	* public_html/diary/lib/HNS.pm (1.15): $PUBLIC_VERSION =
+	  "2.00-beta4";
+
+1999-05-25 23:03  kenji
+
+	* public_html/diary/anti-windoze/theme.ph (1.2): replace
+	  anti-windoze to $HNS::System::Theme
+
+1999-05-25 23:02  kenji
+
+	* public_html/diary/ruribaka/theme.ph (1.2): all text color
+	  selection
+
+1999-05-25 22:45  kenji
+
+	* Makefile (1.24), Makefile.in (1.24): add theme ruribaka
+
+1999-05-25 22:42  kenji
+
+	* public_html/diary/ruribaka/: ruri-bg.gif (1.1.1.1), theme.ph
+	  (1.1.1.1): Imported sources
+
+1999-05-25 22:42  kenji
+
+	* public_html/diary/ruribaka/: ruri-bg.gif (1.1), theme.ph (1.1):
+	  Initial revision
+
+1999-05-25 19:13  kenji
+
+	* Makefile (1.23), Makefile.in (1.23): support theme anti-windoze
+
+1999-05-25 18:57  kenji
+
+	* public_html/diary/: 002.gif (1.2), README (1.2), hns-logo-2.gif
+	  (1.2), ruribaka.gif (1.2), ruriusiro.gif (1.2), screen1.jpg
+	  (1.2), theme.ph (1.2): remove mistook imported files
+
+1999-05-25 18:54  kenji
+
+	* public_html/diary/: 002.gif (1.1.1.1), README (1.1.1.1),
+	  hns-logo-2.gif (1.1.1.1), ruribaka.gif (1.1.1.1), ruriusiro.gif
+	  (1.1.1.1), screen1.jpg (1.1.1.1), theme.ph (1.1.1.1),
+	  anti-windoze/002.gif (1.1.1.1), anti-windoze/README (1.1.1.1),
+	  anti-windoze/hns-logo-2.gif (1.1.1.1), anti-windoze/ruribaka.gif
+	  (1.1.1.1), anti-windoze/ruriusiro.gif (1.1.1.1),
+	  anti-windoze/screen1.jpg (1.1.1.1), anti-windoze/theme.ph
+	  (1.1.1.1): Imported sources
+
+1999-05-25 18:54  kenji
+
+	* public_html/diary/: 002.gif (1.1), README (1.1), hns-logo-2.gif
+	  (1.1), ruribaka.gif (1.1), ruriusiro.gif (1.1), screen1.jpg
+	  (1.1), theme.ph (1.1), anti-windoze/002.gif (1.1),
+	  anti-windoze/README (1.1), anti-windoze/hns-logo-2.gif (1.1),
+	  anti-windoze/ruribaka.gif (1.1), anti-windoze/ruriusiro.gif
+	  (1.1), anti-windoze/screen1.jpg (1.1), anti-windoze/theme.ph
+	  (1.1): Initial revision
+
+1999-05-25 18:39  kenji
+
+	* README (1.8): for hns-2.00-beta4
+
+1999-05-25 18:38  kenji
+
+	* Makefile (1.22), Makefile.in (1.22): change sample hnf file date
+
+1999-05-25 18:37  kenji
+
+	* diary/: d19990603.hnf (1.1), y199906 (1.1): add up-to-date
+	  samples
+
+1999-05-25 18:35  kenji
+
+	* diary/: d19990501.hnf (1.8), y199904 (1.3), y199905 (1.2): remove
+	  out-of-date samples
+
+1999-05-24 22:36  kenji
+
+	* public_html/diary/lib/HNS/: Hnf/TreeBuilder.pm (1.11), Diary.pm
+	  (1.5): add one third of a month (abc)
+
+1999-05-23 14:15  kenji
+
+	* public_html/diary/: index.cgi.in (1.6), lib/HNS/Collection.pm
+	  (1.6): support ?199905a style (one third of a month)
+
+1999-05-23 13:01  kenji
+
+	* public_html/diary/lib/HNS/: CategoryList.pm (1.5), DateSelect.pm
+	  (1.6), Style.pm (1.11): change default selected value (to current
+	  month & all days) of title list form
+
+1999-05-23 13:00  kenji
+
+	* public_html/diary/lib/HNS/Hnf/UserVar.pm (1.4): change some
+	  output html
+
+1999-05-23 12:58  kenji
+
+	* public_html/diary/english/theme.ph (1.7): remove japanese message
+
+1999-05-23 11:20  kenji
+
+	* public_html/diary/lib/HNS/Calendar/NoTable.pm (1.7): remove
+	  nuneeded , typo
+
+1999-05-23 11:11  kenji
+
+	* public_html/diary/english/theme.ph (1.6): $DayCurrentTemplate
+	  support
+
+1999-05-23 11:06  kenji
+
+	* public_html/diary/japanese/: theme-old.ph (1.4), theme.ph (1.29):
+	  $DayCurrentTemplate supports
+
+1999-05-23 11:01  kenji
+
+	* public_html/diary/lib/HNS/Calendar/: NoTable.pm (1.6), Table.pm
+	  (1.7): $DayCurrentTemplate added
+
+1999-05-21 23:27  kenji
+
+	* public_html/diary/english/theme.ph (1.5): merge theme 'japanese'
+	  change
+
+1999-05-21 23:17  kenji
+
+	* public_html/diary/japanese/theme-old.ph (1.3): add $Categorize or
+	  so
+
+1999-05-21 22:55  kenji
+
+	* public_html/diary/japanese/theme.ph (1.28): add $Categorize or so
+
+1999-05-21 22:47  kenji
+
+	* public_html/diary/lib/HNS/CategoryList.pm (1.4): remove hard
+	  coded Japanese message
+
+1999-05-21 21:50  kenji
+
+	* hns-setup.en (1.3): support hoshino anntena regist flag
+
+1999-05-21 21:49  kenji
+
+	* hns-setup.ja (1.7): fix typo ON -> OK
+
+1999-05-21 13:35  kenji
+
+	* public_html/diary/lib/jcode.pl (1.5): add without keyword
+	  replacement
+
+1999-05-21 13:33  kenji
+
+	* public_html/diary/lib/jcode.pl (1.4): remove 'cause keyword
+	  replacement
+
+1999-05-21 11:59  kenji
+
+	* public_html/diary/lib/HNS.pm (1.14): version number change
+
+1999-05-20 23:08  kenji
+
+	* Makefile (1.21), Makefile.in (1.21), hns-setup.ja (1.6): support
+	  HOSHINO_ANTENNA_REGIST flag
+
+1999-05-20 18:03  kenji
+
+	* public_html/diary/lib/HNS.pm (1.13): add <!--
+	  HOSHINO_ANTENNA_REGIST comment
+
+1999-05-20 18:03  kenji
+
+	* public_html/diary/config.ph.in (1.8): add $HoshinoAntenna flag
+
+1999-05-18 22:04  kenji
+
+	* public_html/diary/japanese/theme.ph (1.27): Netscape readable CSS
+
+1999-05-18 22:00  kenji
+
+	* Makefile (1.20), Makefile.in (1.20): change: installer backs up
+	  old log.cgi
+
+1999-05-15 21:28  kenji
+
+	* public_html/diary/lib/HNS.pm (1.12): version hns-2.00-beta3
+
+1999-05-15 21:25  kenji
+
+	* public_html/diary/index.cgi.in (1.5): hns-2.00-beta3
+
+1999-05-15 21:24  kenji
+
+	* public_html/diary/config.ph.in (1.7): add $Id$
+
+1999-05-15 21:23  kenji
+
+	* hns-setup.ja (1.5): add read README caution
+
+1999-05-15 12:08  kenji
+
+	* diary/d19990501.hnf (1.7): for hns-2.00-beta3
+
+1999-05-15 12:05  kenji
+
+	* Makefile (1.19), Makefile.in (1.19): don't touch if
+	  message-by-user.txt exists
+
+1999-05-15 11:55  kenji
+
+	* README (1.7): for hns-2.00-beta3
+
+1999-05-14 22:20  tom
+
+	* public_html/diary/lib/: HNS/Hnf/Command.pm (1.8), Image/Size.pm
+	  (1.9): bug fix: ImgMaxWidthSize
+
+1999-05-14 22:00  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.6): change output
+	  html
+
+1999-05-14 21:59  kenji
+
+	* public_html/diary/japanese/: theme.ph (1.26), theme-old.ph (1.2):
+	  quote attr value in html tag
+
+1999-05-14 18:11  kenji
+
+	* public_html/diary/japanese/theme.ph (1.25): new version with CSS1
+
+1999-05-14 18:08  kenji
+
+	* public_html/diary/japanese/theme-old.ph (1.1): old style japanese
+	  (no CSS)
+
+1999-05-10 18:33  kenji
+
+	* public_html/diary/lib/HNS/Admini.pm (1.6): adjust DTD
+
+1999-05-10 09:53  kenji
+
+	* public_html/diary/dot.htaccess (1.4): add .bak file to deny
+	  access
+
+1999-05-09 22:51  kenji
+
+	* public_html/diary/: config.ph.in (1.6), lib/HNS/System.pm (1.5),
+	  lib/Image/Size.pm (1.8): fix no ImgWidthMaxSize bug
+
+1999-05-09 22:49  kenji
+
+	* public_html/diary/japanese/theme.ph (1.24): add one hr before hns
+	  version display in header
+
+1999-05-08 10:23  kki
+
+	* public_html/diary/update.html (1.3): fix: default value in
+	  textarea.
+
+1999-05-06 20:30  tom
+
+	* public_html/diary/lib/DateTime/Date.pm (1.4): bug fix: %d
+
+1999-05-01 11:46  tom
+
+	* public_html/diary/lib/: DateTime/Format.pm (1.3),
+	  HNS/Hnf/TreeBuilder.pm (1.10): for perl-5.003: Format.pm:
+	  __PACKAGE__ removed.	TreeBuilder.pm: qw(vars).
+
+1999-04-30 23:46  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.6): fix no cookie logging
+	  bug
+
+1999-04-30 22:33  kenji
+
+	* public_html/diary/lib/HNS/System.pm (1.4): arrangement
+
+1999-04-30 22:31  kenji
+
+	* public_html/diary/config.ph.in (1.5): move PIM $MaxNum from theme
+
+1999-04-30 22:28  kenji
+
+	* public_html/diary/japanese/theme.ph (1.23): move PIM $MaxNum to
+	  config.ph
+
+1999-04-30 14:08  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.22), lib/HNS/ExtHTML.pm
+	  (1.3): change DOCTYPE expression
+
+1999-04-30 14:07  kenji
+
+	* Makefile.in (1.18): remove -f option of cp
+
+1999-04-30 09:23  kenji
+
+	* public_html/diary/lib/HNS.pm (1.11): $PUBLIC_VERSION =
+	  "2.00-beta2";
+
+1999-04-30 09:19  kenji
+
+	* README (1.6): for hns-2.00-beta2 release
+
+1999-04-29 22:44  kenji
+
+	* public_html/diary/japanese/theme.ph (1.21): change some output
+	  html
+
+1999-04-29 22:43  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.9): remove debug
+	  print
+
+1999-04-29 21:51  tom
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.8): [no log
+	  message]
+
+1999-04-29 21:41  tom
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.7): bug fix: FN
+	  bug
+
+1999-04-29 20:59  kenji
+
+	* diary/d19990501.hnf (1.6): add some samples
+
+1999-04-29 20:12  kenji
+
+	* diary/d19990501.hnf (1.5): for hns-2.00-beta2 release
+
+1999-04-29 18:06  kenji
+
+	* public_html/diary/index.cgi.in (1.4): only change Version# to
+	  2.00-beta2
+
+1999-04-29 10:03  kenji
+
+	* diary/d19990501.hnf (1.4): for hns-2.00-beta2
+
+1999-04-29 10:02  kenji
+
+	* public_html/diary/lib/HNS.pm (1.10): $VERSION = "2.00-beta2";
+
+1999-04-29 09:02  kenji
+
+	* public_html/diary/lib/CGI/Cookie.pm (1.5): add no $path case
+
+1999-04-28 23:12  tom
+
+	* public_html/diary/lib/CGI/Cookie.pm (1.4): [no log message]
+
+1999-04-28 23:04  tom
+
+	* public_html/diary/lib/CGI/Cookie.pm (1.3): bug fix: cookie.pm
+	  path problem: eliminate "/$"
+
+1999-04-28 23:00  tom
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.6): bug fix: FN
+	  multiple bug, and illegally inserted bug.
+
+1999-04-28 16:50  tom
+
+	* Makefile (1.18): cp -pf -> cp -p
+
+1999-04-28 11:45  ken
+
+	* public_html/diary/: japanese/theme.ph (1.20),
+	  lib/HNS/Hnf/Command.pm (1.7): [no log message]
+
+1999-04-28 11:06  ken
+
+	* public_html/diary/config.ph.in (1.4): [no log message]
+
+1999-04-25 20:31  kenji
+
+	* public_html/diary/japanese/theme.ph (1.19): add Todo MaxNum
+
+1999-04-25 20:30  kenji
+
+	* public_html/diary/lib/HNS/PIM/Todo.pm (1.6): add MaxNum to
+	  display
+
+1999-04-25 12:53  kenji
+
+	* Makefile (1.17), Makefile.in (1.17): pospe2hnf jcode support
+
+1999-04-25 10:08  kenji
+
+	* public_html/diary/lib/HNS/: Style.pm (1.10), Calendar/Table.pm
+	  (1.5): change output html
+
+1999-04-25 10:04  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.18), lib/HNS.pm (1.9):
+	  change output html
+
+1999-04-24 13:01  kenji
+
+	* public_html/diary/lib/HNS.pm (1.8): change html output
+
+1999-04-24 12:55  kenji
+
+	* public_html/diary/lib/HNS/Calendar/NoTable.pm (1.5): fix calendar
+	  link bug
+
+1999-04-23 22:41  kenji
+
+	* public_html/diary/japanese/theme.ph (1.17): adjust
+	  $VersionMessages
+
+1999-04-23 22:40  kenji
+
+	* public_html/diary/lib/Image/Size.pm (1.7): support .jpg jpeg file
+	  & remove error printing for debug
+
+1999-04-23 14:22  ken
+
+	* public_html/diary/lib/Image/Size.pm (1.6): [no log message]
+
+1999-04-23 14:03  ken
+
+	* public_html/diary/japanese/theme.ph (1.16): [no log message]
+
+1999-04-21 15:27  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.4): fix bad
+	  relative links from calendar to currect days
+
+1999-04-21 13:19  kenji
+
+	* public_html/diary/lib/Image/Size.pm (1.5): remove duplicated {
+
+1999-04-21 13:16  kenji
+
+	* public_html/diary/lib/Image/Size.pm (1.4): add png but not tested
+
+1999-04-21 12:56  kenji
+
+	* public_html/diary/lib/Image/Size.pm (1.3): add jpeg but not
+	  tested
+
+1999-04-19 21:29  kenji
+
+	* public_html/diary/index.cgi.in (1.3): fix direct calendar
+	  wrapping param bug
+
+1999-04-19 21:28  kenji
+
+	* public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.5): fix no cat
+	  icon in NEW line & show cat name when no icons is set
+
+1999-04-19 14:46  kenji
+
+	* public_html/diary/japanese/theme.ph (1.15): SUB LSUB template bug
+	  fix
+
+1999-04-18 20:14  kenji
+
+	* public_html/diary/lib/HNS.pm (1.7): PUBLIC_VERSION = "2.00-beta1"
+
+1999-04-18 16:13  kenji
+
+	* public_html/diary/lib/HNS.pm (1.6): add , in copyright notice at
+	  the buttom line
+
+1999-04-18 14:21  kenji
+
+	* public_html/diary/lib/HNS/Calendar/NoTable.pm (1.4): remove
+	  unnessesary tr tag, and adjust cal html format
+
+1999-04-18 14:20  kenji
+
+	* public_html/diary/lib/HNS/Style.pm (1.9): fix NoUnagiTemplate
+	  typo
+
+1999-04-18 14:18  kenji
+
+	* diary/d19990501.hnf (1.3): add hns-2.00-beta1 release note
+
+1999-04-18 14:17  kenji
+
+	* README (1.5): add upgrade caution
+
+1999-04-18 04:28  kenji
+
+	* public_html/diary/japanese/theme.ph (1.14): adjust FN Template
+
+1999-04-18 03:36  kenji
+
+	* public_html/diary/japanese/theme.ph (1.13): CITE shows blockquote
+	  tag
+
+1999-04-18 03:25  kenji
+
+	* public_html/diary/lib/HNS.pm (1.5): version change:
+	  hns-2.00-beta1
+
+1999-04-18 03:21  kenji
+
+	* public_html/diary/index.cgi.in (1.2): only change Version# to
+	  2.00-beta1
+
+1999-04-18 03:20  kenji
+
+	* hns-setup.en (1.2): for 2.00
+
+1999-04-18 03:19  kenji
+
+	* README (1.4): adjust for hns-2.00-beta1
+
+1999-04-18 03:15  kenji
+
+	* public_html/diary/lib/HNS/: Hnf/Command.pm (1.6),
+	  Hnf/TreeBuilder.pm (1.4), Hnf/UserVar.pm (1.3), Hnf/Warning.pm
+	  (1.3), PIM/Schedule.pm (1.6), PIM/Todo.pm (1.5),
+	  Calendar/NoTable.pm (1.3): add $Id$
+
+1999-04-18 03:08  kenji
+
+	* public_html/diary/lib/HNS/: Collection.pm (1.5), Diary.pm (1.4),
+	  ExtHTML.pm (1.2), Status.pm (1.5), Style.pm (1.8), System.pm
+	  (1.3): add $Id$
+
+1999-04-18 03:01  kenji
+
+	* public_html/diary/lib/: SimpleDB/Append.pm (1.2),
+	  SimpleDB/Base.pm (1.2), SimpleDB/Hash.pm (1.2),
+	  SimpleDB/Scalar.pm (1.2), DateTime/Date.pm (1.3),
+	  DateTime/Format.pm (1.2), DateTime/Time.pm (1.3), Image/Size.pm
+	  (1.2), CGI/Cookie.pm (1.2), CGI/QueryString.pm (1.2),
+	  CGI/Tools.pm (1.2): add $Id$
+
+1999-04-18 01:30  kenji
+
+	* public_html/diary/japanese/theme.ph (1.12): add alt in img src at
+	  cat title selection
+
+1999-04-18 01:27  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Table.pm (1.3): change output
+	  html
+
+1999-04-18 01:26  kenji
+
+	* public_html/diary/lib/HNS/Template.pm (1.2): add $Id$
+
+1999-04-18 01:25  kenji
+
+	* public_html/diary/lib/HNS/DateSelect.pm (1.5): remove selected
+
+1999-04-18 01:22  kenji
+
+	* public_html/diary/lib/HNS/CategoryList.pm (1.3): change output
+	  html
+
+1999-04-17 23:43  kenji
+
+	* public_html/diary/lib/HNS/Calendar/Direct.pm (1.2): add $Id$
+
+1999-04-17 23:41  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.11), lib/HNS/Style.pm
+	  (1.7): html correction
+
+1999-04-17 23:39  kenji
+
+	* public_html/diary/lib/HNS/DateSelect.pm (1.4): fix multiple
+	  selected bug in direct calender of day, change output html
+
+1999-04-17 21:46  kenji
+
+	* hns-setup.ja (1.4): really 2.00 support
+
+1999-04-17 21:08  kenji
+
+	* hns-setup.ja (1.3): adjustment for 2.00
+
+1999-04-17 17:36  kenji
+
+	* README (1.3): add caution
+
+1999-04-17 17:06  kenji
+
+	* README (1.2): for 2.00-beta1
+
+1999-04-17 16:22  kenji
+
+	* public_html/diary/cat/: A.gif (1.3), B.gif (1.4), C.gif (1.3),
+	  D.gif (1.3), E.gif (1.3), F.gif (1.4), G.gif (1.3), H.gif (1.3),
+	  I.gif (1.4), J.gif (1.4), K.gif (1.3), L.gif (1.3), M.gif (1.4),
+	  N.gif (1.4), O.gif (1.4), P.gif (1.4), Q.gif (1.3), R.gif (1.3),
+	  S.gif (1.4), T.gif (1.4), U.gif (1.3), V.gif (1.4), W.gif (1.4),
+	  X.gif (1.4), Y.gif (1.4), Z.gif (1.3), nikki.gif (1.3), toko.gif
+	  (1.3): add -bk *.gif
+
+1999-04-17 16:21  kenji
+
+	* public_html/diary/cat/: A.gif (1.2), B.gif (1.3), C.gif (1.2),
+	  D.gif (1.2), E.gif (1.2), F.gif (1.3), G.gif (1.2), H.gif (1.2),
+	  I.gif (1.3), J.gif (1.3), K.gif (1.2), L.gif (1.2), M.gif (1.3),
+	  N.gif (1.3), O.gif (1.3), P.gif (1.3), Q.gif (1.2), R.gif (1.2),
+	  S.gif (1.3), T.gif (1.3), U.gif (1.2), V.gif (1.3), W.gif (1.3),
+	  X.gif (1.3), Y.gif (1.3), Z.gif (1.2), nikki.gif (1.2), toko.gif
+	  (1.2): rm broken gif
+
+1999-04-17 16:12  kenji
+
+	* public_html/diary/lib/HNS.pm (1.4): change html output
+
+1999-04-17 16:07  kenji
+
+	* public_html/diary/japanese/theme.ph (1.10): change html output
+
+1999-04-17 15:05  kenji
+
+	* public_html/diary/lib/HNS/Admini.pm (1.5): change vlink color
+	  #663399
+
+1999-04-17 13:07  kenji
+
+	* Makefile (1.16), Makefile.in (1.16): add cleaning of index.cgi
+
+1999-04-17 13:05  kenji
+
+	* public_html/diary/index.cgi (1.5): mv index.cgi index.cgi.in
+
+1999-04-17 11:46  kenji
+
+	* Makefile (1.15), Makefile.in (1.15): mail2nikki jcode path
+	  replace
+
+1999-04-17 10:18  tom
+
+	* public_html/diary/lib/HNS/: Style.pm (1.6), Calendar/NoTable.pm
+	  (1.2), Calendar/Table.pm (1.2):
+	  show calendar of this month, if recent mode.
+
+1999-04-17 10:13  kenji
+
+	* public_html/diary/japanese/theme.ph (1.9): add <br> to URL
+
+1999-04-17 09:55  kenji
+
+	* public_html/diary/japanese/theme.ph (1.8): change some output
+
+1999-04-17 09:52  kenji
+
+	* diary/d19990501.hnf (1.2): add user var
+
+1999-04-16 22:51  tom
+
+	* public_html/diary/: english/theme.ph (1.4), japanese/theme.ph
+	  (1.7), lib/HNS/Diary.pm (1.3), lib/HNS/Hnf/UserVar.pm (1.2),
+	  lib/HNS/Hnf/Warning.pm (1.2):
+	  depricated: NoOK.  warn if used undefined user-variable.
+
+1999-04-16 22:39  kenji
+
+	* public_html/diary/lib/HNS/: CategoryList.pm (1.2), DateSelect.pm
+	  (1.3): some output change
+
+1999-04-16 22:36  kenji
+
+	* public_html/diary/japanese/theme.ph (1.6): some output change
+
+1999-04-16 20:26  kenji
+
+	* public_html/diary/index.cgi.in (1.1): Perl path replace & mv
+	  $Log$ $Id$
+
+1999-04-16 20:24  kenji
+
+	* Makefile (1.14), Makefile.in (1.14): pospe2hnf & index.cgi added
+
+1999-04-16 19:47  tom
+
+	* public_html/diary/lib/HNS/: Diary.pm (1.2), Hnf/Command.pm (1.5):
+
+	  bug fix: if diary don't has OK, it's not printed.
+
+1999-04-16 19:18  tom
+
+	* public_html/diary/lib/HNS/PIM/Todo.pm (1.4):
+	  bug fix: next -> return if todo not exists.
+
+1999-04-15 22:31  kenji
+
+	* Makefile (1.13), Makefile.in (1.13): add $Id$
+
+1999-04-15 22:24  tom
+
+	* public_html/diary/lib/HNS/Admini.pm (1.4):
+	  BODY color changed.
+
+1999-04-15 22:16  tom
+
+	* Makefile (1.12), Makefile.in (1.12):
+	  bug fix: add view.cgi, make-rurimap.cgi to TARGET.
+
+1999-04-15 22:02  tom
+
+	* Makefile.in (1.11): [no log message]
+
+1999-04-15 22:02  tom
+
+	* Makefile (1.11):
+	  setup view.cgi, make-rurimap.cgi.
+
+1999-04-15 21:41  tom
+
+	* Makefile (1.10), Makefile.in (1.10):
+	  update for view.cgi, make-rurimap.cgi
+
+1999-04-15 21:39  tom
+
+	* public_html/diary/lib/HNS/Admini.pm (1.3):
+	  CheckAuthorized : can print header by setting be_print_header.
+
+1999-04-15 21:25  tom
+
+	* public_html/diary/: message.html (1.2), lib/CGI/Tools.pm (1.1),
+	  lib/HNS/Admini.pm (1.2):
+	  message.html: make-rurimap.php3 -> make-rurimap.cgi add
+	  HNS::Admini
+
+1999-04-15 21:24  tom
+
+	* public_html/diary/lib/HNS/PIM/: Schedule.pm (1.5), Todo.pm (1.3):
+
+	  Todo.pm: don't die even if 'todo' file is not exist.
+
+1999-04-15 14:22  kenji
+
+	* Makefile.in (1.9), Makefile (1.9): add missing \
+
+1999-04-15 14:21  kenji
+
+	* Makefile.in (1.8), Makefile (1.8): make ~/diary/log/OLD
+
+1999-04-15 12:43  kenji
+
+	* public_html/diary/cat/rlink.txt (1.2): rm rlink.txt
+
+1999-04-15 11:56  kenji
+
+	* Makefile (1.6), Makefile.in (1.6), Makefile (1.7), Makefile.in
+	  (1.7): fix typo
+
+1999-04-15 11:51  kenji
+
+	* Makefile (1.5), Makefile.in (1.5): Sample hnf changed
+
+1999-04-15 11:48  kenji
+
+	* diary/: d19990331.hnf (1.3), y199903 (1.2): Out of date sample
+
+1999-04-15 11:48  kenji
+
+	* diary/: d19990501.hnf (1.1), y199904 (1.2), y199905 (1.1):
+	  Samples on May
+
+1999-04-14 22:46  kenji
+
+	* public_html/diary/lib/HNS/PIM/Schedule.pm (1.4): commented out
+	  debug print code
+
+1999-04-14 22:27  tom
+
+	* public_html/diary/lib/HNS/: Admini.pm (1.1), StringTable.pm
+	  (1.2):
+
+	  create Admini.pm : administration class delete StringTable.pm :
+	  not used. no need.
+
+1999-04-14 21:56  kenji
+
+	* public_html/diary/icons/: ase_13.gif (1.4), baka_13.gif (1.4),
+	  be_13.gif (1.4), fu_13.gif (1.4), haji_13.gif (1.4),
+	  hatena_13.gif (1.4), hns-logo.gif (1.4), mark00.gif (1.4),
+	  mark01.gif (1.4), naku_13.gif (1.4), neko_13.gif (1.3),
+	  nomal_13.gif (1.4), ojigi_13.gif (1.4), okoru_13.gif (1.3),
+	  ruri-bg.gif (1.4), ruri.gif (1.4), ruriase.gif (1.3),
+	  ruribaka.gif (1.3), ruriodor.gif (1.4), ruriusiro.gif (1.4),
+	  ruriv.gif (1.3), ruriwarau.gif (1.3), usiro_13.gif (1.3),
+	  v_13.gif (1.4), warau_13.gif (1.4), yasum_13.gif (1.4): gif files
+
+1999-04-14 21:53  kenji
+
+	* public_html/diary/icons/: ase_13.gif (1.3), baka_13.gif (1.3),
+	  be_13.gif (1.3), fu_13.gif (1.3), haji_13.gif (1.3),
+	  hatena_13.gif (1.3), hns-logo.gif (1.3), mark00.gif (1.3),
+	  mark01.gif (1.3), naku_13.gif (1.3), neko_13.gif (1.2),
+	  nomal_13.gif (1.3), ojigi_13.gif (1.3), okoru_13.gif (1.2),
+	  ruri-bg.gif (1.3), ruri.gif (1.3), ruriase.gif (1.2),
+	  ruribaka.gif (1.2), ruriodor.gif (1.3), ruriusiro.gif (1.3),
+	  ruriv.gif (1.2), ruriwarau.gif (1.2), usiro_13.gif (1.2),
+	  v_13.gif (1.3), warau_13.gif (1.3), yasum_13.gif (1.3): broken
+	  gif files
+
+1999-04-14 21:21  kenji
+
+	* public_html/diary/: lib/HNS/Hnf/Command.pm (1.4),
+	  japanese/theme.ph (1.5): SUB/LSUB templ adjustment
+
+1999-04-14 19:34  kenji
+
+	* public_html/diary/: japanese/theme.ph (1.4), lib/HNS/Style.pm
+	  (1.5): hns-logo's html changed
+
+1999-04-14 15:19  kenji
+
+	* public_html/diary/config.ph.in (1.3): rm disused definitions
+
+1999-04-14 10:40  kenji
+
+	* Makefile (1.4), Makefile.in (1.4): DIARYMAIL @ -> \\@ for perl
+
+1999-04-14 10:18  kenji
+
+	* Makefile.in (1.3), Makefile (1.3): fix web2nikki %DIARYMAIL%
+	  replace bug and rm old code & comment
+
+1999-04-14 10:11  kenji
+
+	* public_html/diary/update.html (1.2): html format adjustment
+
+1999-04-13 23:17  tom
+
+	* public_html/diary/: english/theme.ph (1.3), japanese/theme.ph
+	  (1.3), lib/HNS/Style.pm (1.4), lib/HNS/Hnf/Command.pm (1.3),
+	  lib/HNS/Hnf/TreeBuilder.pm (1.3):
+
+	  add &to=... to FN command template.
+
+1999-04-13 22:34  tom
+
+	* public_html/diary/lib/HNS/: Style.pm (1.3), PIM/Schedule.pm
+	  (1.3):
+	  bug fix: not apear schedule.	  'cause $HNS::Status->start_time
+	  was modified directly.
+
+1999-04-13 13:56  kenji
+
+	* Makefile (1.2), Makefile.in (1.2): fix title_wrapper directory
+	  mistakes
+
+1999-04-13 10:07  kenji
+
+	* public_html/diary/lib/HNS/Collection.pm (1.4): rm debug code for
+	  header printing
+
+1999-04-13 02:55  tom
+
+	* public_html/diary/lib/HNS/Collection.pm (1.3):
+	  BUG Fix : display dupricated in recent mode, if number of diarys
+	  is less than $HNS::System::DefaultMax.
+
+1999-04-13 02:39  tom
+
+	* public_html/diary/lib/HNS/Status.pm (1.4):
+	  use $HNS::Status->start_time as logging time.
+
+1999-04-13 02:23  tom
+
+	* public_html/diary/index.cgi (1.4): [no log message]
+
+1999-04-13 02:23  tom
+
+	* diary/d19990331.hnf (1.2), public_html/diary/lib/HNS.pm (1.3),
+	  public_html/diary/lib/DateTime/Date.pm (1.2),
+	  public_html/diary/lib/DateTime/Time.pm (1.2),
+	  public_html/diary/lib/HNS/Collection.pm (1.2),
+	  public_html/diary/lib/HNS/DateSelect.pm (1.2),
+	  public_html/diary/lib/HNS/Status.pm (1.3),
+	  public_html/diary/lib/HNS/Style.pm (1.2),
+	  public_html/diary/lib/HNS/PIM/Schedule.pm (1.2),
+	  public_html/diary/lib/HNS/PIM/Todo.pm (1.2):
+	  fix log format and use TZ $HNS::Status object was created.
+
+1999-04-12 23:35  kenji
+
+	* public_html/diary/lib/HNS/Status.pm (1.2): fix GMT loging & log
+	  date time format
+
+1999-04-12 18:33  tom
+
+	* public_html/diary/: config.ph.in (1.2), index.cgi (1.3),
+	  english/theme.ph (1.2), japanese/theme.ph (1.2), lib/jcode.pl
+	  (1.3), lib/HNS/System.pm (1.2), lib/HNS/Hnf/Command.pm (1.2),
+	  lib/HNS/Hnf/TreeBuilder.pm (1.2):
+
+	  $HNS::System::IgnoreReserved : if set "ON", not warn if used
+	  reserved command.  $HNS::Hnf::Warning::Messages{'Reserved'} =
+	  undef; is don't work.
+
+1999-04-12 16:57  tom
+
+	* public_html/diary/: dot.htaccess (1.3), index.cgi (1.2),
+	  cat/B.gif (1.2), cat/F.gif (1.2), cat/I.gif (1.2), cat/J.gif
+	  (1.2), cat/M.gif (1.2), cat/N.gif (1.2), cat/O.gif (1.2),
+	  cat/P.gif (1.2), cat/S.gif (1.2), cat/T.gif (1.2), cat/V.gif
+	  (1.2), cat/W.gif (1.2), cat/X.gif (1.2), cat/Y.gif (1.2),
+	  icons/ase_13.gif (1.2), icons/baka_13.gif (1.2), icons/be_13.gif
+	  (1.2), icons/fu_13.gif (1.2), icons/haji_13.gif (1.2),
+	  icons/hatena_13.gif (1.2), icons/hns-logo.gif (1.2),
+	  icons/mark00.gif (1.2), icons/mark01.gif (1.2), icons/naku_13.gif
+	  (1.2), icons/nomal_13.gif (1.2), icons/ojigi_13.gif (1.2),
+	  icons/ruri-bg.gif (1.2), icons/ruri.gif (1.2), icons/ruriodor.gif
+	  (1.2), icons/ruriusiro.gif (1.2), icons/v_13.gif (1.2),
+	  icons/warau_13.gif (1.2), icons/yasum_13.gif (1.2), lib/HNS.pm
+	  (1.2), lib/jcode.pl (1.2), lib/CGI/a (1.2):
+	  rename Change.ja -> ChangeLog.ja
+
+1999-04-12 16:37  kenji
+
+	* public_html/diary/dot.htaccess (1.2): *.pm *.ph access control
+	  added
+
+1999-04-12 15:51  kenji
+
+	* hns-setup (1.2): rm non-symlinked hns-setup
+
+1999-04-12 15:33  tom
+
+	* hns-setup (1.1), hns-setup.ja (1.2):
+	  recovery hns-setup.ja is broken
+
+1999-04-12 15:21  tom
+
+	* GPL-j.txt (1.1.1.1), GPL.txt (1.1.1.1), Makefile (1.1.1.1),
+	  Makefile.in (1.1.1.1), hns-setup.en (1.1.1.1), hns-setup.ja
+	  (1.1.1.1), README (1.1.1.1), dir.txt (1.1.1.1),
+	  diary/d19990331.hnf (1.1.1.1), diary/todo (1.1.1.1),
+	  diary/y199903 (1.1.1.1), diary/y199904 (1.1.1.1),
+	  diary/conf/alias.txt (1.1.1.1), diary/conf/auth_ruri.txt
+	  (1.1.1.1), diary/conf/browser_style.txt (1.1.1.1),
+	  diary/conf/foot.txt (1.1.1.1), diary/conf/head.txt (1.1.1.1),
+	  diary/conf/rlink.txt (1.1.1.1), diary/conf/robotlist.txt
+	  (1.1.1.1), diary/conf/ruri_map.txt (1.1.1.1),
+	  public_html/diary/config.ph.in (1.1.1.1),
+	  public_html/diary/dir.txt (1.1.1.1),
+	  public_html/diary/dot.htaccess (1.1.1.1),
+	  public_html/diary/index.cgi (1.1.1.1),
+	  public_html/diary/message.html (1.1.1.1),
+	  public_html/diary/update.html (1.1.1.1),
+	  public_html/diary/cat/B.gif (1.1.1.1),
+	  public_html/diary/cat/C.gif (1.1.1.1),
+	  public_html/diary/cat/D.gif (1.1.1.1),
+	  public_html/diary/cat/E.gif (1.1.1.1),
+	  public_html/diary/cat/F.gif (1.1.1.1),
+	  public_html/diary/cat/G.gif (1.1.1.1),
+	  public_html/diary/cat/H.gif (1.1.1.1),
+	  public_html/diary/cat/I.gif (1.1.1.1),
+	  public_html/diary/cat/J.gif (1.1.1.1),
+	  public_html/diary/cat/K.gif (1.1.1.1),
+	  public_html/diary/cat/L.gif (1.1.1.1),
+	  public_html/diary/cat/M.gif (1.1.1.1),
+	  public_html/diary/cat/rlink.txt (1.1.1.1),
+	  public_html/diary/cat/A.gif (1.1.1.1),
+	  public_html/diary/cat/N.gif (1.1.1.1),
+	  public_html/diary/cat/O.gif (1.1.1.1),
+	  public_html/diary/cat/P.gif (1.1.1.1),
+	  public_html/diary/cat/Q.gif (1.1.1.1),
+	  public_html/diary/cat/R.gif (1.1.1.1),
+	  public_html/diary/cat/S.gif (1.1.1.1),
+	  public_html/diary/cat/T.gif (1.1.1.1),
+	  public_html/diary/cat/U.gif (1.1.1.1),
+	  public_html/diary/cat/V.gif (1.1.1.1),
+	  public_html/diary/cat/W.gif (1.1.1.1),
+	  public_html/diary/cat/X.gif (1.1.1.1),
+	  public_html/diary/cat/Y.gif (1.1.1.1),
+	  public_html/diary/cat/Z.gif (1.1.1.1),
+	  public_html/diary/cat/cat.txt (1.1.1.1),
+	  public_html/diary/cat/nikki.gif (1.1.1.1),
+	  public_html/diary/cat/toko.gif (1.1.1.1),
+	  public_html/diary/english/theme.ph (1.1.1.1),
+	  public_html/diary/japanese/theme.ph (1.1.1.1),
+	  public_html/diary/lib/HNS.pm (1.1.1.1),
+	  public_html/diary/lib/ObjectTemplate.pm (1.1.1.1),
+	  public_html/diary/lib/jcode.pl (1.1.1.1),
+	  public_html/diary/lib/DateTime/Date.pm (1.1.1.1),
+	  public_html/diary/lib/DateTime/Format.pm (1.1.1.1),
+	  public_html/diary/lib/DateTime/Time.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Collection.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Status.pm (1.1.1.1),
+	  public_html/diary/lib/Image/Size.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/CategoryList.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/DateSelect.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Diary.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/ExtHTML.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/StringTable.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Style.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/System.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Template.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Calendar/Direct.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Calendar/NoTable.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Calendar/Table.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Hnf/Command.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Hnf/UserVar.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/Hnf/Warning.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/PIM/Schedule.pm (1.1.1.1),
+	  public_html/diary/lib/HNS/PIM/Todo.pm (1.1.1.1),
+	  public_html/diary/icons/README_1.03 (1.1.1.1),
+	  public_html/diary/icons/ase_13.gif (1.1.1.1),
+	  public_html/diary/icons/baka_13.gif (1.1.1.1),
+	  public_html/diary/icons/be_13.gif (1.1.1.1),
+	  public_html/diary/icons/fu_13.gif (1.1.1.1),
+	  public_html/diary/icons/haji_13.gif (1.1.1.1),
+	  public_html/diary/icons/hatena_13.gif (1.1.1.1),
+	  public_html/diary/icons/hns-logo.gif (1.1.1.1),
+	  public_html/diary/icons/hns_icon.html (1.1.1.1),
+	  public_html/diary/icons/mark00.gif (1.1.1.1),
+	  public_html/diary/icons/yasum_13.gif (1.1.1.1),
+	  public_html/diary/lib/CGI/Cookie.pm (1.1.1.1),
+	  public_html/diary/lib/CGI/QueryString.pm (1.1.1.1),
+	  public_html/diary/lib/CGI/a (1.1.1.1),
+	  public_html/diary/lib/SimpleDB/Append.pm (1.1.1.1),
+	  public_html/diary/lib/SimpleDB/Base.pm (1.1.1.1),
+	  public_html/diary/lib/SimpleDB/Hash.pm (1.1.1.1),
+	  public_html/diary/lib/SimpleDB/Scalar.pm (1.1.1.1),
+	  public_html/diary/icons/README_1.02 (1.1.1.1),
+	  public_html/diary/icons/mark01.gif (1.1.1.1),
+	  public_html/diary/icons/naku_13.gif (1.1.1.1),
+	  public_html/diary/icons/neko_13.gif (1.1.1.1),
+	  public_html/diary/icons/nomal_13.gif (1.1.1.1),
+	  public_html/diary/icons/ojigi_13.gif (1.1.1.1),
+	  public_html/diary/icons/okoru_13.gif (1.1.1.1),
+	  public_html/diary/icons/ruri-bg.gif (1.1.1.1),
+	  public_html/diary/icons/ruri.gif (1.1.1.1),
+	  public_html/diary/icons/ruriase.gif (1.1.1.1),
+	  public_html/diary/icons/ruribaka.gif (1.1.1.1),
+	  public_html/diary/icons/ruriodor.gif (1.1.1.1),
+	  public_html/diary/icons/ruriusiro.gif (1.1.1.1),
+	  public_html/diary/icons/ruriv.gif (1.1.1.1),
+	  public_html/diary/icons/ruriwarau.gif (1.1.1.1),
+	  public_html/diary/icons/usiro_13.gif (1.1.1.1),
+	  public_html/diary/icons/v_13.gif (1.1.1.1),
+	  public_html/diary/icons/warau_13.gif (1.1.1.1):
+	  hns-perl : initial imported version as hns-200-alpha5
+
+1999-04-12 15:21  tom
+
+	* GPL-j.txt (1.1), GPL.txt (1.1), Makefile (1.1), Makefile.in
+	  (1.1), hns-setup.en (1.1), hns-setup.ja (1.1), README (1.1),
+	  dir.txt (1.1), diary/d19990331.hnf (1.1), diary/todo (1.1),
+	  diary/y199903 (1.1), diary/y199904 (1.1), diary/conf/alias.txt
+	  (1.1), diary/conf/auth_ruri.txt (1.1),
+	  diary/conf/browser_style.txt (1.1), diary/conf/foot.txt (1.1),
+	  diary/conf/head.txt (1.1), diary/conf/rlink.txt (1.1),
+	  diary/conf/robotlist.txt (1.1), diary/conf/ruri_map.txt (1.1),
+	  public_html/diary/config.ph.in (1.1), public_html/diary/dir.txt
+	  (1.1), public_html/diary/dot.htaccess (1.1),
+	  public_html/diary/index.cgi (1.1), public_html/diary/message.html
+	  (1.1), public_html/diary/update.html (1.1),
+	  public_html/diary/cat/B.gif (1.1), public_html/diary/cat/C.gif
+	  (1.1), public_html/diary/cat/D.gif (1.1),
+	  public_html/diary/cat/E.gif (1.1), public_html/diary/cat/F.gif
+	  (1.1), public_html/diary/cat/G.gif (1.1),
+	  public_html/diary/cat/H.gif (1.1), public_html/diary/cat/I.gif
+	  (1.1), public_html/diary/cat/J.gif (1.1),
+	  public_html/diary/cat/K.gif (1.1), public_html/diary/cat/L.gif
+	  (1.1), public_html/diary/cat/M.gif (1.1),
+	  public_html/diary/cat/rlink.txt (1.1),
+	  public_html/diary/cat/A.gif (1.1), public_html/diary/cat/N.gif
+	  (1.1), public_html/diary/cat/O.gif (1.1),
+	  public_html/diary/cat/P.gif (1.1), public_html/diary/cat/Q.gif
+	  (1.1), public_html/diary/cat/R.gif (1.1),
+	  public_html/diary/cat/S.gif (1.1), public_html/diary/cat/T.gif
+	  (1.1), public_html/diary/cat/U.gif (1.1),
+	  public_html/diary/cat/V.gif (1.1), public_html/diary/cat/W.gif
+	  (1.1), public_html/diary/cat/X.gif (1.1),
+	  public_html/diary/cat/Y.gif (1.1), public_html/diary/cat/Z.gif
+	  (1.1), public_html/diary/cat/cat.txt (1.1),
+	  public_html/diary/cat/nikki.gif (1.1),
+	  public_html/diary/cat/toko.gif (1.1),
+	  public_html/diary/english/theme.ph (1.1),
+	  public_html/diary/japanese/theme.ph (1.1),
+	  public_html/diary/lib/HNS.pm (1.1),
+	  public_html/diary/lib/ObjectTemplate.pm (1.1),
+	  public_html/diary/lib/jcode.pl (1.1),
+	  public_html/diary/lib/DateTime/Date.pm (1.1),
+	  public_html/diary/lib/DateTime/Format.pm (1.1),
+	  public_html/diary/lib/DateTime/Time.pm (1.1),
+	  public_html/diary/lib/HNS/Collection.pm (1.1),
+	  public_html/diary/lib/HNS/Status.pm (1.1),
+	  public_html/diary/lib/Image/Size.pm (1.1),
+	  public_html/diary/lib/HNS/CategoryList.pm (1.1),
+	  public_html/diary/lib/HNS/DateSelect.pm (1.1),
+	  public_html/diary/lib/HNS/Diary.pm (1.1),
+	  public_html/diary/lib/HNS/ExtHTML.pm (1.1),
+	  public_html/diary/lib/HNS/StringTable.pm (1.1),
+	  public_html/diary/lib/HNS/Style.pm (1.1),
+	  public_html/diary/lib/HNS/System.pm (1.1),
+	  public_html/diary/lib/HNS/Template.pm (1.1),
+	  public_html/diary/lib/HNS/Calendar/Direct.pm (1.1),
+	  public_html/diary/lib/HNS/Calendar/NoTable.pm (1.1),
+	  public_html/diary/lib/HNS/Calendar/Table.pm (1.1),
+	  public_html/diary/lib/HNS/Hnf/Command.pm (1.1),
+	  public_html/diary/lib/HNS/Hnf/TreeBuilder.pm (1.1),
+	  public_html/diary/lib/HNS/Hnf/UserVar.pm (1.1),
+	  public_html/diary/lib/HNS/Hnf/Warning.pm (1.1),
+	  public_html/diary/lib/HNS/PIM/Schedule.pm (1.1),
+	  public_html/diary/lib/HNS/PIM/Todo.pm (1.1),
+	  public_html/diary/icons/README_1.03 (1.1),
+	  public_html/diary/icons/ase_13.gif (1.1),
+	  public_html/diary/icons/baka_13.gif (1.1),
+	  public_html/diary/icons/be_13.gif (1.1),
+	  public_html/diary/icons/fu_13.gif (1.1),
+	  public_html/diary/icons/haji_13.gif (1.1),
+	  public_html/diary/icons/hatena_13.gif (1.1),
+	  public_html/diary/icons/hns-logo.gif (1.1),
+	  public_html/diary/icons/hns_icon.html (1.1),
+	  public_html/diary/icons/mark00.gif (1.1),
+	  public_html/diary/icons/yasum_13.gif (1.1),
+	  public_html/diary/lib/CGI/Cookie.pm (1.1),
+	  public_html/diary/lib/CGI/QueryString.pm (1.1),
+	  public_html/diary/lib/CGI/a (1.1),
+	  public_html/diary/lib/SimpleDB/Append.pm (1.1),
+	  public_html/diary/lib/SimpleDB/Base.pm (1.1),
+	  public_html/diary/lib/SimpleDB/Hash.pm (1.1),
+	  public_html/diary/lib/SimpleDB/Scalar.pm (1.1),
+	  public_html/diary/icons/README_1.02 (1.1),
+	  public_html/diary/icons/mark01.gif (1.1),
+	  public_html/diary/icons/naku_13.gif (1.1),
+	  public_html/diary/icons/neko_13.gif (1.1),
+	  public_html/diary/icons/nomal_13.gif (1.1),
+	  public_html/diary/icons/ojigi_13.gif (1.1),
+	  public_html/diary/icons/okoru_13.gif (1.1),
+	  public_html/diary/icons/ruri-bg.gif (1.1),
+	  public_html/diary/icons/ruri.gif (1.1),
+	  public_html/diary/icons/ruriase.gif (1.1),
+	  public_html/diary/icons/ruribaka.gif (1.1),
+	  public_html/diary/icons/ruriodor.gif (1.1),
+	  public_html/diary/icons/ruriusiro.gif (1.1),
+	  public_html/diary/icons/ruriv.gif (1.1),
+	  public_html/diary/icons/ruriwarau.gif (1.1),
+	  public_html/diary/icons/usiro_13.gif (1.1),
+	  public_html/diary/icons/v_13.gif (1.1),
+	  public_html/diary/icons/warau_13.gif (1.1): Initial revision
+

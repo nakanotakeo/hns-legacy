@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" type="text/css" href="hns.css">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>アクセス制御について</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>アクセス制御について</h1>
+    </div>
+    <hr>
+
+    <h3>アクセス制御とは?</h3>
+
+    <p>従来の日記システムにはない、柔軟なアクセス制御機能が
+    ハイパー日記システムには実装されています。この機能により
+    特定のクライアントからの日記へのアクセスを拒否したり
+    許可することができます。</p>
+
+    <div class="c2">
+      <span class="c1">注意:</span><br>
+       RURIコード、エージェント名、参照元、X_FORWARDED_FOR
+      は読者の(ブラウザの)自己申告による
+      情報です。本来的に限られた信頼性しかありません。これらの項目のみの
+      設定でアクセスを完全に禁止することはできません。
+      特に参照元の送信は本来読者の選択すべきプライバシー情報であり、
+      送信されない可能性があります。
+    </div>
+    <hr>
+
+    <h3>アクセス制御の利用方法</h3>
+
+    <p>設定ディレクトリ ~/diary/conf/ に
+    アクセス制御の設定ファイルaccess_control.txt
+    を作成します。</p>
+<pre>
+allow: RURIコード ドメイン名 エージェント名 参照元 X_FORWARDED_FOR * *
+deny: RURIコード ドメイン名 エージェント名 参照元 X_FORWARDED_FOR * * エラー・コード
+</pre>
+
+    <p>
+    という形式で記載します．各項目の間は必ずスペースで区切ります。</p>
+
+    <p>上から順に評価して、allow:
+    にマッチしたら日記を表示します。 deny:
+    にマッチしたら日記は表示されず、エラー・コードで指定した
+    エラー・メッセージを返します。マッチしない場合は、日記が表示されます。</p>
+
+    <p><strong>ドメイン名</strong>
+    はログに記録される読者のホスト名です。
+    逆引きできない(しない)
+    場合は、IPアドレスを指定して下さい。<br>
+     <strong>エージェント名</strong>
+    はブラウザ等が送る自分の名前です。<br>
+     <strong>エラー・コード</strong>
+    は予め定義されている番号、404,403 または
+    自分で定義した番号を指定します。</p>
+    <hr>
+
+    <p>例1:
+    会社(company.co.jp)の人に見られるのはまずいが自分は会社にいても日記に
+    アクセスしたい(自分の RURIコードは
+    RURI380573602f079)。<br>
+     →
+    RURIコードで自分のアクセスを許可し、ドメイン名で会社からのアクセスを
+    拒絶する。</p>
+<pre>
+allow: RURI380573602f079 * * * * * *
+deny: * company.co.jp * * * * * 404
+</pre>
+
+    <p>例2:
+    以前交換日記をしていた相手からのリンク(相手の日記の
+    URL は
+    http:://www.example.ne.jp/hoge/diary/)がうざったい。<br>
+     → 参照元でアクセスを拒絶。</p>
+<pre>
+deny: * * * http:://www.example.ne.jp/hoge/diary/ * * * 403
+</pre>
+
+    <p>例3: IE
+    を使っている人には日記を見せたくない。<br>
+     → エージェント名でアクセスを拒絶。</p>
+<pre>
+deny: * * MSIE * * * * 403
+</pre>
+
+    <p>例4: 192.168.1.1
+    からロボットと思われる無作法なアクセスがあるので、
+    どうにかしたい。<br>
+     →
+    ドメイン名(IPアドレス)でアクセスを拒絶。</p>
+<pre>
+deny: * 192.168.1.1 * * * * * 403
+</pre>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: access_control-j.html,v 1.9 2002/02/03 16:00:57 bonaim Exp $ -->
+  </body>
+</html>
+

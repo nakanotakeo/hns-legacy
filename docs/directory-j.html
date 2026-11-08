@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>hns のディレクトリ構成</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>hns のディレクトリ構成</h1>
+    </div>
+    <hr>
+    FIXME board 関係が抜けている。あとリリース前に要確認。 
+
+    <p>hns のデフォルトのディレクトリ構成は以下の通りです．
+    /home/hoge がユーザのホーム・ディレクトリの
+    場合で説明しています．</p>
+<pre>
+/home/hoge/
+       +- diary/                   日記ディレクトリ
+       |   +- repeat                 繰り返し予定ファイル
+       |   +- todo                   TODOファイル
+       |   +- bin/                   実行プログラム用ディレクトリ
+       |   |   +- hns-index2           Namazu v2 for hns のindex作成スクリプト
+       |   |   +- mail2nikki.pl        mail2nikki 処理スクリプト
+       |   |   +- make-diary           静的生成用スクリプト
+       |   +- cache/                 キャッシュ用ディレクトリ(CGI用)
+       |   +- cache_static/          キャッシュ用ディレクトリ(静的生成用)
+       |   +- conf/                  設定用ディレクトリ
+       |   |   +- alias.txt            ALIASコマンド用定義ファイル
+       |   |   +- auth_domain.txt      ドメインでの認証ファイル(log.cgi用)
+       |   |   +- auth_ruri.txt        クッキー認証ファイル(admini.cgi用)
+       |   |   +- batta_ruri.txt       非表示RURUコード・ファイル(log.cgi用)
+       |   |   +- browser_list.txt     クッキーを理解するブラウザの一覧
+       |   |   +- browser_style.txt    ブラウザ別スタイル定義
+       |   |   +- foot.txt             日記のフッタ(HTML で記述)
+       |   |   +- group.txt            グループ定義ファイル
+       |   |   +- head.txt             日記のヘッダ(HTML で記述)
+       |   |   +- i_browser.txt        i system へ切り換えるブラウザの一覧
+       |   |   +- rlink.txt            RLINKコマンド用URL定義ファイル
+       |   |   +- robotlist.txt        クッキーを送らないブラウザの追加一覧
+       |   |   +- ruri_map.txt         クッキー名前変換テーブル(log.cgi用)
+       |   |   +- url_map.txt          URL表示変換テーブル(log.cgi用)
+       |   +- log/                   ログ・ディレクトリ
+       |   |   +- LM/                  キャッシュ更新感知用
+       |   |   +- LastModified         更新日情報を保存
+       |   |   +- denial_log           アクセス・ログ(アクセス拒否されたもの)
+       |   |   +- dns_cache            DNS逆引きキャッシュ(log.cgi用)
+       |   |   +- link_log             リンク・ログ
+       |   |   +- message-by-user.txt  ユーザからのメッセージ
+       |   |   +- referer_batta_log    アクセス・ログ(BATTA用;分離した場合)
+       |   |   +- referer_log          アクセス・ログ
+       |   |   +- ruri-map-by-user.txt ユーザの情報より作成した ruri-map
+       |   +- mail/                  mail2nikki用ログ・ディレクトリ
+       |   |   +- mail.log             メール・ログ
+       |   |   +- simple.log           簡易ログ
+       |   +- namazu2/               Namazu用ディレクトリ(Namazu v2)
+       |   |   +- etc/                 Namazu の rcファイル
+       |   |   +- index/               Namazu のインデックス・ファイル
+       |   |   +- template/            検索画面のヘッダ・フッタのテンプレート
+       |   +- pospe/                 PostPet用ディレクトリ
+       |       +- pospe2hnf.pl         ペットのひみつ日記を hnf にするツール
+       |   ^
+       +- public_html/  
+       |      +- diary/                  ウェブ日記ディレクトリ  
+       |          +- .htaccess             .htaccess
+       |          +- admini.cgi            日記管理
+       |          +- clear_cache.cgi       キャッシュの消去ツール
+       |          +- config.ph             設定ファイル
+       |          +- di.cgi                更新時刻情報提供 CGI
+       |          +- headline.cgi          ヘッドライン表示
+       |          +- index.cgi             表示 CGI
+       |          +- log.cgi               ログ解析スクリプト
+       |          +- logging.pl            ログ取得(静的生成時に SSI で利用)
+       |          +- make-rurimap.cgi      ユーザ・メッセージ処理
+       |          +- message.html          ユーザーからのメッセージ受付HTML
+       |          +- namazu.cgi            Namazu 検索プログラム(オプション)
+       |          +- rotate_log.cgi        ログ・ファイルのカット
+       |          +- rss.cgi               RSS作成
+       |          +- title.cgi             タイトル一覧表示
+       |          +- title_wrapper.cgi     タイトル一覧用ラッパ
+       |          +- view.cgi              ユーザ・メッセージ閲覧
+       |          +- webif.cgi             ウェブからの日記更新処理
+       |          +- anti-windoze/         テーマ「anti-windoze」用ディレクトリ
+       |          +- cat/                  カテゴリ用ディレクトリ
+       |          +- english/              英語テーマ用ディレクトリ
+       |          +- i/                    i system
+       |          |    +- .htaccess          .htaccess
+       |          |    +- config.ph          設定ファイル
+       |          |    +- index.cgi          i system本体
+       |          |    +- onconv.pl          HTML to ONCコンバータ
+       |          +- icons/                アイコン用ディレクトリ
+       |          |    +- mark01.png
+       |          |    +- mark02.png
+       |          +- img/                  画像用ディレクトリ
+       |          +- japanese/             日本語テーマ用ディレクトリ
+       |          |    +- theme.ph           日本語テーマ
+       |          +- lib/                  perl ライブラリ
+       |          |   +- Board.pm            hns-bbsクラス
+       |          |   +- HNS.pm              統合クラス
+       |          |   +- HTTP.pm             HTTPクラス
+       |          |   +- LIRS.pm             LIRSクラス
+       |          |   +- ObjectTemplate.pm   OOP 基本クラス
+       |          |   +- jcode.pl            漢字コード変換パッケージ(2.13)
+       |          |   +- CGI/                CGI パッケージ
+       |          |   |   +- Cookie.pm         クッキーパッケージ
+       |          |   |   +- QueryString.pm    Query パッケージ
+       |          |   |   +- Tools.pm          CGI ツール群 
+       |          |   +- DateTime/           日付時間クラス
+       |          |   |   +- Date.pm           年月日
+       |          |   |   +- Format.pm         フォーマッタ; strftime()
+       |          |   |   +- Time.pm           時刻
+       |          |   +- HNS/                  HNS パッケージ
+       |          |   |   +- AccessControl.pm    アクセス制御
+       |          |   |   +- Admini.pm           認証/管理ツール 
+       |          |   |   +- Cache.pm            キャッシュ・ファイル管理
+       |          |   |   +- CategoryList.pm     タイトル一覧フォーム用
+       |          |   |   +- CodeConv.pm         文字コード変換
+       |          |   |   +- Collection.pm       日記集合
+       |          |   |   +- DateSelect.pm       日付選択フォーム
+       |          |   |   +- Diary.pm            日毎の日記
+       |          |   |   +- ExtHTML.pm          HTML 拡張指定
+       |          |   |   +- IntelliSearch.pm    IntelliSearchクラス
+       |          |   |   +- Status.pm           状況クラス
+       |          |   |   +- Style.pm            スタイル
+       |          |   |   +- System.pm           システム情報
+       |          |   |   +- Template.pm         テンプレート展開
+       |          |   |   +- Calendar/           カレンダー関係
+       |          |   |   |   +- Direct.pm         日付ジャンプ・ボタン 
+       |          |   |   |   +- NoTable.pm        table 不使用版
+       |          |   |   |   +- Table.pm          table 使用版
+       |          |   |   +- Diary/              Diary クラス
+       |          |   |   |   +- Template.pm       テンプレート展開
+       |          |   |   +- Hnf/                hnf コマンドの解釈
+       |          |   |   |   +- Command.pm        コマンド基本および派生クラス
+       |          |   |   |   +- TreeBuilder.pm    hnf の木構造を構築、解析
+       |          |   |   |   +- UserVar.pm        ユーザ変数管理
+       |          |   |   |   +- Warning.pm        警告
+       |          |   |   +- PIM/                PIM 関係
+       |          |   |   |   +- Link.pm           リンク
+       |          |   |   |   +- Schedule.pm       予定表
+       |          |   |   |   +- Todo.pm           To Do リスト
+       |          |   |   +- Tools/              関連ツール関係
+       |          |   |       +- HeadLine.pm       ヘッドライン作成
+       |          |   |       +- RSS.pm            RSS作成
+       |          |   |       +- Title.pm          タイトル一覧作成
+       |          |   +- Image/
+       |          |   |   +- Size.pm         画像サイズ取得
+       |          |   +- SimpleDB/           簡易データベース: tie 使用
+       |          |       +- Append.pm         データ追加(ログ用)
+       |          |       +- Base.pm           仮想基本クラス
+       |          |       +- Hash.pm           ハッシュデータ
+       |          |       +- Scalar.pm         スカラーデータ
+       |          +- ruribaka/             テーマ「ruribaka」用ディレクトリ
+       ^
+</pre>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: directory-j.html,v 1.26 2003/04/24 13:50:42 togawa Exp $ -->
+  </body>
+</html>
+

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>Apache の設定例</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>Apache の設定例</h1>
+    </div>
+    <hr>
+
+    <p>ローカル・ユーザを高度に信頼できる環境での TurboLinux
+    6.0 での Apache の httpd.conf
+    の設定例です。</p>
+<pre>
+--- httpd.conf  Mon Oct  2 19:58:47 2000
++++ httpd.conf.orig      Tue May 16 20:16:03 2000
+@@ -370,7 +370,7 @@
+ # You will have to access it by its address (e.g., http://123.45.67.89/)
+ # anyway, and this will make redirections work in a sensible way.
+ #
+-ServerName www.example.ne.jp
++#ServerName localhost
+
+ #
+ # DocumentRoot: The directory out of which you will serve your
+@@ -418,7 +418,7 @@
+ # override. Can also be "All", or any combination of "Options", "FileInfo",
+ # "AuthConfig", and "Limit"
+ #
+-    AllowOverride ALL
++    AllowOverride None
+ 
+ #
+ # Controls who can get stuff from this server.
+@@ -439,18 +439,18 @@
+ # Control access to UserDir directories.  The following is an example
+ # for a site where these directories are restricted to read-only.
+ #
+-&lt;Directory /home/*/public_html&gt;
+-    AllowOverride ALL
+-    Options ExecCGI MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
+-    &lt;Limit GET POST OPTIONS PROPFIND&gt;
+-        Order allow,deny
+-        Allow from all
+-   &lt;/Limit&gt;
+-    &lt;LimitExcept GET POST OPTIONS PROPFIND&gt;
+-        Order deny,allow
+-       Deny from all
+-    &lt;/LimitExcept&gt;
+-&lt;/Directory&gt;
++#&lt;Directory /home/*/public_html&gt;
++#    AllowOverride FileInfo AuthConfig Limit
++#    Options MultiViews Indexes SymLinksIfOwnerMatch IncludesNoExec
++#    &lt;Limit GET POST OPTIONS PROPFIND&gt;
++#        Order allow,deny
++#        Allow from all
++#    &lt;/Limit&gt;
++#    &lt;LimitExcept GET POST OPTIONS PROPFIND&gt;
++#        Order deny,allow
++#        Deny from all
++#    &lt;/LimitExcept&gt;
++#&lt;/Directory&gt;
+ 
+ #
+ # DirectoryIndex: Name of the file or files to use as a pre-written HTML
+@@ -831,7 +831,7 @@
+     #
+     # To use CGI scripts:
+     #
+-    AddHandler cgi-script .cgi
++    #AddHandler cgi-script .cgi
+ 
+     #
+     # To use server-parsed HTML files
+</pre>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: apache-conf-j.html,v 1.3 2003/11/20 15:04:33 togawa Exp $ -->
+  </body>
+</html>
+

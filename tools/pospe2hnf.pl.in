@@ -1,0 +1,315 @@
+#!%PERL_PATH%
+
+# pospe2hnf.pl for hns
+# version 0.1.2
+
+$version = "0.1.2";
+
+# support: PostPet v1.1 or lator
+
+# 1999/7/12  Kenji Suzuki <kenji@h14m.org>
+
+# Special Thanks:
+# Akihiro Arisawa <ari@nijino.com>
+# Oogami <2c-oo@brain-child.co.jp>
+
+# Copyright (c) 1999  Kenji Suzuki, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: pospe2hnf.pl.in,v 1.9 2002/12/28 13:29:53 bonaim Exp $
+
+require '%HTMLDIR%/lib/jcode.pl';
+
+# diary directory
+$diaryDir    = "%DIARYDIR%";
+
+# category name
+$cat_name = "PostPet";
+ 
+# hnf management
+$hnfDir = 1;	# 1 -> yearly distributed (eg, ~/diary/1999/19990303.hnf)
+		# 0 -> central (eg, ~/diary/19990303.hnf) 
+
+# use nkf?
+$NKF_USE = 0;   # 1 -> Use, 0 -> No Use (default)
+# nkf path
+$nkf = "%NKF_PATH%";
+
+
+# don't edit below if you know what you really do -----
+$ctime = time;
+
+$tmpFile = "$diaryDir/.pospe.tmp";
+
+%month = (
+  Jan => '01',
+  Feb => '02',
+  Mar => '03',
+  Apr => '04',
+  May => '05',
+  Jun => '06',
+  Jul => '07',
+  Aug => '08',
+  Sep => '09',
+  Oct => '10',
+  Nov => '11',
+  Dec => '12',
+);
+
+$debug = 1;
+$debug2 = 0;
+
+# check argument
+if (@ARGV == 0) {
+  print "pospe2hnf.pl v$version\n\n";
+  print "Copyright (C) 1999, HyperNikkiSystem Project.\n";
+  print "All rights reserved.\n\n";
+  print "usage:\n";
+  print "perl pospe2hnf.pl PostPet_Mail_Box_File\n";
+  print " note: PostPet_Mail_Box_File is in your local disk, not in the server.\n";
+  exit;
+}
+
+# get pospe mail box file name
+$pospeFile = $ARGV[0];
+
+# read the pospe mail box file
+if ($NKF_USE) {
+  open (PSP, "$nkf -emXZ1d $pospeFile |") || die "can't open pospe file: $!";
+  @pospes = <PSP>;
+}
+else {
+  open (PSP, "$pospeFile") || die "can't open pospe file: $!";
+  while (<PSP>) {
+    &jcode::convert(\$_, 'euc');
+    push (@pospes, $_);
+  }
+}
+close (PSP);
+ 
+$count = 0;
+
+$day = "";
+$date = "";
+$mess_id = "none";
+$from = "";
+$himitsu = 0;
+$body_prev = 0;
+
+foreach (@pospes) {
+  chop ($_);
+  print ">$_\n" if ($debug2);
+
+  # body ?
+  if (/(\S+): (.*)/) {
+    $body = 0;
+    if ($body_prev == 1) {
+      $end = 1;
+      print "*** end ***\n" if ($debug2);
+    }
+    else {
+      $end = 0;
+    }
+    $body_prev = 0;
+  }
+  else {
+    $body = 1;
+    if ($body_prev == 0) {
+      $start = 1;
+      print "*** start ***\n" if ($debug2);
+    }
+    else {
+      $start = 0;
+    }
+    $body_prev = 1;
+  }
+
+  if (/^Date: ([a-zA-Z, ]*)(\S+) (\S+) (\S+) (\S+) (.*)/) {
+    $day = $2;
+    $day = "0$2" if length($2) == 1;
+    $year = $4;
+    $date = $year . $month{$3} . $day;
+    $time = $5 . " " . $6;
+
+    if ($hnfDir == 1) {
+      if (!(-d "$diaryDir/$year")) {
+        system("mkdir $diaryDir/$year; chmod 755 $diaryDir/$year");
+      }
+      $file = "$diaryDir/$year/d$date.hnf";
+    }
+    else {
+      $file = "$diaryDir/d$date.hnf";
+    }
+  } 
+
+  if (/^Message-Id: <(.*)>/) {
+    $mess_id = $1;
+  }
+
+  if (/^From: (.*)/) {
+    $from = $1;
+  }
+
+  # determine if Himitsu Nikki?
+  if (/^X-PostPet-Message: 1$/) {
+    $himitsu = 1;
+    $_ = "";
+    $mode = 2; # 1 -> add, 2 -> create
+
+    # hnf already existed?
+    $again = 0;
+
+    if (-s $file > 0) {
+      $mode = 1; # 1 -> add, 2 -> create
+
+      if ($NKF_USE) {
+        open (HNF, "$nkf -emXZ1 $file |") || die "can't open hnf file: $!";
+        @hnfs = <HNF>;
+      }
+      else {
+        open (HNF, "$file") || die "can't open hnf file: $!";
+        while (<HNF>) {
+          &jcode::convert(\$_, 'euc');
+          push (@hnfs, $_);
+        }
+      }
+      close (HNF);
+
+      # duplication check
+      foreach (@hnfs) {
+        if (/Mess-id: $mess_id/) {
+          $again = 1;
+        }
+      }
+
+    }
+  }
+
+  if (($start) && ($himitsu) && (($again == 0) || ($mode == 2))) {
+    # backup the existing hnf
+    if ($mode == 1) {
+      system ("cp -p $file $file.psp");
+    }
+
+    open (OUT, ">$tmpFile");
+
+    if ($mode == 2) {
+      print OUT "OK\n";
+      print "OK\n" if ($debug);
+    }
+
+    print OUT "\nCAT $cat_name\n";
+    print OUT "NEW ひみつ日記\n";
+    print OUT "$time~\n";
+    print OUT "!# Mess-id: $mess_id\n";
+    print OUT "!# From: $from\n";
+    if ($debug) {
+      print "\nCAT $cat_name\n";
+      print "NEW ひみつ日記\n";
+      print "$time~\n";
+      print "!# Mess-id: $mess_id\n";
+      print "!# From: $from\n";
+    } 
+  }
+
+  # end of the Himitsu Nikki
+  if (($end) && ($himitsu) && ($again == 0)) {
+    print OUT "\n";
+    print "\n" if ($debug);
+
+    close (OUT);
+
+    # make hnf
+    if (($mode > 0) && (-f $tmpFile)) {
+      if ($NKF_USE) {
+        system ("$nkf -e <$tmpFile >>$file");
+        print "$nkf -e <$tmpFile >>$file\n" if ($debug);
+      }
+      else {
+        append ($tmpFile, $file);
+        print "jcode: $tmpFile >>$file\n" if ($debug);
+      }
+      $count++;
+    }
+
+    if (-f $tmpFile) {
+      unlink "$tmpFile";
+    }
+
+    $mode = 0;
+    $himitsu = 0;
+    $day = "";
+    $date = "";
+    $mess_id = "none";
+    $from = "";
+    $body_prev = 0;
+  }
+
+  print "body: $body himitsu: $himitsu again:$again\n" if ($debug2);
+  if (($body) && ($himitsu) && ($_ ne "")) {
+    if ($again == 0) {
+      print OUT "$_~\n";
+      print "$_~\n" if ($debug);
+    }
+  }
+}
+
+# the case of ending Himitsu Nikki
+if (-f $tmpFile) {
+  print OUT "\n";
+  print "\n" if ($debug);
+
+  close (OUT);
+
+  if ($NKF_USE) {
+    system ("$nkf -e <$tmpFile >>$file");
+    print "final: $nkf -e <$tmpFile >>$file\n" if ($debug);
+  }
+  else {
+    append ($tmpFile, $file);
+    print "final: jcode: $tmpFile >>$file\n" if ($debug);
+  }
+  $count++;
+}
+
+if (-f $tmpFile) {
+  unlink "$tmpFile";
+}
+
+$ftime = time;
+$rtime = $ftime - $ctime;
+
+print "\n$count Himitsu Nikki Processed. ($rtime seconds)\n";
+print "pospe2hnf.pl v$version\n";
+
+
+sub append {
+  my ($from, $to) = @_;
+  my @tmp;
+
+  open (TEMP, $from) || die "can't open: $!";
+  while (<TEMP>) {
+    &jcode::convert(\$_, 'euc');
+    push (@tmp, $_);
+  }
+  close(TEMP);
+  open (FILE, ">>$to") || die "can't open: $!";
+  foreach (@tmp) {
+    print FILE $_;
+  }
+  close(FILE);
+}
+

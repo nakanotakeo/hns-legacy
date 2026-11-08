@@ -1,0 +1,468 @@
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Calendar/NoTable.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Calendar/NoTable.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Calendar/NoTable.pm	Wed Nov 24 00:56:28 1999
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Calendar/NoTable.pm	Tue Jun 13 15:19:15 2000
+@@ -55,7 +55,8 @@
+     # day
+     my $start_week = $date->week;
+     # 1..31
+-    for my $day (1..$date->DaysMonth){
++    my $day;
++    for $day (1..$date->DaysMonth){
+ 	my $w = ($day+$start_week-1)%7;
+ 
+ 	my $ymd = sprintf("%04d%02d%02d", $year, $month, $day);
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Calendar/Table.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Calendar/Table.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Calendar/Table.pm	Sat May 27 23:15:17 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Calendar/Table.pm	Tue Jun 13 15:28:25 2000
+@@ -90,7 +90,8 @@
+         $html .= "</tr>\n<tr>\n";
+     }
+     my $day = 1;
+-    for my $i (1..$start_week){
++    my $i;
++    for (1..$start_week){
+ 	$html .= " <td></td>";
+     }
+     $html .= "\n";
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/CategoryList.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/CategoryList.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/CategoryList.pm	Wed Nov 24 00:56:26 1999
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/CategoryList.pm	Tue Jun 13 15:19:15 2000
+@@ -68,7 +68,8 @@
+     $html .= qq(<input name="CAT" type="checkbox" value="ALL">$Categorize<br>\n);
+ 
+     my $templ = new HNS::Template;
+-    for my $cat (sort keys %DB){
++    my $cat;
++    for $cat (sort keys %DB){
+ 	next unless $cat;
+ 	my $img = "$CatDir/$DB{$cat}";
+ 	my ($w, $h) = imgsize($img);
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Collection.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Collection.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Collection.pm	Wed May 17 02:20:49 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Collection.pm	Tue Jun 13 15:19:15 2000
+@@ -82,7 +82,8 @@
+     $day = '(21|22|23|24|25|26|27|28|29|30|31)' if $day eq "c";
+ 
+     $self->collect_yearly($year);
+-    for my $ymd (sort keys %{$self->diarys}){
++    my $ymd;
++    for $ymd (sort keys %{$self->diarys}){
+ 	my $diary = $self->diarys->{$ymd};
+ 	$diary->filename =~ /d(\d+)\.hnf/;
+ 	next unless ($1 =~ /$year$month$day/);
+@@ -114,7 +115,8 @@
+     @files = grep /^d\d{4,}$month$day\.hnf$/, readdir DIR;
+     closedir DIR;
+ 
+-    foreach my $file (@files) {
++    my $file;
++    foreach $file (@files) {
+         my $diary = new HNS::Diary(filename=>"$DiaryDir/$file");
+         $file =~ /^d(.*)\.hnf$/;
+         $self->diarys->{$1} = $diary;
+@@ -123,7 +125,8 @@
+     opendir DIR, $DiaryDir;
+     @years = grep /^(\d{4,})$/, readdir DIR;
+     closedir DIR;
+-    foreach my $year (@years) {
++    my $year;
++    foreach $year (@years) {
+         my $ymd = $year . $month . $day;
+         if ((-f "$DiaryDir/$year/d$ymd.hnf") && 
+ 	(!$self->diarys->{$ymd})) { 
+@@ -139,7 +142,8 @@
+         opendir DIR, $CacheDir;
+         @years = grep /^(\d{4,})$/, readdir DIR;
+         closedir DIR;
+-        foreach my $year (@years) {
++	my $year;
++        foreach $year (@years) {
+             my $ymd = $year . $month . $day;
+             if ((-f "$DiaryDir/$year/d$ymd.hnf") &&
+             (!$self->diarys->{$ymd})) {
+@@ -150,7 +154,8 @@
+         }
+     }
+ 
+-    for my $ymd (reverse sort keys %{$self->diarys}){
++    my $ymd;
++    for $ymd (reverse sort keys %{$self->diarys}){
+         my $diary = $self->diarys->{$ymd};
+         $diary->Read;
+         # set date
+@@ -193,7 +198,8 @@
+     while ($cnt<$max){
+ 	# read file info : first this year, second last year
+ 	$self->collect_yearly($year);
+-	for my $ymd (reverse sort keys %{$self->diarys}){
++	my $ymd;
++	for $ymd (reverse sort keys %{$self->diarys}){
+ #print "$cnt $ymd ";
+ 	    my $diary = $self->diarys->{$ymd};
+ #print "$diary->year $year ";
+@@ -228,7 +234,8 @@
+ {
+     my ($self, $year) = @_;
+     
+-    for my $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$year"){
++    my $dir;
++    for $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$year"){
+ 	opendir(DIR, $dir) || next;
+ #	for my $file (sort readdir(DIR)){
+ 	my $file;
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Diary.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Diary.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Diary.pm	Tue May 16 23:25:26 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Diary.pm	Tue Jun 13 15:19:15 2000
+@@ -296,7 +296,8 @@
+             }
+             my $id = $HNS::Status->id;
+ 	    $id = "XXXXXXXXXXXXXXXXX" if length($id) < 17;
+-            foreach my $grp (@grp) {
++	    my $grp;
++            foreach $grp (@grp) {
+                 unless ($GRP_DB{$grp} =~ /$id/) {
+                     $section[$HNS::Diary::section] = "";
+                 }
+@@ -327,7 +328,8 @@
+ 	    my $id = $HNS::Status->id;
+ 	    $id = "XXXXXXXXXXXXXXXXX" if length($id) < 17;
+ 	    my $display = 0;
+-	    foreach my $grp (@grp) {
++	    my $grp;
++	    foreach $grp (@grp) {
+ 		if ($GRP_DB{$grp} =~ /$id/) {
+ 		    $display = 1;
+ 		}
+@@ -335,7 +337,8 @@
+ 	    push (@grp_display, $display);
+ 	}
+ #print "grp_display: @grp_display<br>\n";
+-	foreach my $flg (@grp_display) {
++	my $flg;
++	foreach $flg (@grp_display) {
+ 	    if ($flg) {
+ 		$tmp =~ s/<!-- xhnf_grp_p -->/<!-- xhnf_grp -->/s;
+ 	    }
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Hnf/Command.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Hnf/Command.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Hnf/Command.pm	Wed Feb  2 09:02:21 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Hnf/Command.pm	Tue Jun 13 15:19:15 2000
+@@ -61,7 +61,7 @@
+ 
+  insert new command at legal position
+  if $elem is not HNS::Hnf::Command object,
+- it's regarded as a command name, and insert new object
++ it s regarded as a command name, and insert new object
+ 
+ =cut
+ 
+@@ -148,11 +148,19 @@
+     # if undefined the class, get from parent class
+     my $tmp = (ref $self) . "::ISA";
+     my @isa = @$tmp;
+-    for my $class (@isa){
++    my $class;
++
++    my $count = 0;
++    my $max = $#isa;
++
++#    for $class (@isa){
++    for ($count = 0; $count <= $max; $count++){
++	$class = $isa[$count];
+ 	$full_var_name = "${class}::$var_name";
+ 	return $$full_var_name if defined $$full_var_name;
+ 	my $tmp = "${class}::ISA";
+ 	push(@isa, @$tmp);
++	$max = $#isa;
+     }
+     return undef;
+ }
+@@ -181,10 +189,22 @@
+     my $AllowCommands = $self->get_static_variable('AllowCommands');
+     return 1 unless defined $AllowCommands;
+     my @tmp = @$AllowCommands;
+-    for (@tmp){
+-	if (ref $_){                    # entity assc array
+-	    push(@tmp, @$_);
+-	} elsif ($cmd_name eq $_){      # command type
++    
++    my $count = 0;
++    my $max = $#tmp;
++    my $n;
++#    for (@tmp){
++    for ($count = 0; $count <= $max; $count++){
++	$n = $tmp[$count];
++#print "n:[$n]\n";
++#print "tmp:[@tmp]\n";
++#print "count:[$count]\n";
++#print "max:[$max]\n";
++	if (ref $n){                    # entity assc array
++	    push(@tmp, @$n);
++#print "add:[$#tmp]\n";
++	    $max = $#tmp;
++	} elsif ($cmd_name eq $n){      # command type
+ 	    return 1;
+ 	}
+     }
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm	Tue Apr 11 22:42:27 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Hnf/TreeBuilder.pm	Tue Jun 13 15:19:15 2000
+@@ -61,10 +61,17 @@
+ 	my $cmd_name = $1;
+ 	my $is_end = $cmd_name =~ s!^/!!;
+ 	my @vars = ($cmd_name, split(/ /, $2));
++#print "cmd_name:[$cmd_name]\n";
++#print "is_end:[$is_end]\n";
++#print "vars:[@vars]\n";
+ 	if (!$is_end){
++#print "COMM:--- start() ---\n";
+ 	    $self->start(@vars);          # start command. ex) UL
++#print "COMM:---------------\n";
+ 	} else {
++#print "COMM:--- end() ---\n";
+ 	    $self->end(@vars);            # end command. ex) /UL
++#print "COMM:-------------\n";
+ 	}
+     } else {                              # plain text
+ 	$self->text($line);
+@@ -124,6 +131,7 @@
+ 							     $pos_name));
+ 	    }
+ 	    # complete end command automatically if omittable
++#print "start:1\n";
+ 	    $self->end($cmd_name);
+ #print "end: $pos_name,", $pos->{name}, ",", $e->{name}, ",", $e->{parent}->{name}, "<br>";
+ 	}
+@@ -139,8 +147,10 @@
+     $self->{top}->InsertCommand($e);
+ 
+     # if oneline command, insert end tag immidiately
++
+     if ($e->IsOneline){
+ #print STDERR "oneline:$cmd_name\n";
++#print "start:2:online_command:[$cmd_name]\n";
+ 	$self->end($cmd_name);
+     }
+ }
+@@ -155,6 +165,7 @@
+ 
+ sub end($$)
+ {
++#print "search_end:[$1,$2]\n";
+     my ($self, $cmd_name) = @_;
+ #print STDERR "end: $cmd_name\n";
+     my $p = $self->{top}->{pos} || $self;
+@@ -198,7 +209,7 @@
+ sub Print($$$$)
+ {
+     my ($self, $year, $month, $day, $section) = @_;
+-#print "TreeBuilder Print: $self, $year, $month, $day, $section<br>";    
++#print "TreeBuilder Print: $self, $year, $month, $day, $section<br>\n";    
+     my $html;
+ 
+     # for footnote
+@@ -315,7 +326,8 @@
+     my $arg_content = shift;
+     my $cat;
+     # CAT arg1 arg2 arg3..
+-    for my $c (split(/ /, $arg_content)){
++    my $c;
++    for $c (split(/ /, $arg_content)){
+ 	my $img;
+ 	if ($img = $HNS::CategoryList::DB{$c}){
+ 	    my $src = "$HNS::CategoryList::CatDir/$img";
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/PIM/Schedule.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/PIM/Schedule.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/PIM/Schedule.pm	Thu May 18 16:44:28 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/PIM/Schedule.pm	Tue Jun 13 15:45:28 2000
+@@ -89,7 +89,8 @@
+ #    print "content-type: text/html\n\n";
+ 
+     # read yotei files
+-    for my $file (@files){
++    my $file;
++    for $file (@files){
+ 	# read file
+ 	open(F, $file) || next;
+ #	print "$file, ";
+@@ -142,7 +143,8 @@
+     for (0 .. $RRange) {
+ 	my ($y, $m) = ($date->year, $date->month);
+ 	$date+='1M';
+-	foreach my $rplan (@repeats) {
++	my $rplan;
++	foreach (@repeats) {
+ 	    my ($num, $content, $brng, $erng) = @$rplan;
+ 	    my $tmpd = new DateTime::Date(year=>$y, month=>$m, day=>1);
+ 	    my $dmonth = $tmpd->DaysMonth();
+@@ -188,7 +190,8 @@
+ 	    	my $dow = $num;
+ 		$dow =~ tr/A-Z/a-z/;
+ 	    	if ($dowNum{$dow} ne '') {        # weekly
+-	    	    for (my $i = 1; $i <= 5; $i++) {
++		    my $i;
++	    	    for ($i = 1; $i <= 5; $i++) {
+ 			$d = get_nth_dow($y, $m, $i, $dowNum{$dow});
+ 			my $s = sprintf("%04d%02d%02d", $y, $m, $d);
+ 			if ($d >= 1 && $d <= $dmonth
+@@ -201,7 +204,8 @@
+ 		    $d = 0;
+ 	    	    $m2 = 0;
+ 		} elsif (@$rplan == 4 && $num eq '') {	# every day with range
+-		    for (my $i = 1; $i <= $dmonth; $i++) {
++		    my $i;
++		    for ($i = 1; $i <= $dmonth; $i++) {
+ 			my $s = sprintf("%04d%02d%02d", $y, $m, $i);
+ 			if ($s >= $brng && $s <= $erng) {
+ 			    my $tmpd2 = new DateTime::Date(year=>$y, month=>$m, day=>$i);
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS/Template.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Template.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS/Template.pm	Wed Nov 24 00:56:27 1999
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS/Template.pm	Tue Jun 13 15:19:15 2000
+@@ -61,8 +61,8 @@
+ sub SetParamValues($%)
+ {
+     my ($self, %parameters) = @_;
+-
+-    while (my ($k, $v) = each(%parameters)){
++    my ($k, $v);
++    while (($k, $v) = each(%parameters)){
+ 	$self->content->{$k} = $v;
+     }
+ }
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/HNS.pm hns-2.10-beta6-perl5003/public_html/diary/lib/HNS.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/HNS.pm	Sun Jun 11 14:25:14 2000
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/HNS.pm	Tue Jun 13 15:47:08 2000
+@@ -51,7 +51,7 @@
+ =cut
+ 
+ use vars qw($VERSION $PUBLIC_VERSION %VersionMessages $HnsHomePage $Status);
+-$VERSION = "2.10-beta6";
++$VERSION = "2.10-beta6(perl5.003)";
+ $PUBLIC_VERSION = "2.10-beta6";
+ 
+ $HnsHomePage = "http://www.h14m.org/";
+@@ -102,7 +102,8 @@
+     my $id = $HNS::Status->id;
+     $no_cache = 0;
+     $id = "XXXXXXXXXXXXXXXXX" if length($id) < 17;
+-    foreach my $idg (keys %GRP_DB) {
++    my $idg;
++    foreach $idg (keys %GRP_DB) {
+         if ($GRP_DB{$idg} =~ /$id/) {
+             $no_cache = 1;
+             last;
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/ObjectTemplate.pm hns-2.10-beta6-perl5003/public_html/diary/lib/ObjectTemplate.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/ObjectTemplate.pm	Mon Apr 12 15:21:30 1999
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/ObjectTemplate.pm	Tue Jun 13 15:19:15 2000
+@@ -10,7 +10,8 @@
+     my ($pkg) = caller;
+     @{"${pkg}::_ATTRIBUTES_"} = @_;
+     my $code = "";
+-    foreach my $attr (get_attribute_names($pkg)) {
++    my $attr;
++    foreach $attr (get_attribute_names($pkg)) {
+         # If a field name is "color", create a global list in the
+         # calling package called @color
+         @{"${pkg}::_$attr"} = ();
+@@ -66,7 +67,8 @@
+     $pkg = ref($pkg) if ref($pkg);
+     my @result = @{"${pkg}::_ATTRIBUTES_"};
+     if (defined (@{"${pkg}::ISA"})) {
+-        foreach my $base_pkg (@{"${pkg}::ISA"}) {
++	my $base_pkg;
++        foreach $base_pkg (@{"${pkg}::ISA"}) {
+            push (@result, get_attribute_names($base_pkg));
+         }
+     }
+@@ -94,7 +96,8 @@
+     my $inst_id = $$obj;
+     # Release all the attributes in that row
+     local(*attributes) = *{"${pkg}::_ATTRIBUTES_"};
+-    foreach my $attr (@attributes) {
++    my $attr;
++    foreach $attr (@attributes) {
+         undef ${"${pkg}::_$attr"}[$inst_id];
+     }
+     $_free[$inst_id] = $_free;
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/SimpleDB/Append.pm hns-2.10-beta6-perl5003/public_html/diary/lib/SimpleDB/Append.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/SimpleDB/Append.pm	Wed Nov 24 00:56:31 1999
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/SimpleDB/Append.pm	Tue Jun 13 15:19:15 2000
+@@ -15,7 +15,7 @@
+ 
+ =cut
+ 
+-use Fcntl ':flock';
++# use Fcntl ':flock';
+ 
+ sub new ($$)
+ {
+diff -ur hns-2.10-beta6.orig/public_html/diary/lib/SimpleDB/Scalar.pm hns-2.10-beta6-perl5003/public_html/diary/lib/SimpleDB/Scalar.pm
+--- hns-2.10-beta6.orig/public_html/diary/lib/SimpleDB/Scalar.pm	Wed Nov 24 00:56:32 1999
++++ hns-2.10-beta6-perl5003/public_html/diary/lib/SimpleDB/Scalar.pm	Tue Jun 13 15:19:15 2000
+@@ -18,7 +18,7 @@
+ =cut
+ 
+ ################################################################
+-use Fcntl ':flock';
++#use Fcntl ':flock';
+ 
+ use SimpleDB::Base;
+ @ISA = qw(SimpleDB::Base);
+Only in hns-2.10-beta6-perl5003/tools/di: di.cgi
+diff -ur hns-2.10-beta6.orig/tools/di/di.cgi.in hns-2.10-beta6-perl5003/tools/di/di.cgi.in
+--- hns-2.10-beta6.orig/tools/di/di.cgi.in	Tue May 23 18:42:32 2000
++++ hns-2.10-beta6-perl5003/tools/di/di.cgi.in	Tue Jun 13 15:19:16 2000
+@@ -59,7 +59,8 @@
+ sort @a;        # ascii$B=g$KJB$SBX$((B
+ @a = reverse(@a);       # $B5U=g$K(B
+ 
+-foreach my $i (@a) {
++my $i;
++foreach $i (@a) {
+     my $t = (stat($i))[9];
+     #print "$i time:$t\n";
+     if ($lastmodified < $t) {
+diff -ur hns-2.10-beta6.orig/tools/log/log.cgi.in hns-2.10-beta6-perl5003/tools/log/log.cgi.in
+--- hns-2.10-beta6.orig/tools/log/log.cgi.in	Wed Jun  7 17:26:42 2000
++++ hns-2.10-beta6-perl5003/tools/log/log.cgi.in	Tue Jun 13 15:33:51 2000
+@@ -898,7 +898,8 @@
+     print qq(<strong><a name="search">Recent Search Engine:</a></strong>\n);
+     &jump;
+ 
+-    foreach my $i (0 .. $ref_last) {
++    my $i;
++    foreach $i (0 .. $ref_last) {
+ 	$_ = $referer = pop(@ORIG_REFERER);
+ 	$reffile = pop(@REFFILE);
+ 
+@@ -907,7 +908,8 @@
+ 	s/&amp;/&/g;
+ 
+ 	# ¥µ¡¼¥Á¥¨¥ó¥¸¥ó¤Î¥­¡¼¥ï¡¼¥É²òÀÏ
+-	foreach my $s (keys(%search_engine)) {
++	my $s;
++	foreach $s (keys(%search_engine)) {
+ 	    my $url_pat = $search_engine{$s}->{url_pat};
+ 	    if (/$url_pat[^?]*\?/) {
+ 		my @query = split(/&/, $');
+Only in hns-2.10-beta6-perl5003/tools/make-diary: make-diary.pl
+diff -ur hns-2.10-beta6.orig/tools/title/title.cgi.in hns-2.10-beta6-perl5003/tools/title/title.cgi.in
+--- hns-2.10-beta6.orig/tools/title/title.cgi.in	Sat Apr  1 20:24:24 2000
++++ hns-2.10-beta6-perl5003/tools/title/title.cgi.in	Tue Jun 13 18:30:06 2000
+@@ -245,7 +245,7 @@
+   else {
+     open (HNF, $hnf_) || die "can't open hnf: $!";
+     while (<HNF>) {
+-      &jcode::convert(\$_, 'euc');
++      &jcode::convert($_, 'euc');
+ 
+       if ($ok) {  # hnf body 
+           push (@hnfs, $_);
+@@ -310,7 +310,8 @@
+             tie %GRP_DB, 'SimpleDB::Hash',
+                 "$HNS::System::DiaryDir/conf/group.txt", 1;
+         }
+-        foreach my $grp (@grp) {
++	my $grp;
++        foreach $grp (@grp) {
+ 	    my $is_grp_member = 0; 
+             if ($GRP_DB{$grp} =~ /$id/) {
+                 $is_grp_member = 1;

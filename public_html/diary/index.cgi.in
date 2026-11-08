@@ -1,0 +1,225 @@
+#!%PERL_PATH%
+################################################################
+# index.cgi
+#
+# HyperNikkiSystem
+# Version: 2.19.0
+# 2001/11/2  TANAKA Tomonari <tom@morito.mgmt.waseda.ac.jp>
+
+# Copyright (C) 1999-2001  TANAKA Tomonari, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: index.cgi.in,v 1.41 2005/05/01 01:51:29 kenji Exp $
+################################################################
+
+use strict;
+use lib qw(lib);
+
+use CGI::QueryString;
+use DateTime::Format;
+use SimpleDB::Scalar;
+
+use HNS;
+use HNS::AccessControl;
+use HNS::Cache;
+
+require './config.ph';
+
+BEGIN {
+    $| = 1;
+#    open(STDERR, ">&STDOUT");
+    $SIG{'__DIE__'} = \&die_handler;
+#    print "content-type: text/html\n\n";
+}
+
+################################################################
+# Changing cache directory if executed from command line.
+unless ($ENV{'SCRIPT_NAME'}) {
+	$HNS::System::CacheDir = $HNS::System::CacheDir . "_static";
+}
+
+################################################################
+# access control
+my $acl = new HNS::AccessControl;
+
+my $hns = new HNS;
+my $keywords = param('keywords');
+
+# record log
+$hns->RecordLog(param('ref'), param('to'));
+
+# intelli-search
+if ($HNS::Style::UnagiUse eq "ON" && $HNS::System::IntelliSearch &&
+    $HNS::Status->is->keyword && $HNS::Status->is->search_engine ne "namazu") {
+    my $keyword = $HNS::Status->is->keyword;
+    $keyword =~ s/([^a-zA-Z0-9~\-\_\.\/\:\%])/sprintf("%%%02X",ord($1))/ge;
+    $HNS::Status->PrintCookieHeader;
+    print qq(Location: $HNS::System::MyDiaryURI$HNS::Style::UnagiURL?query=$keyword&whence=0&max=20&result=normal&sort=score\r\n\r\n);
+    exit;
+}
+
+################################################################
+# switching to i system?
+my $isystem_dir = $HNS::System::isystem;
+if ($isystem_dir ne "" && -d $isystem_dir) {
+    if (($HNS::Status->is_mobile) || $keywords eq "i") {
+	# ?i is for test only, not official
+	if ($keywords eq "i") {
+	    $ARGV[0] = "";
+	}
+	push(@INC, "$HNS::System::IncludeDir" . "/lib", $isystem_dir);
+	require "$isystem_dir/config.ph";
+	require "$isystem_dir/index.cgi";
+	exit;
+    }
+}
+
+################################################################
+# theme Overriding
+if ($HNS::System::Theme) {
+    my $theme_ph = "$HNS::System::Theme/theme.ph";
+    my $theme_static_ph;
+
+    # theme-static.ph is obsoleted. For only backward compatibility.
+    if (! $ENV{'SCRIPT_NAME'}) {
+        $theme_static_ph = "$HNS::System::Theme/theme-static.ph";
+        if (-f "$theme_static_ph") {
+            $theme_ph = $theme_static_ph;
+        }
+    }
+
+#    my $theme_ext = "$HNS::System::Theme/theme-" . param('theme') . ".ph";
+#    if (-f "$theme_ext") {
+#        $theme_ph = $theme_ext;
+#    }	
+
+    unless (-f "$theme_ph"){
+	die "no theme file : $theme_ph";
+    }
+    require "$theme_ph";
+}
+else {
+    die 'no theme';
+}
+    
+################################################################
+# for HEAD request
+if ($ENV{'REQUEST_METHOD'} eq 'HEAD'){
+    my $last_modified;
+    tie $last_modified, 'SimpleDB::Scalar', 
+	"$HNS::System::DiaryDir/log/LastModified";
+    my $echo_lm = strftime("%a, %d %b %Y %H:%M:%S %Z",
+			   gmtime($last_modified));
+    print "Content-Type: text/html; charset=EUC-JP\r\n";
+    print "Last-Modified: $echo_lm\r\n";
+    print "Title: $HNS::System::Title\r\n" if ($HNS::System::Title);
+    print "Author: $HNS::System::Author\r\n" if ($HNS::System::Author);
+    print "\r\n";
+    exit;
+}
+
+################################################################
+# redirect %7E -> ~
+unless ($HNS::Status->is_robot || $HNS::System::NoRedirect) {
+    my $uri = $ENV{'REQUEST_URI'};
+    if ( $uri =~ s/%7E/~/i){
+	print "Location: http://$ENV{'SERVER_NAME'}$uri\r\n\r\n";
+	exit;
+    }
+}
+################################################################
+# auto cache clear
+my $cache = new HNS::Cache;
+my $dirty = $cache->AutoClear;
+
+################################################################
+my $col = new HNS::Collection;
+
+if (param('YEAR') && param('MONTH')){	# from direct calendar?
+    if (param('DAY') eq "ALL") {
+      $CGI::QueryString::Parameter{'DAY'} = "";
+    }
+    # redirect to ?CCYYMMDD
+    my $uri = "$HNS::System::MyDiaryURI";
+    printf("Location: $uri?%04d%02d%s\r\n\r\n",
+	   param('YEAR'), param('MONTH'), param('DAY'));
+}
+# ?199903 ; one month
+elsif ($keywords =~ /^(\d{4})(\d{2})(\d*)$/){	# Y10K 
+    my ($y, $m, $d) = ($1, $2, $3);
+    if ($y < 1970){
+	$col->ReadRecent($HNS::System::DefaultMax);
+    } else {
+	$col->Read($y, $m, $d);
+    }
+}
+# ?199903a ; third of a month
+elsif ($keywords =~ /^(\d{4})(\d{2})([abc])/){	# Y10K
+    my ($y, $m, $d) = ($1, $2, $3);
+    if ($y < 1970){
+        $col->ReadRecent($HNS::System::DefaultMax);
+    } else {
+        $col->Read($y, $m, $d);
+    }
+}
+# ?19990624S10 ; one section
+elsif ($keywords =~ /^(\d{4})(\d{2})(\d{2})S(.*)/){    # Y10K
+    my ($y, $m, $d, $s) = ($1, $2, $3, $4);
+    $HNS::Diary::section = $s;
+    if ($y < 1970){
+        $col->ReadRecent($HNS::System::DefaultMax);
+    } else {
+        use HNS::Tools::HeadLine;
+        my $sectitle = new HNS::Tools::HeadLine;
+        $sectitle->getFileListByPattern($sectitle->diaryDir($y),"$y$m$d");
+        $sectitle->readHnf("d$y$m$d.hnf", 'side');
+        my @new = @{$sectitle->title};
+        my $count = $s;
+        my $stitle = @new[$count];
+        while ($stitle =~ /<!-- GRP:.* -->/) {
+            $count++;
+            $stitle = @new[$count];
+        }
+        $stitle =~ s/^.*>(.*)<\/a>$/$1/g;
+        $HNS::System::Title .= ' ' . $stitle;
+        $col->Read($y, $m, $d);
+    }
+}
+# ?1205 ; n year diary
+elsif ($keywords =~ /^(\d{2})(\d{2})/) {
+    my ($m, $d) = ($1, $2);
+    $col->ReadDay($m, $d);
+}
+# recent
+else {
+    $col->ReadRecent($HNS::System::DefaultMax);
+}
+
+# print
+$hns->Print($col);
+
+exit;
+################################################################
+sub die_handler {
+    my $msg = shift;
+    if ($msg !~ /unimplemented/ &&
+	$msg !~ /eval/){
+	print "Content-Type: text/html; charset=EUC-JP\r\n\r\n";
+	print "<br>";
+	print qq(<font color="red">Error Occured: $msg</font><br>);
+    }
+}
+

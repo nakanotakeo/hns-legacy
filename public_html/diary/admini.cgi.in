@@ -1,0 +1,94 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem Title List
+# version 0.0.4
+# 1999/11/14 TANAKA Tomonari <tom@morito.mgmt.waseda.ac.jp>
+
+my $version = "0.0.4";
+
+# Copyright (C) 1999 TANAKA Tomonari, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: admini.cgi.in,v 1.23 2002/12/28 09:00:55 bonaim Exp $
+
+use strict;
+use lib qw(lib);
+use HNS::Admini;
+use DateTime::Date;
+
+require './config.ph';
+
+my $admini = new HNS::Admini;
+
+# filename and mod-time
+my $msgtime = (stat($admini->message_file))[9];
+my $ruritime = (stat($admini->ruri_map_file))[9];
+
+my ($year, $month, $day) = (localtime)[5,4,3];
+$year = $year + 1900;
+$month = $month + 1;
+my $date = new DateTime::Date(year=>$year, month=>$month, day=>$day);
+my $today = sprintf("%04d/%02d/%02d",$date->year,$date->month,$date->day);
+$date -= '1d';
+my $yesterday = sprintf("%04d/%02d/%02d",$date->year,$date->month,$date->day);
+
+################################################################
+# HTML message
+my $HTML =
+    qq(
+<h2>日記管理用ツール</h2>
+<dl>
+<dt><a href="log.cgi">ログ解析</a> (log.cgi)
+<dd>日記のアクセス・ログ解析レポートを表示します。
+(<a href="./log.cgi?$yesterday">昨日分</a> | 
+<a href="./log.cgi?$today">本日分</a>)
+<dt><a href="webif.cgi">日記の編集</a> (webif)
+<dd>ウェブから日記の更新が出来ます。(注意: 設定が必要です。参考: <a href="http://www.h14m.org/docs/webif-j.html">ウェブからの日記編集</a>)
+<dt><a href="view.cgi?type=mesg&$msgtime\#last">メッセージ閲覧</a>
+<dd>読者からの投稿メッセージを読むことが出来ます。
+<dt><a href="view.cgi?type=ruri&$ruritime\#last">読者RURIコード閲覧</a>
+<dd>読者から送られたクッキーです。
+コピー &amp; ペーストでテキスト・エディタを用いて 
+$HNS::System::DiaryDir/conf/ruri_map.txt へ追加して下さい。
+<dt><a href="rotate_log.cgi">ログのカット</a> (rotate_log.cgi)
+<dd>ログをカットします．古いログは OLD/referer_log.old として保存されます．
+<dt><a href="clear_cache.cgi">キャッシュの消去</a> (clear_cache.cgi)
+<dd>キャッシュ・ファイルを消去します。
+</dl>
+       
+<h2>一般ユーザ用ツール</h2>
+<p>
+これは、日記よりリンクできるようにしておくことをお勧めします。
+</p>
+<dl>
+<dt><a href="message.html">message.html</a>
+<dd>これはメッセージを残すためのページです。ユーザから送られた
+メッセージは上記のツールで参照可能です。
+<dt><a href="title.cgi">タイトル一覧</a> (title.cgi)
+<dd>タイトルの一覧を表示できます。
+<a href="title.cgi?CAT=ALL">カテゴリ別タイトル一覧</a>。
+</dl>
+);
+
+# program start
+$admini->PrintHeader('日記管理者用ページ', 'ハイパー日記システム支援ツール');
+$admini->CheckAuthorized;
+print $HTML;
+$admini->PrintFooter("HNS Administration-$version, ", './', 'back');
+exit;
+# end of admini.cgi
+################################################################
+

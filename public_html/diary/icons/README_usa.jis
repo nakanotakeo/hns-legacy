@@ -1,0 +1,58 @@
+日記用アイコンセット "usaicon"
+------------------------------
+
+はじめに:
+  このパッケージは hns (HyperNikkiSystem) 用のマークアイコンセットです。
+  hns については http://www.h14m.org/ をご覧ください。
+
+アイコン一覧:
+  このパッケージに含まれるアイコンを以下に示します。MARK コマンドへの
+  引数名、ファイル名の順に並んでいます。
+  アイコンはすべて PNG フォーマットです。
+
+  (^^)     usaniko.png
+  (-_-)    usamesen.png
+  (^^;     usaase.png
+  (;_;)    usauru.png
+  (T_T)    usauru2.png
+  v(^^)    usav.png
+  m(__)m   usapeko.png
+  !!       usadoki.png
+  ??       usahatena.png
+  !?       usanaze.png
+  (笑)     usasho.png
+  :-)      usasmile.png, usasmile2.png
+  :-(      usaheno.png, usaheno2.png
+  :-P      usabe.png, usabe2.png
+  φ(._.)  usamemo.png
+  後ろ     usaback.png
+  ばか     usabaka.png
+
+使用例:
+  theme.ph への組み込み例を以下に示します。
+  ここではアイコンを ~/public_html/diary/usaicon/ に置いた場合の記述
+  になっています。
+
+# Mark
+package HNS::Hnf::Command::MARK;
+# image size is automatically set
+$List{"(^^)"} =  "usaicon/usaniko.png";
+$List{"(-_-)"} =  "usaicon/usamesen.png";
+$List{"(^^;"} = "usaicon/usaase.png";
+$List{"(;_;)"} = "usaicon/usauru.png";
+$List{"(T_T)"} = "usaicon/usauru2.png";
+$List{"v(^^)"} = "usaicon/usav.png";
+$List{"m(__)m"} = "usaicon/usapeko.png";
+$List{"!!"} = "usaicon/usadoki.png";
+$List{"??"} = "usaicon/usahatena.png";
+$List{"!?"} = "usaicon/usanaze.png";
+$List{"(笑)"} = "usaicon/usasho.png";
+$List{":-)"} = "usaicon/usasmile2.png";
+$List{":-("} = "usaicon/usaheno2.png";
+$List{":-P"} = "usaicon/usabe2.png";
+$List{"φ(._.)"} = "usaicon/usamemo.png";
+$List{"後ろ"} = "usaicon/usaback.png";
+$List{"ばか"} = "usaicon/usabaka.png";
+
+
+Tatsuya Maruyama <paz@mapletown.net>, Thu,  8 Jun 2000 20:52:52 +0900

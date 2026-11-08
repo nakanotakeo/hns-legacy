@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>hns-lite のインストール</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>hns-lite のインストール</h1>
+    </div>
+    <hr>
+
+    <h3>hns-lile を使用するためには</h3>
+
+    <p>サーバには以下のシステムが必要です。</p>
+
+    <ul>
+      <li>ウェブ・サーバ (<a href=
+      "http://www.apache.org/">Apache</a> など; CGI
+      が実行できる環境)</li>
+
+      <li>Perl 5.004 以降 (5.003用の<a href=
+      "http://www.h14m.org/dist/contrib/perl5003-patch/">パッチ</a>が寄贈されています)</li>
+
+      <li>sendmail相当のプログラム
+      (メールで日記を更新する場合/<a href=
+      "webif-j.html">webif</a>
+      mail2nikkiモードを使用する場合のみ)</li>
+
+      <li>ftp (<a href="webif-j.html">webif</a>
+      ftpモードを使用する場合のみ)</li>
+
+      <li>nkf (なくても可)</li>
+
+      <li>Jcode.pm (なくても可)</li>
+    </ul>
+
+    <p>以上のソフトウェアが使用可能ならば hns-lite
+    を使用できます。</p>
+
+    <p>また、</p>
+
+    <ul>
+      <li>EUCコードを直接編集できるエディタ</li>
+
+      <li>FTPソフト</li>
+    </ul>
+
+    <p>が必要です。 EUCを編集できるエディタとしては <a
+    href=
+    "http://www.vector.co.jp/soft/win95/writing/se120980.html">
+    メモ帳++</a> 等があり, FTPソフトでは, <a
+    href="http://www.vector.co.jp/soft/win95/net/se061839.html">
+    FFFTP</a> 等があります。 なお、メモ帳++,
+    FFFTP共にフリーソフトウェアです。</p>
+
+    <p>また動作が確認されたプロバイダなどは、 <a href=
+    "isp-list-j.html">動作確認されたプロバイダなどの一覧</a>
+    を 参照下さい。</p>
+
+    <h3>hns-lite をダウンロードする</h3>
+
+    <p><a href="http://www.h14m.org/dist/">
+    http://www.h14m.org/dist/</a>
+    にあります(hns-lite-*.lzh)。
+    最新版をダウンロードして下さい。</p>
+    <hr>
+
+    <h3>hns-lite をインストールする</h3>
+
+    <ol>
+      <li>
+        設定ファイルの編集 
+
+        <ol>
+          <li>編集する方法<br>
+           $設定項目 =
+          "&lt;&lt;&lt;編集する部分&gt;&gt;&gt;";<br>
+           &lt;&lt;&lt;編集する部分&gt;&gt;&gt;に指定された設定内容を設定します。<br>
+
+          <br>
+           : 日記のタイトル(<b>$Title</b>)<br>
+           と指定されたら,<br>
+           <code>$Title = "Hoge's Nikki";</code><br>
+           というところを<br>
+           <code>$Title = "<span class=
+          "c3">ここに日記のタイトルをかきます</span>";</code><br>
+
+           というようにエディタで編集します。<br>
+           一部使えない文字があるので注意が必要です。<br>
+          </li>
+
+          <li>
+            最低限編集する箇所<br>
+             <b>hns-lite/config.ph</b><br>
+             : 日記のタイトル(<b>$Title</b>)<br>
+             : メール・アドレス(<b>$UserMail</b>)<br>
+             : あなたの名前(<b>$Author</b>)<br>
+             : アップロードしたときにできる
+            hns-liteフォルダの URI (<b>$MyDiaryURI</b>)<br>
+             
+
+            <p>たとえば,
+            http://www.example.ne.jp/~username/cgi-bin/hns-lite/
+            など。 実際にアクセスされるのは
+            diaryフォルダではなく
+            hns-liteフォルダなので diary/ ではなく,
+            hns-lite/にアクセスすることになります。</p>
+            <b>hns-lite/i/config.ph</b> (携帯端末用)<br>
+             : アップロードしたときにできる
+            hns-liteフォルダの URI (<b>$baseuri</b>)<br>
+             : 日記タイトル(<b>$title</b>)<br>
+             : 日記タイトル(<b>$head</b>)<br>
+             : メール・アドレス(<b>$address</b>)<br>
+          </li>
+        </ol>
+      </li>
+
+      <li>hns-liteフォルダに直接入っている
+      cgiファイルと, hns-liteフォルダの中にある
+      iフォルダの index.cgi の 1行目にある perl
+      のパスを環境に合わせて変更します。 <code><span class=
+      "c3">#!/usr/local/bin/perl</span></code>
+      が標準です。同じなら変更する必要はありません。</li>
+
+      <li>hns-liteフォルダ diaryフォルダ
+      をftpソフトを使って転送します。
+      両フォルダにある .htaccess
+      というファイルも忘れずにアップロードしてください。
+      なお,
+      この2つのフォルダは同じ場所に置いてください。</li>
+
+      <li>
+        パーミッションを変更します。 
+<pre>
+hns-lite/*.cgi をすべて  : 755
+diary/
+ cacheフォルダ           : 777
+ logフォルダ             : 777
+ log/LM,OLD,lockフォルダ : 777
+ logの中のファイルすべて : 666
+</pre>
+      </li>
+
+      <li>日記へのリンク<br>
+       日記へのリンクは <code><span class="c3">
+      http://＜インストールした場所＞/hns-lite/</span></code>
+      に行ってください。
+      おめでとうございます。これで設定は完了です。</li>
+    </ol>
+    <br>
+     うまくインストールできない場合やうまく動かない場合は、
+    <a href="http://www.h14m.org/ml/hns-users/maillist.cgi">
+    ユーザ・サポートMLのアーカイブ</a>
+    を検索すると何かわかるかも知れません。また、
+    わからない場合は、 <a href=
+    "http://www.h14m.org/hns-users-ML-j.html">
+    ユーザ・サポートML</a>
+    で質問すると何かわかるかも知れません。 
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: install-lite-j.html,v 1.3 2002/02/03 16:01:00 bonaim Exp $ -->
+  </body>
+</html>
+

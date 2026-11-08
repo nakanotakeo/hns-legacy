@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>i system への自動切り換え</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>i system への自動切り換え</h1>
+    </div>
+    <hr>
+
+    <h3>i system とは?</h3>
+
+    <p><a href="http://yar-3.net/isystem/">i system</a>
+    は、hnfで書かれた日記を、携帯電話などのモバイル機器で
+    読みやすい形で出力するためのプログラムです。
+    cgiとして動作します。
+    日記を外部記憶として利用し、常に持ち歩いている携帯端末から
+    閲覧、検索することにより、日常生活をバックアップします。
+    PIM的な用途もフォローします。 hns ( http://www.h14m.org/
+    ) と組み合わせて、携帯端末からの
+    情報更新も可能です。(i system の readme.ja
+    より)<br>
+    <br>
+     詳細は、<a href="http://yar-3.net/isystem/">i system
+    ホーム・ページ</a>を ご覧下さい。i system
+    は yar-3 により開発されました。</p>
+    <hr>
+
+    <h3>i system への自動切り換えとは?</h3>
+
+    <p>
+    ブラウザを判定して、それが携帯端末であると分かった場合、
+    hns による日記の表示ではなく、i system
+    により日記を表示する機能 のことです。</p>
+    <hr>
+
+    <h3>i system への自動切り換えの利用方法</h3>
+
+    <p>
+    デフォルトで利用するようになっています。自動切り換えをしたくない
+    場合は、<a href="config-j.html#isystem">config.ph</a>
+    で設定して下さい。</p>
+    <hr>
+
+    <h3>ブラウザの判定方法</h3>
+
+    <p>現在以下のようになっています。</p>
+
+    <ol>
+      <li>HTTP_ACCEPT に wml
+      を送って来るブラウザ(EZweb/DDI, EZaccess/IDO)</li>
+
+      <li>HTTP_X_JPHONE_MSNAME に J
+      を送って来るブラウザ(J-SkyWeb/J-PHONE)</li>
+
+      <li>HTTP_USER_AGENT が DoCoMo
+      で始まるブラウザ(iMode/DoCoMo)</li>
+
+      <li>HTTP_USER_AGENT が PDXGW
+      で始まるブラウザ(H",PmailDX/DDI Pocket)</li>
+    </ol>
+
+    <p>は、システムが自動的に携帯端末と判定します。それ以外に
+    conf/i_browser.txt
+    に記載されいるブラウザも携帯端末と判定されます。</p>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: isystem-j.html,v 1.4 2003/11/20 15:04:33 togawa Exp $ -->
+  </body>
+</html>
+

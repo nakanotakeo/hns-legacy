@@ -1,0 +1,592 @@
+#!%PERL_PATH%
+################################################################
+# board.cgi
+#
+# HyperNikkiSystem
+# 2002/1/27 Yoichi Imai <yoichi@silver-forest.com>
+
+# Copyright (C) 2002 Yoichi Imai <yoichi@silver-forest.com>
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: board.cgi.in,v 1.14 2006/07/05 02:43:49 kenji Exp $
+################################################################
+
+use strict;
+use lib qw(lib);
+
+use CGI::QueryString;
+use CGI::Cookie;
+use CGI::Tools;
+
+use HNS::AccessControl;
+
+use DateTime::Format;
+use CodeConv;
+
+use Board;
+use Board::System;
+
+require './config.ph';
+
+BEGIN {
+    $| = 1;
+    $SIG{'__DIE__'} = \&die_handler;
+}
+sub die_handler {
+    my $msg = shift;
+    if ($msg !~ /unimplemented/ &&
+	$msg !~ /eval/){
+	print "Content-Type: text/html; charset=EUC-JP\r\n\r\n";
+	print "<br>";
+	print qq(<font color="red">Error Occured: $msg</font><br>);
+    }
+}
+
+################################################################
+# index action (default)
+
+# list_num must be $#list+1 or @list.
+sub print_page_control($$)
+{
+    my ($cur_page, $list_num) = @_;
+
+    die 'ThreadsPerPage is zero' if ($Board::ThreadsPerPage == 0);
+
+    $cur_page = 0 if ($list_num / $Board::ThreadsPerPage < $cur_page);
+    
+    print '<div align="center">', "\n";
+    print '[ ';
+    for (my $i = 0; $i < $list_num / $Board::ThreadsPerPage; $i++) {
+	print ' / ' unless $i == 0;
+	if ($i == $cur_page) {
+	    print $i + 1;
+	} else {
+	    print '<a href="board.cgi?page=', $i, '">', $i + 1, '</a>', "\n";
+	}
+    }
+    print ' ]</div>', "\n";
+}
+sub print_article_tree($$)
+{
+    my ($tree, $msgid) = @_;
+    return unless $tree->{$msgid};
+
+    my $is_found = 0;
+    foreach my $article (@{$tree->{$msgid}}) {
+	next unless $article;
+	if(!$is_found) {
+	    print ' <ul>', "\n";
+	    $is_found = 1;
+	}
+	print ' <li>';
+	print $article->GetSubject(0,1), "\n";
+	print_article_tree($tree, $article->msgid);
+	print ' </li>', "\n";
+    }
+    print ' </ul>', "\n" if ($is_found);
+}
+
+# usage: print_article_root($refid_hash);
+sub print_article_root($)
+{
+    my $tree = shift;
+    my ($cur_page, $start_num, $list_ref);
+
+    $cur_page = param('page');
+    die 'Invalid page number' if ($cur_page =~ /[^\d]/);
+    
+    $start_num = $cur_page * $Board::ThreadsPerPage;
+
+    $list_ref = $tree->{'root'};
+    return unless $list_ref;
+
+    my @list = reverse(@{$list_ref});
+
+    print_page_control($cur_page, $#list+1);
+        
+    print '<dl>', "\n";
+
+    if ($start_num > $#list) {
+	@list = @list[0..($Board::ThreadsPerPage-1)];
+    } else {
+	@list = @list[$start_num..($start_num+$Board::ThreadsPerPage-1)];
+    }
+
+    foreach my $article (@list) {
+	next unless $article;
+	print '<dt>';
+	print $article->GetSubject(1,1);
+	print '</dt>', "\n";
+
+	if($tree->{$article->msgid}) {
+	    print '<dd>', "\n";
+	    print_article_tree($tree, $article->msgid);
+	    print '</dd>', "\n";
+	}
+    }
+
+    print '</dl>', "\n";
+}
+
+sub action_index
+{
+    my $board = shift;
+
+    print_html_header();
+    print_article_root($board->refid_hash);
+    print_html_footer();
+}
+
+################################################################
+# html output
+sub print_html_header
+{
+print "Content-Type: text/html; charset=EUC-JP\r\n\r\n";
+print  <<"CENTER_OF_HEADER";
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="ja">
+<head>
+ <meta http-equiv="Content-Type" CONTENT="text/html; charset=euc-jp">
+ <meta http-equiv="Content-Style-Type" content="text/css">
+CENTER_OF_HEADER
+
+print qq(<link rel="STYLESHEET" type="text/css" href="${Board::CSSFile}">) if ($Board::CSSFile);
+
+print  <<"END_OF_HEADER";
+<title>${Board::Title}</title>
+<style type="text/css">
+<!--
+p#copyright { text-align: right }
+span.newmark { color: #ff0000; font-size: smaller }
+span.date { font-size: smaller }
+-->
+</style>
+</head>
+
+<body>
+<h2>${Board::Title}</h2>
+<div align="center">
+ <a href="${Board::HnsPath}">日記へ</a> /
+ <a href="board.cgi">ツリー表示</a> /
+ <a href="board.cgi?act=write">新規投稿</a> /
+ <a href="board.cgi?act=list">新着表示</a>
+</div>
+END_OF_HEADER
+
+}
+sub print_html_footer
+{
+print  <<"END_OF_FOOTER";
+	
+<p id="copyright">
+HNS Board-${Board::Version} Copyright (c) by <a href="http://www.h14m.org/">HyperNikkiSystem Project</a> 2002
+</p>
+
+</body>
+</html>
+END_OF_FOOTER
+}
+################################################################
+# common subroutine
+# $depthはstyle要素で使うためにclassを設定するときに便利かもしれません。
+# 現在はCSS非対応なブラウザのためにきれいではないですがblockquoteを使っています。
+sub thread_print
+{
+    my ($depth, $article_list, $msgid_hash, $refid_hash) = @_;;
+
+    print '<blockquote>', "\n" if $depth != 0;
+    foreach my $article (@$article_list) {
+	$article->Print();
+	thread_print($depth+1, $refid_hash->{$article->msgid}, $msgid_hash, $refid_hash);
+    }
+    print '</blockquote>', "\n" if $depth != 0;
+}
+sub print_form
+{
+    my ($form_action, $hidden_values, $subject, $name, $email, $site, $key, $cookie_checked, $body, $submit_value) = @_;
+
+    print '<form method="POST" action="board.cgi">', "\n";
+    if ($hidden_values) {
+	foreach my $key (keys %$hidden_values) {
+	    print '<input type="hidden" name="', $key, '" value="', $hidden_values->{$key}, '">', "\n";
+	}
+    }
+    print 'Subject: <input type="text" name="subject" value="', $subject, '"><br>', "\n";
+    print '名前: <input type="text" name="name" value="', $name, '"><br>', "\n";
+    print 'E-Mail: <input type="text" name="email" value="', $email, '"><br>', "\n";
+    print 'Webサイト: <input type="text" name="site" value="', $site, '"><br>', "\n";
+    print '削除キー: <input type="text" name="key" value="', $key, '"><br>', "\n";
+    print '<input type="checkbox" name="cookie" value="on" ';
+     print 'checked' if ($cookie_checked);
+    print '>Cookieを使って情報を保存する<br>', "\n";
+    print '<textarea name="body" rows=5 cols=70>', "\n";
+    print $body;
+    print '</textarea>', "\n";
+    print '<br><input type="submit" value="', $submit_value, '"></form>', "\n";
+}
+sub html_convert
+{
+    my ($str, $body_mode) = @_;
+
+    $str =~ tr/\t//d;
+    $str = Escape($str);
+    if ($body_mode) {
+	$str =~ s/\x0D\x0A/<br>/g;
+	$str =~ s/\x0D/<br>/g;
+	$str =~ s/\x0A/<br>/g;
+#	$str =~ s/ /&nbsp;/;
+    } else {
+	$str =~ tr/\x0D\x0A/ /;
+    }
+    return $str;
+}
+################################################################
+# diary action
+sub action_diary
+{
+    my $board = shift;
+
+    my $fit_article;
+    my $ref_diary = param('diary');
+
+    die "unset diary parameter to find" unless $ref_diary;
+
+    foreach my $article (@{$board->article_list}) {
+	if ($article->IsRoot() && $article->ref_diary eq $ref_diary) {
+	    $fit_article = $article;
+	}
+    }
+    die "Can't find the article for the article of diary" unless $fit_article;
+    print_html_header();
+    thread_print(0, [$fit_article], $board->msgid_hash, $board->refid_hash);
+    print_html_footer();
+
+}
+################################################################
+# list action
+sub action_list
+{
+    my $board = shift;
+
+    print_html_header();
+    my @article_list = reverse(@{$board->article_list});
+    for (my $i = 0; $i < $Board::RecentView; $i++) {
+	my $article = $article_list[$i];
+	next unless $article;
+	next if $article->IsRoot() && $article->ref_diary ne '';
+	
+	$article->Print($board->msgid_hash, $board->refid_hash);
+	print '<hr>', "\n";
+    }
+    print_html_footer();
+}
+################################################################
+# read action
+sub action_read
+{
+    my $board = shift;
+
+    my ($fit_article);
+
+    my $msgid = param('msgid');
+    die 'msgid is unset' unless ($msgid);
+
+    $fit_article = $board->msgid_hash->{$msgid};
+    die 'Msgid is illegal' unless $fit_article;
+
+    print_html_header();
+    if (param('thr') eq 'on') {
+	thread_print(0, [$fit_article], $board->msgid_hash, $board->refid_hash);
+    } else {
+	$fit_article->Print($board->msgid_hash, $board->refid_hash);
+    }
+    print_html_footer();
+}
+################################################################
+# write action
+sub action_write
+{
+    my $board = shift;
+
+    my ($title, $ref_article, $diary_title, $refid);
+    my ($name, $email, $site, $key);
+    my $hidden_values = {};
+
+    $hidden_values->{'act'} = 'post';
+
+    $refid = param('refid');
+    if ($refid) {
+	$ref_article = $board->msgid_hash->{$refid};
+	die 'Original message not found' unless $ref_article;
+
+	if ($ref_article->IsRoot() && $ref_article->ref_diary ne '') {
+	    undef($ref_article);
+	} else {
+	    $title = $ref_article->title;
+	    $title =~ s/^Re:(&nbsp;| )//g;
+	    $title = "Re: " . $title;
+	    
+	    $hidden_values->{'refid'} = $ref_article->msgid;
+	    $hidden_values->{'diary'} = $ref_article->ref_diary;
+	}
+    }
+    if (param('diary')) {
+	$diary_title = Board::System::get_diary_title(param('diary'));
+	die 'Diary title getting error' unless ($diary_title);
+	
+	$title = "Re: " . $diary_title;
+	$hidden_values->{'diary'} = param('diary');
+    }
+    my $cookie = GetCookie('HnsBoardProfile');
+    if ($cookie) {
+	$cookie = CGI::Tools::URIUnEscape($cookie);
+	($name, $email, $site, $key) = split(/\|/, $cookie);
+    }
+    $site = "http://" unless ($site);
+
+    print_html_header();
+    if ($diary_title) {
+	print '<h3>[[' . $title, ']]へのコメント</h3>', "\n";
+    } elsif ($ref_article) {
+	$ref_article->Print();
+    }
+
+    if ($cookie) {
+	print_form("POST", $hidden_values, $title, $name, 
+		   $email, $site, $key, 1, "", "投稿する");
+    } else {
+	print_form("POST", $hidden_values, $title, $name, 
+		   $email, $site, $key, 0, "", "投稿する");
+    }
+    print_html_footer();
+}
+################################################################
+# post action
+sub action_post
+{
+    my $board = shift;
+
+    my ($http_host, $refid, $diary, $ruri_code);
+
+    $http_host = $ENV{'REMOTE_ADDR'};
+
+    my ($name, $email, $site, $body, $subject, $delete_key, $diary, $refid) = (param('name'), param('email'), param('site'), param('body'), param('subject'), param('key'), param('diary'), param('refid'));
+    
+    die 'name is too long' if length($name) > $Board::FieldMaxLen;
+    die 'email is too long' if length($email) > $Board::FieldMaxLen;
+    die 'subject is too long' if length($subject) > $Board::FieldMaxLen;
+    die 'delete key is too long' if length($delete_key) > $Board::FieldMaxLen;
+    die 'url is too long' if length($site) > $Board::URLMaxLen;
+    die 'body is too long' if length($body) > $Board::BodyMaxLen;
+    
+    die 'input subject' unless $subject;
+
+    die 'invalid delete key' if (!$delete_key || !($delete_key =~ /^[-a-zA-Z0-9_]+$/) || $Board::UnDeletableKey eq $delete_key);
+    die 'invalid diary' if ($diary && (!($diary =~ /^[0-9]+$/) || length($diary) > 30));
+    die 'invalid refid' if ($refid && (!($refid =~ /^[0-9]+$/) || length($refid) > 10));
+
+    my @dirty_words = '';
+    my $spam_list = $HNS::System::DiaryDir . '/conf/spam_list.txt';
+    my @spam_found = ();
+    if ( -f $spam_list & -r $spam_list ) {
+	open(SPAM, $spam_list) || die 'file not found:$!' ;
+	@dirty_words = <SPAM>;
+	close(SPAM);
+	foreach my $word (@dirty_words) {
+	    chomp($word);
+	    push(@spam_found, grep (/$word/, $body)) ;
+	    push(@spam_found, grep (/$word/, $subject)) ;
+	    push(@spam_found, grep (/$word/, $site)) ;
+	}
+    };
+    die 'prohibited' if (@spam_found);
+
+    foreach ($name, $email, $site) {
+	die 'included invalid characters' if /\|/;
+    }
+    $site =~ s|^http://$||;
+
+    $name = html_convert($name, 0);
+    $email = html_convert($email, 0);
+    $site = html_convert($site, 0);
+    $subject = html_convert($subject, 0);
+
+    $body = html_convert($body, 1);
+
+# $diaryがある && $refidがない
+## 日記rootが存在する -> 何もしない
+## 日記rootが存在しない -> 日記rootを作成する
+## $refid = 日記root.refid
+# それでもなおrefidがない -> $refid = 'root'
+## 作成
+
+    my $fake_root;
+    if ($diary) {
+	unless ($refid) {
+	    $fake_root = $board->SearchFakeRoot($diary);
+	    unless($fake_root) {
+		my $diary_title = Board::System::get_diary_title($diary);
+		die 'Diary title getting error' unless $diary_title;
+		$fake_root = $board->AddNewMsg($Board::UnDeletableKey,
+					       'root',
+					       $diary,
+					       "",
+					       "[[$diary_title]]");
+	    }
+	    $refid = $fake_root->msgid;
+	}
+    } 
+
+    $refid = 'root' unless ($refid);
+
+    $ruri_code = GetCookie('HnsClientID');
+    if($ruri_code && ($ruri_code =~ /\W/ || length($ruri_code) != 17)) {
+	die 'invalid RURI code', " '$ruri_code' ", length($ruri_code);
+    }
+
+    $board->AddNewMsg($delete_key,
+		      $refid,
+		      $diary,
+		      $ruri_code,
+		      $subject, $name, $email, $site,
+		      $http_host, $body);
+
+    $board->Save();
+
+    if(param('cookie') eq 'on') {
+	my $cookie = join("|", $name, $email, $site, $delete_key);
+	my $expires = $HNS::System::CookieExpires;
+	$cookie = CGI::Tools::URIEscape($cookie);
+	print AsCookieHeader('HnsBoardProfile', $cookie, $expires);
+    }
+  
+    print_html_header();
+    print '<h3>投稿しました。</h3>';
+    print_html_footer();
+}
+################################################################
+# delete action
+sub action_delete
+{
+    my $board = shift;
+
+    my $msgid = param('msgid');
+    die 'invalid message id' unless $msgid;
+
+    my $article = $board->msgid_hash->{$msgid};
+    die 'the message to delete is not found.' unless $article;
+
+    if (param('really') eq 'on') {
+	if ($article->delete_key eq param('key')) {
+	    $article->Delete;
+	    $board->Save();
+	    print_html_header();
+	    print "<h2>削除に成功しました。</h2>";
+	    print_html_footer();
+	} else {
+	    print_html_header();
+	    print "<div>削除パスワードが間違っています。</div>";
+	    print_html_footer();
+	}
+	return;
+    }
+
+    print_html_header();
+    $article->Print();
+    print <<"EOF";
+<form method="POST" action="board.cgi">
+<input type="hidden" name="act" value="delete">
+<input type="hidden" name="msgid" value="${msgid}">
+<input type="hidden" name="really" value="on">
+削除キー: <input type="text" name="key"><br>
+<input type="submit" value="削除">
+</form>
+<form method="POST" action="board.cgi">
+<input type="hidden" name="act" value="delroot">
+<input type="hidden" name="msgid" value="${msgid}">
+<input type="submit" value="管理権限で削除">
+</form>
+EOF
+    print_html_footer();
+}
+
+################################################################
+# delroot
+sub action_delroot
+{
+    my $board = shift;
+
+    my $msgid = param('msgid');
+    die 'invalid message id' unless $msgid;
+
+    my $article = $board->msgid_hash->{$msgid};
+    die 'the message to delete is not found.' unless $article;
+
+    use HNS::Admini;
+
+    my $admini = new HNS::Admini;
+    $admini->PrintHeader('board.cgi記事削除ページ', 'ハイパー日記システム支援ツール');
+    $admini->CheckAuthorized;
+    $article->Delete();
+    $board->Save();
+    print "<h3>削除に成功しました。</h3>";
+    $admini->PrintFooter("HNS Board-${Board::Version}, ", "board.cgi", 'back');
+}
+################################################################
+# main method
+
+unless ($Board::UseBoard) {
+    print "Content-Type: text/plain\r\n\r\n" ;
+    print "board features is disabled.";
+    exit(0);
+}
+
+my $acl = new HNS::AccessControl;
+
+my $board = new Board::System;
+$board->Load();
+$board->CreateMsgidHash();
+$board->CreateRefidHash();
+
+my $echo_lm = DateTime::Format::strftime("%a, %d %b %Y %H:%M:%S %Z",
+					 gmtime((stat($Board::BoardData))[9]));
+print "Last-Modified: $echo_lm\r\n";
+
+my $act = param('act');
+if($act) {
+  if($act eq 'read') {
+      action_read($board);
+  } elsif ($act eq 'list') {
+      action_list($board);
+  } elsif ($act eq 'diary') {
+      action_diary($board);
+  } elsif ($act eq 'write') {
+      action_write($board);
+  } elsif ($act eq 'delete') {
+      action_delete($board);
+  } elsif ($act eq 'delroot') {
+      action_delroot($board);
+  } elsif ($act eq 'post') {
+      action_post($board);
+  } else {
+      die 'invalid act';
+  }
+} else {
+    action_index($board);
+}
+
+

@@ -1,0 +1,69 @@
+#!%PERL_PATH%
+
+# HyperNikkiSystem logging.pl
+# version 0.0.1
+# 2000/8/24  Akihiro Arisawa <ari@nijino.com>
+
+# Copyright (C) 2000  Akihiro Arisawa, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: logging.pl.in,v 1.2 2002/12/28 09:22:34 bonaim Exp $
+
+use lib qw(lib);
+
+use CGI::QueryString;
+use DateTime::Format;
+use HNS;
+
+require './config.ph';
+
+my $hns = new HNS;
+
+# logging
+$HNS::Status->count($HNS::Status->count+1)
+  if ($HNS::System::CookieFlag eq 'ON' && ! $HNS::Status->is_robot);
+
+$hns->RecordLog(param('ref'), param('to'));
+
+# cookie
+exit unless ($HNS::System::CookieFlag eq 'ON' && ! $HNS::Status->is_robot);
+
+my $expires = $HNS::System::CookieExpires;
+if ($expires){
+    $expires = sprintf("expires=%s",
+	strftime("%a, %d-%b-%Y %H:%M:%S %Z",
+	gmtime(CGI::Cookie::expire_calc($expires))));
+}
+
+my $path = $ENV{'SCRIPT_NAME'};
+$path =~s!/?[^/]+$!!;
+
+sub CookieMetatag($$) {
+    my ($name, $value) = @_;
+
+    if ($path) {
+	printf("<meta http-equiv=\"Set-Cookie\" content=\"%s=%s; path=%s; %s\">\n",
+	$name, $value, $path,
+	$expires);
+    } else {
+	printf("<meta http-equiv=\"Set-Cookie\" content=\"%s=%s; %s\">\n",
+	$name, $value, $expires);
+    }
+}
+
+CookieMetatag('HnsClientID', $HNS::Status->id);
+CookieMetatag('HnsClientCount', $HNS::Status->count);
+

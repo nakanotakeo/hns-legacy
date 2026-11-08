@@ -1,0 +1,51 @@
+#!%PERL_PATH%
+
+# clear_cache.cgi - cache clear tool for hns-2.10
+# Version 0.0.1
+# 1999/12/5  Kenji Suzuki <kenji@h14m.org>
+
+my $version = "0.0.1";
+
+# Copyright (C) 1999  Kenji Suzuki, HyperNikkiSystem Project
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+# $Id: clear_cache.cgi.in,v 1.6 2002/12/28 09:12:59 bonaim Exp $
+
+use strict;
+use lib qw(lib);
+
+use SimpleDB::Append;
+use HNS::Admini;
+use HNS::Status;
+use HNS::Cache;
+
+require './config.ph';
+
+my $DiaryDir = $HNS::System::DiaryDir;
+my $CacheDir = $HNS::System::CacheDir;
+my $admini = new HNS::Admini;
+
+
+# program start
+$admini->PrintHeader('HNS Clear Cache');
+$admini->CheckAuthorized;
+
+my $cache = new HNS::Cache;
+$cache->Clear(0);
+
+$admini->PrintFooter("HNS Clear Cache-$version, ");
+exit;
+

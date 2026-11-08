@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>ハイパー日記システムのインストール</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>ハイパー日記システムのインストール</h1>
+    </div>
+    <hr>
+
+    <h3>hns を使用するためには</h3>
+
+    <p>基本的に以下のシステムが必要です。</p>
+
+    <ul>
+      <li>ウェブ・サーバ (<a href=
+      "http://www.apache.org/">Apache</a> など)</li>
+
+      <li>Perl 5.004 以降 (5.003用の <a href=
+      "http://www.h14m.org/dist/contrib/perl5003-patch/">パッチ</a>が寄贈されています)</li>
+
+      <li>GNU make (インストール時のみ．BSD make では動作しません)</li>
+
+      <li>sendmail相当のプログラム
+      (メールで日記を更新する場合/<a href=
+      "webif-j.html">webif</a>
+      mail2nikkiモードを使用する場合のみ)</li>
+
+      <li>ftp (<a href="webif-j.html">webif</a>
+      ftpモードを使用する場合のみ)</li>
+
+      <li>nkf (なくても可)</li>
+      <li>Jcode.pm (なくても可)</li>
+    </ul>
+
+    <p>以上のソフトウェアが使用可能ならば hns
+    を使用できます。</p>
+
+    <p><strong>シェル(shell) が使えないサーバの場合は、
+    <a href="install-lite-j.html">hns-lite</a> を
+    インストールするのが簡単でしょう。</strong></p>
+
+    <p>また、初心者向けのインストール解説ドキュメントとして、
+    <a href=
+    "http://www.inseki.gr.jp/~myaga/hns/"><strong>はいぱ〜日記システムによるWeb日記のすすめ。</strong></a>
+    があります(少々古いですが)。</p>
+
+    <p>現在，</p>
+
+    <ul>
+      <li>FreeBSD 2.2.5-2.2.8, 3.1-3.5, 4.0-4.4<br>
+       Linux 2.0.34, 2.0.36, 2.1, 2.2.9, 2.2.13, 2.2.16, 2,2,17,
+      2.4.4<br>
+       - MkLinux DR3<br>
+       - RedHat 5.2J, 6.1K, Vine 1.1, 2,1, 2.1.5, Kondara 1.2,
+      2000, LASER5 Linux 6.0<br>
+       - Slackware 3.4, Cobalt Linux 3.0<br>
+       - Debian GNU/Linux 2.1, 2.2<br>
+       - TuroboLinux Server 6.0, TuroboLinux 6.0<br>
+       OSF1 1.3, 4.0d<br>
+       DigitalUnix 4.0B, 4.0D(Rev. 878), 4.0F<br>
+       Solaris 2.6 for Sparc<br>
+       Solaris 2.6, Solaris 2.7 for Intel<br>
+       NetBSD 1.3.4, 1.4.1<br>
+       SunOS 4.1.4-JLE1.1.4, 5.6, 5.8<br>
+       BSDI 4.1<br>
+      MacOSX 10.0.1<br>
+       Windows 2000</li>
+
+      <li>Apache 1.2.1, 1.2.6, 1.3.1 Cobalt, 1.3.3, 1.3.4, 1.3.6,
+      1.3.9, 1.3.11, 1.3.12, 1.3.17, 1.3.19, 1.3.20<br>
+       AN HTTPD 1.33e</li>
+
+      <li>Perl 5.004_01, 5.004_03, 5.004_04, 5.004_05, 5.004_25<br>
+       5.005_02, 5.005_03, 5.005_54, 5.005_56, 5.6.0, 5.6.1<br>
+       jperl 5.004_04-980303, 5.005_02-981225, 5.005_03</li>
+    </ul>
+
+    <p>
+    での動作が報告されています(全ての組み合わせでテストされた
+    訳ではありません)。また動作が確認されたプロバイダなどは、
+    <a href=
+    "isp-list-j.html">動作確認されたプロバイダなどの一覧</a>
+    を参照下さい。</p>
+
+    <p>上記のインストールは， <a href=
+    "howto-j.html">HOWTOドキュメント</a>
+    に参考文献があります。</p>
+
+    <p>日記の全文検索を行うには Namazu
+    の動作環境が必要です。 全文検索の詳細は，<a href=
+    "unagi2-j.html">Namazu for hns による日記の全文検索</a>
+    を参照願います。</p>
+    <hr>
+
+    <h3>hns をダウンロードする</h3>
+
+    <p><a href=
+    "http://www.h14m.org/dist/">http://www.h14m.org/dist/</a>
+    にあります(hns-2.2.?.tar.gz)。
+    最新版をダウンロードして下さい。<br>
+    また，主要OSに対するパッケージとして，
+    現在 Debian用の deb ，Vine用の rpm ， FreeBSD用の port が
+    用意されています。 <a
+    href=
+    "http://www.h14m.org/dist/binaries/">http://www.h14m.org/dist/binaries/</a>
+    を御覧下さい。</p>
+    
+    <hr>
+
+    <h3>hns をインストールする</h3>
+
+    <p>日記ディレクトリ(毎日の日記 hnf
+    を置くディレクトリ)を ~/diary/，
+    ウェブ日記ディレクトリ(ウェブ上で公開する時のディレクトリ)を
+    ~/public_html/diary/ とします。</p>
+
+    <ol>
+      <li>$ <span class="c3">gzip -dc hns-2.20.?.tar.gz | tar xvf
+      -</span><br>
+       (又は $ <span class="c3">tar zxvf
+      hns-2.20.?.tar.gz</span>)</li>
+
+      <li>$ <span class="c3">cd hns-2.20.?</span></li>
+
+      <li>
+        対話型のインストール・プログラムを利用してインストールする場合は，<br>
+
+         $ <span class="c3">sh hns-setup.ja</span><br>
+         と入力して，インストール・プログラムの質問に答えて下さい。<br>
+         hns-setup.ja の起動オプションは次の通りです。
+         <ul>
+         <li> -f セットアップファイル名<br>
+         日記のセットアップファイル(インストール時の設定を記録するファイル)の
+         位置を指定します。1人で複数の日記を書きたい場合、このオプションで
+         セットアップファイルを切り替えることができます。
+         デフォルトは ~/.hnssetup です。
+         </ul>
+
+        <div class="c2">
+          <span class="c1">注意:</span><br>
+           入力文字に !
+          は使用しないで下さい。インストールが正常に終了しません。
+          !
+          を使用したい場合は、インストール完了後に設定ファイルを
+          手で書き直して下さい。
+        </div>
+        <br>
+      </li>
+
+      <li>
+        以下は，対話型のインストール・プログラムを利用しない場合です。<br>
+
+         $ <span class="c3">vi Makefile</span><br>
+        <br>
+         <code>NIKKITITLE</code> に日記のタイトルを記載<br>
+         <code>NIKKITITLE = <span class="c3">HNS: Hoge's
+        Diary</span></code><br>
+        <br>
+         <code>USERMAIL</code> に自分のメール・アドレスを記載
+        (このメール・アドレスは日記ページに埋め込まれます)<br>
+
+         <code>USERMAIL = <span class=
+        "c3">hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>AUTHOR</code>
+        に日記の作者名を記載(空欄でも可)<br>
+         <code>AUTHOR = <span class="c3">Hoge</span></code><br>
+        <br>
+         <code>MESMAIL</code> には読者からのメッセージを
+        受け取るメール・アドレスを記載 (サーバに
+        sendmail相当のプログラムが必要です。受け取らない
+        場合は、空欄にして下さい)<br>
+         <code>MESMAIL = <span class=
+        "c3">hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>DIARYMAIL</code> に <a href=
+        "mail2nikki-j.html">メールで日記を更新</a>
+        する場合の，
+        更新用メールを受け取るメール・アドレスを記載します。<br>
+
+         <code>DIARYMAIL = <span class=
+        "c3">hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>FROMADDR</code> に <a href=
+        "mail2nikki-j.html">メールで日記を更新</a>
+        する場合の，
+        送信するメールの発信アドレスを記載します
+        (このアドレスは認証に利用されます)。<br>
+         <code>FROMADDR = <span class=
+        "c3">hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>PASSWORD</code> に <a href=
+        "mail2nikki-j.html">メールで日記を更新</a>
+        する場合の，
+        パスワードを記載します。半角英数記号を指定してください．<br>
+
+         <code>PASSWORD = <span class=
+        "c3">hirakegoma</span></code><br>
+        <br>
+         <code>UNAGIUSE</code> には，<a href=
+        "unagi2-j.html">Namazu for hns</a>
+        をインストールして，その検索フォームを
+        日記に表示したい場合は ON と
+        記載します。日記の検索には，別途 Namazu for hns
+        のインストールが必要です。<br>
+         <code>UNAGIUSE = <span class="c3">OFF</span></code><br>
+        <br>
+         <code>MYDIARYURI</code> に日記URL
+        を記載します。<br>
+         <code>MYDIARYURI = <span class=
+        "c3">http://www.example.ne.jp/~hoge/diary/</span></code><br>
+         
+
+        <div class="c2">
+          <span class="c1">注意:</span><br>
+           index.cgi を DirectoryIndex
+          に指定できない場合(上記の URL に
+          アクセスするとディレクトリの中身が見えてしまう場合など)は、<br>
+
+           <code>MYDIARYURI = <span class=
+          "c3">http://www.example.ne.jp/~hoge/diary/index.cgi</span></code><br>
+
+           と設定して下さい。
+        </div>
+        <br>
+         <code>THEME</code>
+        には使用する<a href=
+        "theme-j.html">テーマ</a>
+        名を記載します。デフォルトは
+        japanese です。<br>
+         <code>THEME = <span class="c3">ruribaka</span></code><br>
+        <br>
+         <code>ANTENNA</code> には， <a href=
+        "http://www.h14m.org/hoshino/">星野アンテナ</a>に
+        捕捉された場合，星野アンテナに登録してよいかどうかを記載します。
+        星野アンテナに登録してかまわない場合は OK
+        と，登録して欲しくない場合には， NG
+        と指定します。デフォルトは NG です．<br>
+         <code>ANTENNA = <span class="c3">OK</span></code><br>
+        <br>
+         <code>NEWREVERSE</code>
+        は一日の日記の内で新しいセクション(段落)順に表示する場合は、1
+        と記載します。 デフォルトは 0
+        です(古い順に表示します)。<br>
+         <code>NEWREVERSE = <span class="c3">0</span></code><br>
+        <br>
+         <code>STARTYEAR</code>
+        には日記を書き始めた年を記載します。<br>
+         <code>STARTYEAR = <span class="c3">2001</span></code><br>
+        <br>
+         <code>USEBOARD</code>には、<a href=
+         "board-j.html">掲示板</a>を使用する場合には1と記載します。
+         デフォルトは 0 です(使用しません)。<br>
+         <code>USEBOARD = <span class="c3">0</span></code><br>
+        <br>
+         <code>PERL_PATH</code> に Perl5
+        へのパスを記載<br>
+         <code>PERL_PATH = <span class=
+        "c3">/usr/local/bin/perl</span></code><br>
+        <br>
+         <code>SENDMAIL_PATH</code> に sendmail
+        へのパスを記載<br>
+         <code>SENDMAIL_PATH = <span class=
+        "c3">/usr/sbin/sendmail</span></code><br>
+        <br>
+         <code>NKF_PATH</code> に nkf
+        へのパスを記載<br>
+         <code>NKF_PATH = <span class=
+        "c3">/usr/local/bin/nkf</span></code><br>
+        <br>
+         <code>DIARYDIR</code> は
+        日記ディレクトリ，<code>HTMLDIR</code> は
+        ウェブ日記ディレクトリです。必要な場合のみ変更してください．
+      </li>
+
+      <li>
+        $ <span class="c3">make install</span><br>
+         で hns がインストールされます。 
+
+        <div class="c2">
+          <span class="c1">注意:</span><br>
+           インストーラは，Apache
+          のアクセス・コントロール・ファイル.htaccess
+          を
+          ウェブ日記ディレクトリにインストールします。
+          .htaccess の内容は， 
+<pre>
+DirectoryIndex index.cgi index.html
+&lt;Files "*.pm"&gt;
+ deny from all
+&lt;/Files&gt;
+&lt;Files "*.ph"&gt;
+ deny from all
+&lt;/Files&gt;
+&lt;Files "*.bak"&gt;
+ deny from all
+&lt;/Files&gt;
+&lt;Files "*.pl"&gt;
+ deny from all
+&lt;/Files&gt;
+&lt;Files "*-old"&gt;
+ deny from all
+&lt;/Files&gt;
+</pre>
+          となっています。Apache
+          の設定によっては，日記にアクセスすると Internal
+          Server Error が 表示される可能性があります。
+          その場合は，webmaster に Apache
+          の設定を変更してもらって下さい。それが無理な場合は、
+          .htaccess
+          を削除する方法がありますが、設定ファイルなどがウェブから
+          見えてしまいます。
+        </div>
+      </li>
+
+      <li>正常にインストールできましたら，<a href=
+      "config-j.html">設定ファイルconfig.ph</a> の
+      設定をして下さい。<br>
+      <br>
+       うまくインストールできない場合やうまく動かない場合は、
+      <a href=
+      "http://www.h14m.org/ml/hns-users/maillist.cgi">ユーザ・サポートMLのアーカイブ</a>
+      を検索すると何かわかるかも知れません。また、
+      わからない場合は、 <a href=
+      "http://www.h14m.org/hns-users-ML-j.html">ユーザ・サポートML</a>
+      で質問すると何かわかるかも知れません。</li>
+    </ol>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: install-j.html,v 1.59 2003/05/28 04:57:29 togawa Exp $ -->
+  </body>
+</html>
+

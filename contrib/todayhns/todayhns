@@ -1,0 +1,282 @@
+#!/bin/sh
+#
+#    todayhns --- Edit today's HNS file
+#
+#    Copyright (c) 1999,2000 by Masato Kawakami <masato@orange.co.jp>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    Special Thanx:
+#        Takuro KITAME <kitame@debian.or.jp>
+#        ari San <ari@nijino.com>
+#        YAMAGUCHI Takanori <yamaya@mtj.biglobe.ne.jp>
+#        Kenji Suzuki <kenji@po.ganseki.ne.jp>
+#        Takashi Sasaki <takashi@aero.kyushu-u.ac.jp>
+#
+#    $Id: todayhns,v 1.13 2000/04/27 07:11:22 masato Exp masato $
+
+TODAYHNS="$HOME/.todayhns"
+HNSSETUP="$HOME/.hnssetup"
+
+if [ -f "$TODAYHNS" ]; then
+    . $TODAYHNS
+elif [ -f "$HNSSETUP" ]; then
+    . $HNSSETUP
+    DIARYDIR=$DEFDIARY
+fi
+
+EDITOR=${EDITOR:-vi}
+DIARYDIR=${DIARYDIR:-"$HOME/diary"}
+INSERT_VARS=${INSERT_VARS:-"TENKI BGM"}
+HOUR_OFFSET=${HOUR_OFFSET:-0}
+USE_YEAR_DIR=${USE_YEAR_DIR:-yes}
+DATE_YEAR_FMT=${DATE_YEAR_FMT:-'%Y'}
+CVS_COMMIT=${CVS_COMMIT:-no}
+
+tmphnf="/tmp/todayhns.$$"
+
+Usage() {	# (exit-val message(s))
+    ex=$1
+    shift
+    echo "Usage :" `basename $0` "[-ytcT] [-f pathname] [-h] [[[year] month] day]"
+    echo "       " `basename $0` "-P [-f pathname] [[year] month]"
+    echo "    -y          : edit yesterday diary"
+    echo "    -t          : edit today diary, ignoring HOUR_OFFSET"
+    echo "    -T          : edit todo"
+    echo "    -P          : edit plan"
+    echo "    -R          : edit repeat plan"
+    echo "    -f pathname : specify configuration file"
+    echo "    -c          : print hns file name"
+    echo "    -h          : show this help"
+    if [ "$@" != "" ]; then
+	echo
+	echo "$@"
+    fi
+    exit $ex
+}
+
+NumCheck() {	# (val desc)
+    if ! echo $1 | grep '^[0-9][0-9]*$' > /dev/null; then
+	Usage 2 "Invaild param '$1' for $2 - abort."
+    fi
+}
+
+Y2toY4() {	# (year2)
+    if [ $1 -lt 100 ]; then
+	if [ $1 -ge 90 ]; then
+	    expr $1 + 1900
+	else
+	    expr $1 + 2000
+	fi
+    else
+    	echo $1
+    fi
+}
+
+MonthDays() {	# (year month)
+    case "$2" in
+	1|01|3|03|5|05|7|07|8|08|10|12) echo 31;;
+	2|02)
+	    if   [ `expr $1 % 400` -eq 0 ]; then echo 29
+	    elif [ `expr $1 % 100` -eq 0 ]; then echo 28
+	    elif [ `expr $1 % 4` -eq 0 ];   then echo 29
+	    else echo 28
+	    fi
+	    ;;
+	4|04|6|06|9|09|11) echo 30;;
+	*) echo $2;;
+    esac
+}
+
+CVSCommit() {	# CVS auto commit
+    if [ $CVS_COMMIT = 'yes' ]; then
+	cvs add $1
+	cvs commit $1
+    fi 
+}
+
+
+print_name=0
+edit_todo=0
+edit_plan=0
+edit_repeat=0
+yd=0
+while getopts ytcf:hTPR i; do
+    case "$i" in
+    y)	yd=1;;
+    t)	HOUR_OFFSET=0;;
+    c)	print_name=1;;
+    T)	edit_todo=1;;
+    P)	edit_plan=1;;
+    R)	edit_repeat=1;;
+    f)	. $OPTARG;;
+    h)	Usage 0 ""
+	break;;
+    '?')
+	Usage 2 "Invaild switch specified - abort."
+	break;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
+cd $DIARYDIR
+
+if [ $edit_todo -ne 0 ]; then
+    if [ $print_name -ne 0 ]; then
+	echo "$DIARYDIR/todo"
+    else
+	$EDITOR "$DIARYDIR/todo"
+    	CVSCommit todo
+    fi
+    exit 0
+fi
+
+if [ $edit_repeat -ne 0 ]; then
+    if [ $print_name -ne 0 ]; then
+	echo "$DIARYDIR/repeat"
+    else
+	$EDITOR "$DIARYDIR/repeat"
+    	CVSCommit repeat
+    fi
+    exit 0
+fi
+
+if [ $edit_plan -ne 0 ]; then
+    thism=`date +%m`
+    thisy=`date +$DATE_YEAR_FMT`
+    if [ $# -ge 2 ]; then
+	y=$1
+	m=$2
+	NumCheck $y year
+	NumCheck $m month
+    	y=`Y2toY4 $y`
+    elif [ $# -eq 1 ]; then
+	y=$thisy
+	m=$1
+    	NumCheck $m month
+    	y=`Y2toY4 $y`
+	if [ $m -lt $thism ]; then
+		y=`expr $y + 1`
+	fi
+    else		
+	y=$thisy
+	m=$thism
+    	y=`Y2toY4 $y`
+    fi
+
+    if [ $m -gt 12 -o $m -lt 1 ]; then
+	Usage 2 "Out of range '$m' for month - abort."
+    fi
+
+    hnf=`echo y$y 0$m | sed -e 's/ 0\([0-3][0-9]\)/\1/g' -e 's/ //g'`
+    if [ "$USE_YEAR_DIR" = "yes" -o "$USE_YEAR_DIR" = "YES" ]; then
+	if [ ! -d "$DIARYDIR/$y" -a $print_name -eq 0 ]; then
+	    mkdir -p $DIARYDIR/$y
+	fi
+	dh=$y/$hnf
+    else
+	dh=$hnf
+    fi
+    if [ $print_name -ne 0 ]; then
+	echo "$DIARYDIR/$dh"
+    else
+	$EDITOR $dh
+    	CVSCommit $dh
+    fi
+    exit 0
+fi
+
+thism=`date +%m`
+thisy=`date +$DATE_YEAR_FMT`
+if [ $# -ge 3 ]; then
+    y=$1
+    m=$2
+    d=$3
+elif [ $# -eq 2 ]; then
+    y=$thisy
+    m=$1
+    d=$2
+elif [ $# -eq 1 ]; then
+    y=$thisy
+    m=$thism
+    d=$1
+else		
+    y=$thisy
+    m=$thism
+    d=`date +%d`
+    if [ `date +%H` -lt $HOUR_OFFSET ]; then
+	yd=1
+    fi
+fi
+
+NumCheck $y year
+NumCheck $m month
+NumCheck $d day
+
+if [ $m -gt 12 -o $m -lt 1 ]; then
+    Usage 2 "Out of range '$m' for month - abort."
+fi
+y=`Y2toY4 $y`
+mdays=`MonthDays $y $m`
+if [ $d -gt $mdays -o $d -lt 1 ]; then
+    Usage 2 "Out of range '$d' for day : ($y/$m) has $mdays days - abort."
+fi
+
+# yesterday
+if [ $yd -ne 0 ]; then
+    if [ $d -eq 1 ]; then
+	if [ $m -eq 1 ]; then
+	    m=12
+	    y=`expr $y - 1`
+	else
+	    m=`expr $m - 1`
+	fi
+	d=`MonthDays $y $m`
+    else
+	d=`expr $d - 1`
+    fi
+fi
+
+hnf=`echo d$y 0$m 0$d.hnf | sed -e 's/ 0\([0-3][0-9]\)/\1/g' -e 's/ //g'`
+if [ "$USE_YEAR_DIR" = "yes" -o "$USE_YEAR_DIR" = "YES" ]; then
+    if [ ! -d "$DIARYDIR/$y" -a $print_name -eq 0 ]; then
+	mkdir -p $DIARYDIR/$y
+    fi
+    dh=$y/$hnf
+else
+    dh=$hnf
+fi
+
+if [ $print_name -ne 0 ]; then
+    echo "$DIARYDIR/$dh"
+    exit 0
+fi
+
+if [ ! -f $dh ]; then
+    # make initial hnf
+    touch $tmphnf
+    for VARS in $INSERT_VARS
+    do
+	echo "$VARS " >> $tmphnf
+    done
+    echo "OK" >> $tmphnf
+    cp $tmphnf $dh
+    $EDITOR $dh
+    if cmp -s $tmphnf $dh; then
+	rm -f $dh
+    else
+    	CVSCommit $dh
+    fi
+    rm -f $tmphnf
+else
+    $EDITOR $dh
+    CVSCommit $dh
+fi

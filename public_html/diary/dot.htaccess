@@ -1,0 +1,19 @@
+DirectoryIndex index.cgi index.html
+#AddType "text/html; charset=EUC-JP" html
+
+<Files "*.pm">
+ deny from all
+</Files>
+<Files "*.ph">
+ deny from all
+</Files>
+<Files "*.bak">
+ deny from all
+</Files>
+<Files "*.pl">
+ deny from all
+</Files>
+<Files "*-old">
+ deny from all
+</Files>
+

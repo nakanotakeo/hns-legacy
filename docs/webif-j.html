@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>ウエッブからの日記編集(webif版)</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+
+      <h1>ウエッブからの日記編集</h1>
+    </div>
+    <hr>
+
+    <h3>モードの設定</h3>
+
+    <p>ウエッブから日記を更新する webif には
+    3つのモードが あります。</p>
+
+    <ul>
+      <li>mail2nikkiモード(デフォルト)</li>
+
+      <li>ftpモード</li>
+
+      <li>ダイレクト・モード</li>
+    </ul>
+    です。 mail2nikkiモードでは、mail2nikki.pl
+    を使います． まず <a href="mail2nikki-j.html">
+    mail2nikki.pl</a>
+    を設定してメールで日記が更新できることを確認して下さい．
+    ftpモードでは、サーバ上の ftpコマンドを
+    使います。サーバに
+    ftpコマンドがあるか確認して下さい。ダイレクト・モードは
+    hnf を webif
+    が直接書き換えます。ダイレクト・モードを利用する
+    には、httpd の実効権限で hnf
+    に書き込み可能である必要があります。ダイレクト・モードでは
+    パスワードの入力は不要です。<br>
+     <br>
+     
+    <hr>
+
+    <h3>webif.cgi の設定</h3>
+
+    <p>webif.cgi は標準で ~/public_html/diary/webif.cgi
+    にインストールされます。設定は webif.cgi
+    の先頭部分で行います。<br>
+     多くの項目は、 Makefile または hns-setup
+    で設定されるため、ほとんどの場合は改めて設定を行う必要はありません。<br>
+
+    <br>
+     <code>$ToUserAddress</code> にメールの送り先アドレス
+    (mail2nikki.pl にリダイレクトされるアドレス)
+    を記載します．<br>
+     <code>my $ToUserAddress = '<span class=
+    "c3">hoge-diary@example.ne.jp</span>';</code><br>
+    <br>
+     <code>$FromUserAddress</code> に mail2nikki.pl
+    で設定した送信元アドレスを記載します．<br>
+     <code>my $FromUserAddress = '<span class=
+    "c3">hoge@example.ne.jp</span>';</code><br>
+    <br>
+     <code>$Sendmail</code> に sendmail のパスを
+    記載します．<br>
+     <code>my $Sendmail = "<span class=
+    "c3">/usr/sbin/sendmail</span>";</code><br>
+    <br>
+     <code>$DateChangeOffset</code> に前日と見なす時刻を
+    記載します．<br>
+     <code>my $DateChangeOffset = <span class="c3">
+    4</span>;</code><br>
+     このように指定した場合、午前4時までに webif
+    の 編集画面を表示すると、編集画面には前日の hnf
+    が表示されます。<br>
+    <br>
+     <code>my $Mode = <span class="c3">0</span>;</code><br>
+     ここで、モードを設定します。
+    ftpモードを使う場合は、1
+    に変更して下さい。ダイレクト・モードを使う場合は、2
+    に 変更して下さい。<br>
+    <br>
+     以上で，設定は完了です．<br>
+    </p>
+    <hr>
+
+    <h3>日記の更新方法</h3>
+
+    <p>日記URL を http://www.example.ne.jp/~hoge/diary/
+    とすると http://www.example.ne.jp/~hoge/diary/webif.cgi
+    にブラウザでアクセスします．<br>
+     編集画面に当日の hnf の中身が表示されます。
+    必要に応じて編集し、パスワードを入力して「登録」
+    ボタンを押すと日記が更新されます。<br>
+    <br>
+     当日以外の日記を更新する場合は、更新する日付を指定して
+    ボタンをクリックしてください。
+    編集画面に指定した日付の hnf が表示されます。<br>
+    <br>
+     日記を削除する場合は、削除したい日付の hnf を
+    編集画面に呼び出したうえで、「この日のhnfを削除」
+    ボタンをクリックしてください。</p>
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: webif-j.html,v 1.13 2002/02/03 16:01:00 bonaim Exp $ -->
+  </body>
+</html>
+

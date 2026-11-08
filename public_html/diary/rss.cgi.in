@@ -1,0 +1,16 @@
+#!%PERL_PATH%
+
+use strict;
+use lib qw(lib);
+
+use HNS;
+use HNS::Tools::RSS;
+
+require './config.ph';
+
+my $hns = new HNS;
+my $rss = new HNS::Tools::RSS;
+
+$rss->Update();
+$rss->Print();
+

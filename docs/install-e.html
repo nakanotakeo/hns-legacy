@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+
+    <title>Installation of hns</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hns documentation]"> 
+
+      <h3>Hyper NIKKI System Version 2.10</h3>
+
+      <h1>Installation of hns</h1>
+    </div>
+    <hr>
+
+    <h3>To use hns</h3>
+
+    <p>You need the system below.</p>
+
+    <ul>
+      <li>Web Server (<a href="http://www.apache.org/">Apache</a>
+      etc)</li>
+
+      <li>Perl 5.004 or lator (<a href=
+      "http://www.h14m.org/dist/contrib/perl5003-patch/">Patch for
+      Perl 5.003</a> is contributed, but not offical)</li>
+
+      <li>GNU make (Only install time. Not BSD make)</li>
+
+      <li>sendmail (If you want to update diary via email or web
+      browser)</li>
+
+      <li>ftp (If you use <a href="webif-j.html">webif</a> ftp
+      mode)</li>
+
+      <li>nkf (You don't need it, if you don't use Japanese)</li>
+    </ul>
+
+    <p>You can use hns, if you can use the software above.</p>
+
+    <p><strong>If you can't use shell, you would be better to
+    install <a href=
+    "http://members.linuxstart.com/~sunnyone/hns-lite/">
+    hns-lite</a>.</strong></p>
+
+    <p>There is a installation documentation for begginers, <a
+    href="http://www.inseki.gr.jp/~myaga/hns/">
+    <strong>はいぱ〜日記システムによるWeb日記のすすめ。(Japanese
+    only)</strong></a>.</p>
+
+    <p>Now,</p>
+
+    <ul>
+      <li>FreeBSD 2.2.5, 2.2.6, 2.2.7, 2.2.8, 3.1, 3.2, 3.3,
+      3.4<br>
+       Linux 2.0.34, 2.0.36, 2.1, 2.2.9, 2.2.13<br>
+       - MkLinux DR3, RedHat(Japanese) 5.2, Vine 1.1, Slackware
+      3.4, Cobalt Linux 3.0<br>
+       - Debian GNU/Linux 2.1, 2.2<br>
+       - TuroboLinux Server 6.0, TurboLinux 6.0<br>
+       OSF1 1.3<br>
+       DigitalUnix 4.0B, 4.0D(Rev. 878), 4.0F<br>
+       Solaris 2.6 for Sparc<br>
+       Solaris 2.6, Solaris 2.7 for Intel<br>
+       NetBSD 1.3.4, 1.4.1<br>
+       SunOS 4.1.4-JLE1.1.4, 5.6<br>
+       BSDI 4.1</li>
+
+      <li>Apache 1.2.1, 1.2.6, 1.3.1 Cobalt, 1.3.3, 1.3.4, 1.3.6,
+      1.3.9, 1.3.11, 1.3.12</li>
+
+      <li>Perl 5.004_01, 5.004_03, 5.004_04, 5.004_05, 5.004_25<br>
+       5.005_02, 5.005_03, 5.005_54, 5.005_56<br>
+       jperl 5.004_04-980303, 5.005_02-981225</li>
+    </ul>
+
+    <p>we recieved reports that hns worked on above environment
+    (not tested all any mix) . If you want to know hns-ready-ISPs,
+    please see <a href="isp-list-j.html">List of ISPs which hns
+    worked</a>.</p>
+
+    <p><a href="howto-j.html">HOWTO Documentation</a> may help
+    you.</p>
+
+    <p>You need the environment that Namazu works to search your
+    diary. See <a href="unagi2-j.html">Full Text Search by Namazu
+    for hns</a> for the detail</p>
+    <hr>
+
+    <h3>Getting hns</h3>
+
+    <p>Get the latest hns from <a href="http://www.h14m.org/dist/">
+    http://www.h14m.org/dist/</a> (hns-2.10-pl?.tar.gz).<br>
+     deb for Debian and port for FreeBSD are also available from <a
+    href="http://www.h14m.org/dist/binaries/">
+    http://www.h14m.org/dist/binaries/</a>.<br>
+     rpm will be released soon.</p>
+    <hr>
+
+    <h3>Installing hns</h3>
+
+    <p>Diary Directory(the directory to put every day hnf) is
+    "~/diary/"， Web Diary Directory(the directory accessible
+    from web) is "~/public_html/diary/".</p>
+
+    <ol>
+      <li>$ <span class="c3">gzip -dc hns-2.10-pl?.tar.gz | tar xvf
+      -</span><br>
+       (or $ <span class="c3">tar zxvf
+      hns-2.10-pl?.tar.gz</span>)</li>
+
+      <li>$ <span class="c3">cd hns-2.10</span></li>
+
+      <li>
+        If you use interactive setup program;<br>
+         $ <span class="c3">sh hns-setup.ja</span><br>
+         and answer the questions.<br>
+         
+
+        <div class="c2">
+          <span class="c1">Caution:</span><br>
+           You can't input the letter "!". If you use it,
+          installation fails. If you want use the letter "!" in
+          your configuration, you must edit configuration file of
+          hns after installation completed.
+        </div>
+        <br>
+      </li>
+
+      <li>
+        Below is in case not to use interactive setup program.<br>
+         $ <span class="c3">vi Makefile</span><br>
+         <code>NIKKITITLE</code> is your diary tilte<br>
+         <code>NIKKITITLE = <span class="c3">HNS: Hoge's
+        Diary</span></code><br>
+        <br>
+         <code>USERMAIL</code> is your email address (the address
+        is embedded in every diary page)<br>
+         <code>USERMAIL = <span class="c3">
+        hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>DIARYMAIL</code> is your email address(to) for <a href=
+        "mail2nikki-j.html">Updating Diary via Email</a> .<br>
+         <code>DIARYMAIL = <span class="c3">
+        hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>FROMADDR</code> is your email address(from) for <a href=
+        "mail2nikki-j.html">Updating Diary via Email</a>
+        (the address is for authorization).<br>
+         <code>FROMADDR = <span class="c3">
+        hoge@example.ne.jp</span></code><br>
+        <br>
+         <code>PASSWORD</code> is password for <a href=
+        "mail2nikki-j.html">Updating Diary via Email</a><br>
+         <code>PASSWORD = <span class="c3">
+        hirakegoma</span></code><br>
+        <br>
+         Set <code>UNAGIUSE</code> ON if you want search form of <a href=
+        "unagi2-j.html">Namazu for hns</a> in your diary page.
+        You need to install "Namazu for hns" to search your diary.
+        <br>
+         <code>UNAGIUSE = <span class="c3">OFF</span></code><br>
+        <br>
+         <code>MYDIARYURI</code> is your diary URL<br>
+         <code>MYDIARYURI = <span class="c3">
+        http://www.example.ne.jp/~hoge/diary/</span></code><br>
+         
+
+        <div class="c2">
+          <span class="c1">Caution:</span><br>
+           index.cgi を DirectoryIndex
+          に指定できない場合(上記の URL に
+          アクセスするとディレクトリの中身が見えてしまう場合など)は、<br>
+
+           <code>MYDIARYURI = <span class="c3">
+          http://www.example.ne.jp/~hoge/diary/index.cgi</span></code><br>
+
+           と設定して下さい。
+        </div>
+        <br>
+         Set the theme name that you want in <code>THEME</code>.
+        Default theme is
+        japanese.<br>
+         <code>THEME = <span class="c3">ruribaka</span></code><br>
+        <br>
+         <code>ANTENNA</code> には， <a href=
+        "http://www.h14m.org/hoshino/">
+        Hoshino Antenna</a>に
+        捕捉された場合，星野アンテナに登録してよいかどうかを記載します．
+        星野アンテナに登録してかまわない場合は OK
+        と，登録して欲しくない場合には， NG
+        と指定します．Default is OK.<br>
+         <code>ANTENNA = <span class="c3">OK</span></code><br>
+        <br>
+         Set the path of Perl5 to <code>PERL_PATH</code>.<br>
+         <code>PERL_PATH = <span class="c3">
+        /usr/local/bin/perl</span></code><br>
+        <br>
+         Set the path of sendmail to <code>SENDMAIL_PATH</code>.<br>
+         <code>SENDMAIL_PATH = <span class="c3">
+        /usr/sbin/sendmail</span></code><br>
+        <br>
+         Set the path of nkf to <code>NKF_PATH</code>.<br>
+         <code>NKF_PATH = <span class="c3">
+        /usr/local/bin/nkf</span></code><br>
+        <br>
+         <code>DIARYDIR</code> is diary directory, 
+        <code>HTMLDIR</code> is web diary directory.
+        Change these only if you want.
+      </li>
+
+      <li>Type<br>
+        $ <span class="c3">make install</span><br>
+         hns is going to be installed.
+
+        <div class="c2">
+          <span class="c1">Caution:</span><br>
+           Installer installs Apache access control file, 
+          .htaccess to your web diary directory.
+          .htaccess is blow: 
+<pre>
+DirectoryIndex index.cgi index.html
+&lt;Files "*.pm"&gt;
+ deny from all
+&lt;/Files&gt;
+&lt;Files "*.ph"&gt;
+ deny from all
+&lt;/Files&gt;
+&lt;Files "*.bak"&gt;
+ deny from all
+&lt;/Files&gt;
+</pre>
+          Your Apache configuration may cause
+           Internal Server Error when you access to your diary.
+          In this case, if you can ask webmaster to change Apache
+          configuration, plese do.
+Or you can remove .htaccess. But if you remove .htaccess, then
+configuration files etc. are readable via web brower.
+        </div>
+      </li>
+
+      <li>If installation finished successfully, go to <a href=
+      "config-j.html">How to Set up Config File</a>
+      <br>
+    </ol>
+    <hr>
+
+    <div class="c1">
+      <h3>Hyper NIKKI System Version 2.10</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-e.html">Index</a></p>
+  </body>
+</html>
+

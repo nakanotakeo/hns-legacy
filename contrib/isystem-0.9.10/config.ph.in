@@ -1,0 +1,146 @@
+#/usr/loca/bin/perl
+# i system config for install.sh
+#
+# 2000/04/23 yar-3
+# 2000/02/17 yar-3
+# 1999/10/06 yar-3
+
+#0.9.2
+# $daystyle 日付表示のカスタマイズ
+# 以下のマクロが使用可能
+# %yyyy 4桁西暦
+# %mm   2桁月
+# %dd   2桁日
+# %m    月(0サプレスなし)
+# %d    日(0サプレスなし)
+# %w    曜日
+#$daystyle = "<b>%yyyy/%m/%d(%w)</b>"; # 2000/7/5(水)
+$daystyle = "<b>%yyyy年%mm月%dd日(%w)</b>"; # 2000年07月05日(水) 以前のdefault
+
+#0.9.1
+$use_onccnv = 1;  # (必須)1なら内蔵ONC GW機能使用
+$flag_maru = 1;    # (任意)1なら丸数字使用
+$ref_max = 40;     # (任意)リンク最大数(これ以上のリンクは無視します)
+
+
+#0.8.6 
+#$imodegw gateway
+#$imodegw = "http://i-greet.com/bin/g.pl?q=";
+
+#0.8.5 add
+# $theme テーマ名
+$theme = "default";
+
+# confのあるディレクトリ
+$confdir = "%DEFHTML%/";
+
+
+#0.8.3 add
+#$sub_separator = ","; #一覧表示時のサブセクションのセパレータ
+
+#0.7.0 追加
+#$titlereverse タイトルの正逆
+#$reverse 全部、pilowebでの正逆
+$titlereverse = 0;
+$reverse = 0;
+
+#piloweb_2days pilowebでアクセスしたときに2日分表示する
+$piloweb_2days = 1;
+
+
+#0.6.3 追加
+#catprint カテゴリ表示 on/off
+$catprint =0;
+
+#0.5.3 追加
+# color iMODE対応
+$headcolor = "BLUE"; #日記のタイトルの色
+$newcolor = "GREEN";  #NEW,LNEWコマンドの着色
+$subcolor = "#800000"; #SUB,LSUBコマンドの着色
+#16進での指定もOK
+$strongcolor = "RED";  #STRONGコマンドの着色
+$strikecolor = "Fuchsia"; #STRONGコマンドの着色
+
+
+#0.4.3追加
+# t-saitoh先生のopennet CGIを利用する場合に使う
+#$ongw = "http://yar-3.net/gw/";
+#この機能を使う場合はbaseuriが必須になります
+#onccnv.pl を使う場合はコメントアウトしてください
+
+#$maxresult 検索の表示数
+$maxresult = 10;
+
+#0.4.2追加
+#hnfconv=1で文字コード変換
+$hnfconv = 1;
+
+
+# 0.3.3 より追加
+# 検索日数
+$maxday = 100;
+
+
+# 0.3.1より追加
+# nkfを使う場合は1
+# jcode.pl は 2
+$nkf =2;
+
+# 0.3.0より追加
+# $log 1 で log採取
+$log = 0;
+#
+# レポート機能を使う場合は「$mailto = 'abc@xxx.yyy.zzz';」のように自分の
+# メールアドレスを設定する。また、/usr/lib/sendmailが存在することを確認
+# しておく。別の場所にある場合は、$sendmail も適切に変更する。詳細メール
+# の場合は「$account_detail = 1;」とし、アクセス件数のみをメールする場合
+# は「$account_detail = 0;」とする。
+#
+$mailto   = '%USERMAIL%';
+$sendmail = '%SENDMAIL%';
+$account_detail = 1;
+
+
+
+# 0.2.9より追加
+# baseuri
+$baseuri = "%MYDIARYURI%";
+
+# *.hnfのあるディレクトリ
+$diarydir = "%DIARYDIR%/";
+
+# hnsへのリンク関係
+$index = "index.cgi";
+
+
+# NEW関係の設定
+$newline = "<hr>";
+$newmark = "\$";
+$new1 = '<b>';
+$new2 = '</b>';
+
+# SUB関係の設定
+$subline = "<br>";
+$submark = "\@";
+$sub1 = '';
+$sub2 = ':';
+
+# タイトル
+$title = "%NIKKITITLE%";
+$head = "%NIKKITITLE%";
+
+# header,footerのファイル名を指定
+$headfile = "head.txt";
+$titleheadfile = "titlehead.txt";
+$footfile = "";
+
+# address要素の入力
+$address = '%USERMAIL%';
+ 
+
+#0.8.5 add
+$themefile = "$confdir$theme.ph";
+require $themefile if (-e $themefile);
+ 
+1;
+

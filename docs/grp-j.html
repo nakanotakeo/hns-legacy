@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+"http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+  <head>
+    <meta name="generator" content="HTML Tidy, see www.w3.org">
+    <meta http-equiv="Content-Type" content=
+    "text/html; charset=iso-2022-jp">
+    <link rel="stylesheet" href="hns.css" type="text/css">
+    <meta http-equiv="content-style-type" content="text/css">
+
+    <title>ひみつ交換日記機能</title>
+  </head>
+
+  <body>
+    <div class="c1">
+      <img src="hns-logo.png" width="200" height="40" alt=
+      "[hnsドキュメント]"> 
+
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+
+    <div class="c1">
+      <h1>ひみつ交換日記機能</h1>
+    </div>
+    <hr>
+
+    <h3>ひみつ交換日記機能 とは?</h3>
+
+    <p>ひみつ交換日記機能
+    とは，特定の読者とのみ交換日記を行える機能です。
+    一般公開された日記と特定読者のみが読める日記を分離する必要はありません。
+    一つの日記で両方を同時に実現することが可能です。</p>
+
+    <p>
+    従来型のウェブ日記システムでは、本来のひみつの交換日記をする場合、
+    日記ページにパスワードなどでアクセス制限をかけるしか方法がありませんでした。
+    しかしこの方法は、一般向けのウェブ日記を書きたい場合、二つの日記を
+    保有していかなければならず、日記の TCO
+    が大幅に増加してしまうという
+    問題点が、最近の研究で明らかになってきています。さらに複数の人と
+    交換日記したい場合、人数分の日記を用意する必要があり、さらにコストの
+    増大と言う深刻な問題を引き起こすことが懸念されています。</p>
+
+    <p>この問題を解消するために「ひみつ交換日記機能」が hns
+    では実装されました。 この機能は、hns
+    で従来から使われているクッキーによる読者追跡と、新コマンド
+    GRP により実現されています。GRP
+    で指定されたセクション(段落)は、予め
+    設定されている読者にしか表示されません。</p>
+    <hr>
+
+    <h3>グループの定義</h3>
+
+    <p>~/diary/conf/group.txt がグループ定義ファイルです。
+    ここにグループ名とそのメンバーを記述します。</p>
+<pre>
+フォーマット:
+グループ名[スペース]RURIコード[[スペース]RURIコード[スペース]...]
+</pre>
+
+    <p>グループ名は、半角英数で記述して下さい。</p>
+<pre>
+例:
+ruri RURIabcdefabcdef
+rei RURI123456123456
+miko RURI361b5798bc1ff RURI361c870b5d212 RURI361ee4a9df955
+</pre>
+    <hr>
+
+    <h3>日記の書き方</h3>
+
+    <p>
+    グループが定義されたあとは、そのグループに属する読者(ひとりでも良い)
+    にのみ表示されるセクションを
+    GRPコマンドを使って指定します。</p>
+<pre>
+文法:
+GRP[スペース]グループ名[[スペース]グループ名[スペース]...]
+</pre>
+
+    <p>GRP は、セクションの最初の行に記述します。つまり、CAT
+    があるセクション では CAT の直前に、CAT
+    がないセクションは、NEW または LNEW の直前に
+    記述して下さい。グループ名の直前に !
+    を付けると「そのグループ以外」
+    という意味になります(排他グループ機能)。</p>
+<pre>
+例:
+GRP ruri
+NEW ルリちゃん元気〜
+ばかばっかでやんなっちゃうね。
+
+GRP rei
+NEW レイちゃんやっぽー
+肉嫌いだったよね。
+
+GRP miko
+CAT 初詣
+NEW 初詣にいった
+みこさんはいなかった。(;_;)
+
+GRP !miko
+NEW 排他グループ
+グループmiko に属する人にだけ表示されません。
+</pre>
+    上記の例では、最初のセクションは、RURIabcdefabcdef
+    の RURIコードを
+    送って来たブラウザにだけ表示され、次のセクションは、RURI123456123456
+    の
+    RURIコードを送って来たブラウザだけに表示され、3番目のセクションは、
+    RURI361b5798bc1ff RURI361c870b5d212 RURI361ee4a9df955
+    のいずれかを
+    送って来たブラウザにしか表示されません。
+    最後のセクションは、 RURI361b5798bc1ff RURI361c870b5d212
+    RURI361ee4a9df955
+    のいずれかを送ってきたブラウザにのみ表示されません。 
+    <hr>
+
+    <div class="c1">
+      <h3>ハイパー日記システム Version 2.20</h3>
+    </div>
+    <hr>
+
+    <p><a href="index-j.html">Index</a></p>
+    <!-- $Id: grp-j.html,v 1.5 2001/11/07 11:43:01 kenji Exp $ -->
+  </body>
+</html>
+
