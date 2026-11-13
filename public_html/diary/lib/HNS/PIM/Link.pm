@@ -19,7 +19,7 @@ HNS::PIM::Link - Link集定義
 
 =head1 SYNOPSIS
 
- my $link = HNS::PIM::Link->new(filename=>'diary/link');
+ my $link = "HNS::PIM::Link"->new(filename=>'diary/link');
  $link->Read;
  print $link->AsHTML;
 
@@ -94,7 +94,7 @@ HTML変換して返す
 sub AsHTML ($)
 {
     my $self = shift;
-    my $templ = HNS::Template->new();
+    my $templ = "HNS::Template"->new();
     my $html .= SelectTemplate($BeginTemplate, %BeginTemplate);
     my $cnt;    
 

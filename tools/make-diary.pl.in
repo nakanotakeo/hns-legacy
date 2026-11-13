@@ -3,99 +3,128 @@
         if $runnning_under_some_shell;
 
 # static diary html maker for hns
-# Version: 0.0.4
-# 2000/10/15  Kenji Suzuki <kenji@h14m.org>
-
-# Copyright (C) 2000  Kenji Suzuki, HyperNikkiSystem Project
-
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-# $Id: make-diary.pl.in,v 1.6 2003/10/17 11:39:50 togawa Exp $
-
-# This file must be encoded in EUC-JP encoding
+# Version: 0.0.4 (safe static-generation updates)
+# 2000/10/15 Kenji Suzuki, HyperNikkiSystem Project
+# Copyright (C) 2000 Kenji Suzuki, HyperNikkiSystem Project
+# This program is free software under the GNU General Public License,
+# version 2 or (at your option) any later version.
+# This file must be encoded in EUC-JP encoding.
 
 use strict;
 use Getopt::Std;
+use File::Temp qw(tempfile);
 
-use vars qw / $opt_f $opt_h $opt_s /;
+use vars qw($opt_f $opt_h $opt_s);
 
 my $html_dir = "%HTMLDIR%";
-my $hns = $html_dir . "/index.cgi";
+my $hns = "$html_dir/index.cgi";
 my $default_suffix = ".html";
 
 require "$html_dir/config.ph";
-
 getopts('fhs:') || usage();
-usage() if ($opt_h);
+usage() if $opt_h;
 
-my $suffix = $opt_s || $default_suffix;
-my $recent_file_name = "recent$suffix";
-my $recent = $html_dir . "/" . $recent_file_name;
+my $suffix = defined($opt_s) ? $opt_s : $default_suffix;
+# A suffix is a filename extension, not a path.
+$suffix =~ /\A\.[A-Za-z0-9_-]+\z/ or die "Invalid suffix: $suffix\n";
 
 my $start = time;
 my $year = (localtime($start))[5] + 1900;
-
+my $lastmod = 0;
+my $failures = 0;
 $| = 1;
 
-my $lastmod;
-chdir ($html_dir);
+chdir($html_dir) or die "Cannot chdir to $html_dir: $!\n";
+
+sub generate {
+    my ($name, $argument, $mtime) = @_;
+    my $destination = "$html_dir/$name";
+    my ($fh, $temporary) = tempfile('.make-diary-XXXXXXXX', DIR => $html_dir, UNLINK => 0);
+    print "creating $destination ...";
+
+    my $pid = fork();
+    if (!defined $pid) {
+        warn "fork failed for $name: $!\n";
+        close $fh;
+        unlink $temporary;
+        print " failed.\n";
+        return 0;
+    }
+    if ($pid == 0) {
+        $ENV{REQUEST_URI} = $name;
+        open(STDOUT, '>&', $fh) or die "Cannot redirect stdout: $!\n";
+        close $fh;
+        my @command = ($^X, '-I.', '-Ilib', $hns);
+        push @command, $argument if defined $argument;
+        exec { $^X } @command;
+        die "Cannot execute $hns: $!\n";
+    }
+    close $fh;
+    waitpid($pid, 0);
+    my $status = $?;
+    my $size = -s $temporary;
+    if ($status != 0 || !$size) {
+        warn "Generation failed for $name (status=$status, bytes=" . ($size || 0) . ")\n";
+        unlink $temporary;
+        print " failed.\n";
+        return 0;
+    }
+    if (!rename($temporary, $destination)) {
+        warn "Cannot rename $temporary to $destination: $!\n";
+        unlink $temporary;
+        print " failed.\n";
+        return 0;
+    }
+    if (!utime(time(), $mtime, $destination)) {
+        warn "Cannot set modification time on $destination: $!\n";
+    }
+    print " done.\n";
+    return 1;
+}
+
 foreach my $yy ($HNS::System::StartYear .. $year) {
-        my @lastmod;
-
-        for my $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$yy"){
-                opendir(DIR, $dir) || next;
-                foreach my $file (readdir(DIR)) {
-                        if ($file =~ /^d$yy(\d\d)\d\d.hnf$/) {
-                                my $l= (stat("$dir/$file"))[9];
-                                $lastmod[$1] = $l if ($lastmod[$1] < $l);
-                                $lastmod = $l if ($lastmod < $l);
-                        }
-                }
+    my @monthly_mtime;
+    for my $dir ($HNS::System::DiaryDir, "$HNS::System::DiaryDir/$yy") {
+        opendir(my $dh, $dir) or next;
+        while (my $file = readdir($dh)) {
+            if ($file =~ /^d\Q$yy\E(\d\d)\d\d\.hnf$/) {
+                my $month = int($1);
+                next if $month < 1 || $month > 12;
+                my $mtime = (stat("$dir/$file"))[9];
+                next unless defined $mtime;
+                $monthly_mtime[$month] = $mtime
+                    if !defined($monthly_mtime[$month]) || $monthly_mtime[$month] < $mtime;
+                $lastmod = $mtime if $lastmod < $mtime;
+            }
         }
-        foreach my $mm (1 .. 12) {
-                $mm = "0" . int($mm) if ($mm < 10);
-                my $monthly_file_name = "$yy$mm$suffix";
-                my $monthly = $html_dir . "/" . $monthly_file_name;
-                next unless ($lastmod[$mm]);
-                if ($opt_f ||
-                    ! -f $monthly || (stat($monthly))[9] < $lastmod[$mm]) {
-                        print "creating $monthly ...";
-                        system ("REQUEST_URI=$monthly_file_name; export REQUEST_URI; $hns $yy$mm >$monthly");
-                        utime(time(), $lastmod[$mm], $monthly);
-                        print " done.\n";
-                }
+        closedir($dh);
+    }
+    for my $mm (1 .. 12) {
+        next unless defined $monthly_mtime[$mm];
+        my $name = sprintf('%04d%02d%s', $yy, $mm, $suffix);
+        my $destination = "$html_dir/$name";
+        if ($opt_f || !-f $destination || (stat($destination))[9] < $monthly_mtime[$mm]) {
+            $failures++ unless generate($name, sprintf('%04d%02d', $yy, $mm), $monthly_mtime[$mm]);
         }
+    }
 }
 
-if ($opt_f || ! -f $recent || (stat($recent))[9] < $lastmod) {
-        print "creating $recent ...";
-        system ("REQUEST_URI=$recent_file_name; export REQUEST_URI; $hns >$recent");
-        utime(time(), $lastmod, $recent);
-        print " done.\n";
+if ($lastmod) {
+    my $name = "recent$suffix";
+    my $destination = "$html_dir/$name";
+    if ($opt_f || !-f $destination || (stat($destination))[9] < $lastmod) {
+        $failures++ unless generate($name, undef, $lastmod);
+    }
+} else {
+    warn "No diary files found; recent page not generated.\n";
 }
 
-my $end = time;
-my $elapse = $end - $start;
-print "\n$elapse seconds.\n";
+print "\n", time() - $start, " seconds. ", $failures, " failed.\n";
+exit($failures ? 1 : 0);
 
-sub usage () {
-        die <<"EOT";
-Usage: $0 [-h] [-s suffix]
-    -f          force update.
-    -h          Print this help.
-    -s <suffix> Set suffix. (default is '$default_suffix')
-EOT
+sub usage {
+    die "Usage: $0 [-f] [-h] [-s suffix]\n" .
+        "    -f          Force update.\n" .
+        "    -h          Print this help.\n" .
+        "    -s <suffix> Set suffix (default '$default_suffix').\n";
 }
-

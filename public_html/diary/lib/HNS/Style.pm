@@ -148,15 +148,15 @@ sub initialize($)
     ## PIM ##
     if ($self->col->mode eq 'RECENT' && $PIMUse eq "ON"){
 	# Schedule
-	my $schedule = HNS::PIM::Schedule->new();
+	my $schedule = "HNS::PIM::Schedule"->new();
 	$schedule->Read;
 	
 	# TODO
-	my $todo = HNS::PIM::Todo->new();
+	my $todo = "HNS::PIM::Todo"->new();
 	$todo->Read;
 
 	# Link
-	my $link = HNS::PIM::Link->new();
+	my $link = "HNS::PIM::Link"->new();
 	$link->Read;
 	# PIM
 	$self->pim_html($templ->Expand(SelectTemplate($template->{pim},
@@ -184,10 +184,12 @@ sub initialize($)
         }
 
 	my $calendar_type = $HNS::Status->calendar_type;
-	my $code = "\$calendar = HNS::Calendar::$calendar_type->new();";
-	eval($code);
+	my $class = "HNS::Calendar::$calendar_type";
+	eval {
+	    $calendar = $class->new();
+	};
 	if ($@){
-	    Warning("illegal calendar type :" . $calendar_type);
+	    Warning("illegal calendar type : $calendar_type($@)");
 	} else {
 	    my ($y, $m) = ($self->col->mode eq 'RECENT') ?
 		($HNS::Status->start_time->year,

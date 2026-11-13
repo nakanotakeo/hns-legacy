@@ -18,7 +18,7 @@ sub GetQreki ($$$)
   my ($self, $year, $month, $day) = @_;
 	if ($QREKI) {
 		$month = $month - 1;
-		my $julian_day = &qreki'ut2jd(0, 0, 0, $day, $month, $year);
+		my $julian_day = qreki::ut2jd(0, 0, 0, $day, $month, $year);
 		my ($qday, $qmonth, $qyear, $leap, $moon_age) = qreki::calc_old($julian_day);
 		$qmonth = $qmonth + 1;
 		sprintf("%s%d·î%dÆü", ($leap ? '±¼' : ''), $qmonth, $qday);

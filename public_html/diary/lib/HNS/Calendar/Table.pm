@@ -54,12 +54,12 @@ sub AsHTML ($$$$)
     my ($self, $year, $month, $col, $cat_arg) = @_;
     ($year, $month) = (sprintf("%04d", $year), sprintf("%02d", $month));
     my $html;
-    my $templ = HNS::Template->new();
+    my $templ = "HNS::Template"->new();
     
     # table start
     $html .= qq(<table border="$TableBorder" summary="calendar">\n);
     # month
-    my $date = DateTime::Date->new(year=>$year, month=>$month, day=>1);
+    my $date = "DateTime::Date"->new(year=>$year, month=>$month, day=>1);
     $html .= "<tr>\n";
     # prev
     $html .= qq( <th colspan="2" align="left">);
