@@ -15,8 +15,8 @@ HNS - total management of HNS
 
 =head1 DESCRIPTION
 
-hns ┴┤┬╬дЄ┤╔═¤д╣дыепеще╣бг
-$HNS::Status д╧┬╛д╬епеще╣длдщ╗▓╛╚д╡дьдыбг
+hns хЕиф╜УуВТчобчРЖуБЩуВЛуВпуГйуВ╣уАВ
+$HNS::Status уБпф╗ЦуБоуВпуГйуВ╣уБЛуВЙхПВчЕзуБХуВМуВЛуАВ
 
 =cut
 
@@ -43,11 +43,11 @@ __PACKAGE__->attributes(qw()); # status);
 
 =head1 STATIC VARIABLES
 
- $VERSION           д│д╬е╜б╝е╣д╬еЇебб╝е╕ечеє
- $PUBLIC_VERSION    └╡╝░╕°│лд╡дьд╞дддыеЇебб╝е╕ечеє
- %VersionMessages   еЇебб╝е╕ечеєесе├е╗б╝е╕
- $HnsHomePage       hns д╬е█б╝ере┌б╝е╕ URI
- $Status            ╣н░ш┼к╛ї╢╖еке╓е╕езепе╚
+ $VERSION           уБУуБоуВ╜уГ╝уВ╣уБоуГ┤уВбуГ╝уВ╕уГзуГ│
+ $PUBLIC_VERSION    цнгх╝ПхЕмщЦЛуБХуВМуБжуБДуВЛуГ┤уВбуГ╝уВ╕уГзуГ│
+ %VersionMessages   уГ┤уВбуГ╝уВ╕уГзуГ│уГбуГГуВ╗уГ╝уВ╕
+ $HnsHomePage       hns уБоуГЫуГ╝уГауГЪуГ╝уВ╕ URI
+ $Status            х║ГхЯЯчЪДчК╢ц│БуВкуГЦуВ╕уВзуВпуГИ
 
 =cut
 
@@ -55,7 +55,7 @@ use vars qw($VERSION $PUBLIC_VERSION %VersionMessages $HnsHomePage $Status);
 $VERSION = "2.19.9";
 $PUBLIC_VERSION = "2.19.9";
 
-$HnsHomePage = "http://www.h14m.org/";
+$HnsHomePage = "https://web.archive.org/web/20230801153506/http://www.h14m.org/";
 
 %VersionMessages =
     ('Public' => q(hns - Hyper NIKKI System - Version %public),
@@ -75,7 +75,7 @@ sub initialize($)
 
 =head2 $hns->Print($col);
 
-┼╧д╡дьд┐╞№╡не│еьепе╖ечеє($col) д╦╜╛дд╔╜╝ид╣ды
+ц╕буБХуВМуБЯцЧешиШуВ│уГмуВпуВ╖уГзуГ│($col) уБлх╛УуБДшбичд║уБЩуВЛ
 
 =cut
 
@@ -259,7 +259,7 @@ sub Print($$) #($$$$$)
 
 =head2 $hns->RecordLog($ref, $to);
 
-│╞еэе░дЄ╡н╧┐д╣ды
+хРДуГнуВ░уВТшиШщМ▓уБЩуВЛ
 
 =cut
 
