@@ -92,6 +92,8 @@ sub generate {
         print " failed.\n";
         return 0;
     }
+    chmod(0644, $destination)
+        or warn "Cannot chmod $destination: $!\n";
     if (!utime(time(), $mtime, $destination)) {
         warn "Cannot set modification time on $destination: $!\n";
     }
