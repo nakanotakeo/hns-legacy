@@ -51,6 +51,8 @@ sub generate {
         return 0;
     }
     if ($pid == 0) {
+        delete @ENV{qw(HTTP_COOKIE COOKIE)};
+        $ENV{HNS_STATIC_GENERATION} = 1;
         $ENV{REQUEST_URI} = $name;
         open(STDOUT, '>&', $fh) or die "Cannot redirect stdout: $!\n";
         close $fh;

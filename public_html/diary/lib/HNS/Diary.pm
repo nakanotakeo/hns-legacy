@@ -410,6 +410,11 @@ sub Display ($$) {
             $section[$HNS::Diary::section] =~ 
 		s/^<!-- xhnf_grp (.*) -->$/<!-- xhnf_grp_p -->/m;
             my @grp = split (" ", $1);
+            if ($ENV{'HNS_STATIC_GENERATION'}) {
+                # Never publish GRP sections in static HTML.
+                $section[$HNS::Diary::section] = "";
+            }
+            else {
             unless (tied %GRP_DB){
                 tie %GRP_DB, 'SimpleDB::Hash',
                 "$HNS::System::DiaryDir/conf/group.txt", 1;
@@ -428,6 +433,7 @@ sub Display ($$) {
                     }
 		}
             }
+	    }
 	}
 	else {	# normal section
 	    while ($count <= $HNS::Diary::section) {
@@ -446,6 +452,11 @@ sub Display ($$) {
 	while ($tmp =~ /^<!-- xhnf_grp (.*) -->$/m) {
 	    $tmp =~ s/^<!-- xhnf_grp (.*) -->$/<!-- xhnf_grp_p -->/m;
 	    my @grp = split (" ", $1);
+	    if ($ENV{'HNS_STATIC_GENERATION'}) {
+		# Never publish GRP sections, including reversed groups.
+		push (@grp_display, 0);
+		next;
+	    }
 #print "grp: @grp<br>\n";
 	    unless (tied %GRP_DB){
 		tie %GRP_DB, 'SimpleDB::Hash',
