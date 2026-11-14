@@ -51,7 +51,17 @@ hnsinstall() {
  cp -pr . /tmp/hns-setup-`whoami`/
  cd /tmp/hns-setup-`whoami`/
 
- $MAKE NIKKITITLE="$TITLE" \
+ # HNS configuration files use EUC-JP, while this installer uses UTF-8.
+ TITLE_EUC=$(printf '%s' "$TITLE" | iconv -f UTF-8 -t EUC-JP) || {
+   echo "エラー: 日記タイトルを EUC-JP に変換できません．" >&2
+   exit 1
+ }
+ AUTHOR_EUC=$(printf '%s' "$AUTHOR" | iconv -f UTF-8 -t EUC-JP) || {
+   echo "エラー: 著者名を EUC-JP に変換できません．" >&2
+   exit 1
+ }
+
+ $MAKE NIKKITITLE="$TITLE_EUC" \
       USERMAIL="$MAIL" \
       DIARYDIR="$DIARY" \
       HTMLDIR=$HTML \
@@ -65,7 +75,7 @@ hnsinstall() {
       MYDIARYURI="$URL" \
       THEME="$THEME" \
       ANTENNA="$ANTENNA" \
-      AUTHOR="$AUTHOR" \
+      AUTHOR="$AUTHOR_EUC" \
       MESMAIL="$MESMAIL" \
       NEWREVERSE="$NEWREVERSE" \
       USEBOARD="$USEBOARD" \
