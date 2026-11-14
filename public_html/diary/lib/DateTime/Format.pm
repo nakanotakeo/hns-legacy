@@ -16,7 +16,7 @@ sub strftime($@) # static function
     my ($template, @ta) = @_;
 
 #    my $self = new Timefmt(year=>$ta[5]+1900, month=>$ta[4]+1, day=>$ta[3],
-    my $date = DateTime::Time->new(
+    my $date = "DateTime::Time"->new(
         year=>$ta[5]+1900, month=>$ta[4]+1, day=>$ta[3],
         hour=>$ta[2], min=>$ta[1], sec=>$ta[0]
     );
