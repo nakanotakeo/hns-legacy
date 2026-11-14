@@ -7,17 +7,17 @@
 #  parameter %value is expanded to value of the user variable.
 #  you can use other value of user variable by noting as "%user{BASHO}".
 package HNS::Hnf::UserVar;
-$Templates{'TENKI'}  = "[Å·µ¤:%value]";
+$Templates{'TENKI'}  = "[å¤©æ°—:%value]";
 $Templates{'BASHO'}  = "(%value)";
-$Templates{'TAION'}  = " ÂÎ²¹:%valueÅÙ";
-$Templates{'TAIJU'}  = " ÂÎ½Å:%value" . "Kg";
-$Templates{'SUIMIN'} = " ¿çÌ²:%value»ş´Ö";
+$Templates{'TAION'}  = " ä½“æ¸©:%valueåº¦";
+$Templates{'TAIJU'}  = " ä½“é‡:%value" . "Kg";
+$Templates{'SUIMIN'} = " ç¡çœ :%valueæ™‚é–“";
 $Templates{'BGM'}    = " BGM:%value";
-$Templates{'HOSU'}   = " %valueÊâ";
-$Templates{'HON'}    = " ÆÉ½ñ:%value";
-$Templates{'KITAKU'} = " µ¢Âğ»ş´Ö:%value";
-$Templates{'WALK'}   = " »¶Êâ:%value";
-$Templates{'RUN'}    = " ¥¸¥ç¥®¥ó¥°:%value";
+$Templates{'HOSU'}   = " %valueæ­©";
+$Templates{'HON'}    = " èª­æ›¸:%value";
+$Templates{'KITAKU'} = " å¸°å®…æ™‚é–“:%value";
+$Templates{'WALK'}   = " æ•£æ­©:%value";
+$Templates{'RUN'}    = " ã‚¸ãƒ§ã‚®ãƒ³ã‚°:%value";
 $Templates{'YOTEI'}  = "<p>%value</p>";
 
 ################################################################
@@ -34,11 +34,11 @@ $List{"m(__)m"}  = "icons/usapeko.png";
 $List{"!!"}      = "icons/usadoki.png";
 $List{"??"}      = "icons/usahatena.png";
 $List{"!?"}      = "icons/usanaze.png";
-$List{"(¾Ğ)"}    = "icons/usasho.png";
+$List{"(ç¬‘)"}    = "icons/usasho.png";
 $List{":-)"}     = "icons/usasmile2.png";
 $List{":-("}     = "icons/usaheno2.png";
 $List{":-P"}     = "icons/usabe2.png";
-$List{"¦Õ(._.)"} = "icons/usamemo.png";
+$List{"Ï†(._.)"} = "icons/usamemo.png";
 
 ################################################################
 # Language
@@ -50,10 +50,10 @@ $Lang = "ja";
 package HNS::CategoryList;
 $CatDir = "cat";
 
-$TitleLabel = "¥¿¥¤¥È¥ë°ìÍ÷";
-$SubmitLabel = "É½¼¨!";
+$TitleLabel = "ã‚¿ã‚¤ãƒˆãƒ«ä¸€è¦§";
+$SubmitLabel = "è¡¨ç¤º!";
 $Template = qq(<img src="%src" width="%width" height="%height" alt="">%value<br>\n);
-$Categorize = "¥«¥Æ¥´¥êÊ¬Îà";
+$Categorize = "ã‚«ãƒ†ã‚´ãƒªåˆ†é¡";
 
 ################################################################
 # Extend HTML
@@ -106,16 +106,16 @@ $Head{static} = qq(<!--#exec cmd="./logging.pl"-->\n) . $Head{dynamic};
 ################################################################
 package HNS::Collection;
 # %num : number of showing diarys
-$FootMessages{'HasContent'} = "°Ê¾å¡¢%num ÆüÊ¬¤Ç¤¹¡£\n";
-$FootMessages{'NoContent'} = "³ºÅö¤¹¤ë¤â¤Î¤Ï¤¢¤ê¤Ş¤»¤ó¡£\n";
+$FootMessages{'HasContent'} = "ä»¥ä¸Šã€%num æ—¥åˆ†ã§ã™ã€‚\n";
+$FootMessages{'NoContent'} = "è©²å½“ã™ã‚‹ã‚‚ã®ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚\n";
 
 
 ################################################################
 # PIM
 # Schedule
 package HNS::PIM::Schedule;
-@WeekString = ('<span class="sunday">Æü</span>', '·î', '²Ğ', '¿å', 'ÌÚ', '¶â', '<span class="saturday">ÅÚ</span>');
-@ABCString = ('¾å', 'Ãæ', '²¼');
+@WeekString = ('<span class="sunday">æ—¥</span>', 'æœˆ', 'ç«', 'æ°´', 'æœ¨', 'é‡‘', '<span class="saturday">åœŸ</span>');
+@ABCString = ('ä¸Š', 'ä¸­', 'ä¸‹');
 $Unfixed = '??';
 $ContentTemplate = qq(<li><strong>%month/%day%week</strong> %content</li>\n);
 $BeginTemplate = "<ul>";
@@ -130,14 +130,14 @@ $EndTemplate = "</ul>";
 ################################################################
 # Calendar
 package HNS::Calendar::Table;
-@WeekString = ('<span class="sunday">Æü</span>', '·î', '²Ğ', '¿å', 'ÌÚ', '¶â', '<span class="saturday">ÅÚ</span>');
+@WeekString = ('<span class="sunday">æ—¥</span>', 'æœˆ', 'ç«', 'æ°´', 'æœ¨', 'é‡‘', '<span class="saturday">åœŸ</span>');
 $TableBorder = 0;
-$NextTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month%cat">Íè·î</a>);
-$PrevTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month%cat">Àè·î</a>);
-$ThisTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month%cat">%yearÇ¯%month·î</a>);
-$NextTemplate{static} = qq(<a href="./%year%month.html">Íè·î</a>);
-$PrevTemplate{static} = qq(<a href="./%year%month.html">Àè·î</a>);
-$ThisTemplate{static} = qq(<a href="./%year%month.html">%yearÇ¯%month·î</a>);
+$NextTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month%cat">æ¥æœˆ</a>);
+$PrevTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month%cat">å…ˆæœˆ</a>);
+$ThisTemplate{dynamic} = qq(<a href="$HNS::System::MyDiaryURI?%year%month%cat">%yearå¹´%monthæœˆ</a>);
+$NextTemplate{static} = qq(<a href="./%year%month.html">æ¥æœˆ</a>);
+$PrevTemplate{static} = qq(<a href="./%year%month.html">å…ˆæœˆ</a>);
+$ThisTemplate{static} = qq(<a href="./%year%month.html">%yearå¹´%monthæœˆ</a>);
 $DayCurrentTemplate = qq(<a href="%ruri#%{ymd}0">%calendar_day</a>);
 $DayNonCurrentTemplate = qq(<a href="%href">%calendar_day</a>);
 
@@ -154,10 +154,10 @@ $DayNonCurrentTemplate = qq(<a href="%href">%calendar_day</a>);
 ################################################################
 # DateSelect
 package HNS::DateSelect;
-$YearTemplate = "%yearÇ¯";
-$MonthTemplate = "%month·î";
-$DayTemplate = "%start_day¡Á%end_dayÆü";
-$AllLabel = "Á´¤Æ";
+$YearTemplate = "%yearå¹´";
+$MonthTemplate = "%monthæœˆ";
+$DayTemplate = "%start_dayï½%end_dayæ—¥";
+$AllLabel = "å…¨ã¦";
 
 ################################################################
 # Direct Ctalendar
@@ -171,7 +171,7 @@ $Templates{Table}->{pim} = qq(
 <hr>
 <table summary="pim" width="100%">
 <tr>
- <th align="left">Í½Äê</th>
+ <th align="left">äºˆå®š</th>
  <th align="left">TODO</th>
  <th align="left">Link</th>
 </tr>
@@ -235,10 +235,10 @@ $Templates{NoTable}->{foot_recent_style} = $Templates{NoTable}->{foot_style};
 
 # unagi template
 $UnagiTemplate = qq( 
-<a href="%namazu_url">Namazu</a> for hns ¤Ë¤è¤ë´Ê°×Á´Ê¸¸¡º÷<br>
-¾Ü¤·¤¯¤Ï <a href="%unagi_url">¾ÜºÙ»ØÄê/¥Ø¥ë¥×</a>¤ò»²¾È¤·¤Æ²¼¤µ¤¤
+<a href="%namazu_url">Namazu</a> for hns ã«ã‚ˆã‚‹ç°¡æ˜“å…¨æ–‡æ¤œç´¢<br>
+è©³ã—ãã¯ <a href="%unagi_url">è©³ç´°æŒ‡å®š/ãƒ˜ãƒ«ãƒ—</a>ã‚’å‚ç…§ã—ã¦ä¸‹ã•ã„
 <form method="GET" action="%unagi_url">
-<strong>¸¡º÷¼°:</strong>
+<strong>æ¤œç´¢å¼:</strong>
 <input type="TEXT" name="key" size="30" value="%keyword">
 <input type="SUBMIT" name="submit" value="Search!">
 <input type="HIDDEN" name="whence" value="0">
@@ -246,7 +246,7 @@ $UnagiTemplate = qq(
 );
 
 $NoUnagiTemplate = qq(
-<a href="http://www.h14m.org/"><img src="./icons/hns-logo.png" width="200" height="40" align="right" alt="HNS logo"></a>
+<a href="https://web.archive.org/web/20230801153506/http://www.h14m.org/"><img src="./icons/hns-logo.png" width="200" height="40" align="right" alt="HNS logo"></a>
 );
 
 
@@ -254,18 +254,18 @@ $NoUnagiTemplate = qq(
 ################################################################
 # Warning
 package HNS::Hnf::Warning;
-$Head = "<br><span class=\"warning\">\[- Æüµ­¥·¥¹¥Æ¥à·Ù¹ğ¡§";
+$Head = "<br><span class=\"warning\">\[- æ—¥è¨˜ã‚·ã‚¹ãƒ†ãƒ è­¦å‘Šï¼š";
 $Foot = "-\]</span><br>\n";
 
 # parameters:
 #  %c : the command name
 #  %p : command name of inserted position
 #
-$Messages{'IllegalHeader'} = "¥Ø¥Ã¥ÀÉô¤¬ÉÔÀµ¤Ç¤¹";
-$Messages{'UndefinedUserVar'} = "ÄêµÁ¤µ¤ì¤Æ¤¤¤Ê¤¤¥æ¡¼¥¶ÊÑ¿ô¤¬»È¤ï¤ì¤Æ¤¤¤Ş¤¹";
-$Messages{'Reserved'} = "¥³¥Ş¥ó¥É %c ¤ÏÍ½Ìó¤µ¤ì¤Æ¤¤¤Ş¤¹¡£";
-$Messages{'NoMatch'} = "¥³¥Ş¥ó¥É %p ¤ÎÃæ¤Ë¥³¥Ş¥ó¥É %c ¤ò´Ş¤á¤ë¤³¤È¤Ï¤Ç¤­¤Ş¤»¤ó¡£¥³¥Ş¥ó¥É /%p ¤¬È´¤±¤Æ¤¤¤ë²ÄÇ½À­¤¬¤¢¤ê¤Ş¤¹¡£";
-$Messages{'NotDefined'} = "¥³¥Ş¥ó¥É %c ¤Î°ú¿ô¤È¤·¤Æ %t ¤ÏÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó¡£";
+$Messages{'IllegalHeader'} = "ãƒ˜ãƒƒãƒ€éƒ¨ãŒä¸æ­£ã§ã™";
+$Messages{'UndefinedUserVar'} = "å®šç¾©ã•ã‚Œã¦ã„ãªã„ãƒ¦ãƒ¼ã‚¶å¤‰æ•°ãŒä½¿ã‚ã‚Œã¦ã„ã¾ã™";
+$Messages{'Reserved'} = "ã‚³ãƒãƒ³ãƒ‰ %c ã¯äºˆç´„ã•ã‚Œã¦ã„ã¾ã™ã€‚";
+$Messages{'NoMatch'} = "ã‚³ãƒãƒ³ãƒ‰ %p ã®ä¸­ã«ã‚³ãƒãƒ³ãƒ‰ %c ã‚’å«ã‚ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚ã‚³ãƒãƒ³ãƒ‰ /%p ãŒæŠœã‘ã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚";
+$Messages{'NotDefined'} = "ã‚³ãƒãƒ³ãƒ‰ %c ã®å¼•æ•°ã¨ã—ã¦ %t ã¯å®šç¾©ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚";
 
 ################################################################
 # Version Message
@@ -276,23 +276,23 @@ $Messages{'NotDefined'} = "¥³¥Ş¥ó¥É %c ¤Î°ú¿ô¤È¤·¤Æ %t ¤ÏÄêµÁ¤µ¤ì¤Æ¤¤¤Ş¤»¤ó¡£";
 
 package HNS;
 $VersionMessages{'Public'} = q(<hr>
-<div>hns - Æüµ­¼«Æ°À¸À®¥·¥¹¥Æ¥à - Version %public</div>);
+<div>hns - æ—¥è¨˜è‡ªå‹•ç”Ÿæˆã‚·ã‚¹ãƒ†ãƒ  - Version %public</div>);
 
 $VersionMessages{'NonPublic'}->{dynamic} = qq(<hr>
 <div>
-<span class="warning">Ãí°Õ¡§</span> 
-º£¸½ºß»ÈÍÑ¤µ¤ì¤Æ¤¤¤ë¤³¤ÎÆüµ­¼«Æ°À¸À®¥·¥¹¥Æ¥à¤Ï 
-Version %current ¤Ç¤¹¡£<br>
-¸ø³«¤µ¤ì¤Æ¤¤¤ëÆüµ­¼«Æ°À¸À®¥·¥¹¥Æ¥à¤Ï 
-Version %public ¤Ç¤¹¡£
+<span class="warning">æ³¨æ„ï¼š</span> 
+ä»Šç¾åœ¨ä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ã“ã®æ—¥è¨˜è‡ªå‹•ç”Ÿæˆã‚·ã‚¹ãƒ†ãƒ ã¯ 
+Version %current ã§ã™ã€‚<br>
+å…¬é–‹ã•ã‚Œã¦ã„ã‚‹æ—¥è¨˜è‡ªå‹•ç”Ÿæˆã‚·ã‚¹ãƒ†ãƒ ã¯ 
+Version %public ã§ã™ã€‚
 </div>
 );
 
 $VersionMessages{'NonPublic'}->{static} = qq(<hr>
 <div>
-<span class="warning">Ãí°Õ¡§</span> 
-¤³¤ÎÆüµ­¤ÏÆüµ­¼«Æ°À¸À®¥·¥¹¥Æ¥à Version %current ¤ÇÀ¸À®¤µ¤ì¤Ş¤·¤¿¡£<br>
-¸ø³«¤µ¤ì¤Æ¤¤¤ëÆüµ­¼«Æ°À¸À®¥·¥¹¥Æ¥à¤Ï Version %public ¤Ç¤¹¡£
+<span class="warning">æ³¨æ„ï¼š</span> 
+ã“ã®æ—¥è¨˜ã¯æ—¥è¨˜è‡ªå‹•ç”Ÿæˆã‚·ã‚¹ãƒ†ãƒ  Version %current ã§ç”Ÿæˆã•ã‚Œã¾ã—ãŸã€‚<br>
+å…¬é–‹ã•ã‚Œã¦ã„ã‚‹æ—¥è¨˜è‡ªå‹•ç”Ÿæˆã‚·ã‚¹ãƒ†ãƒ ã¯ Version %public ã§ã™ã€‚
 </div>
 );
 
@@ -309,11 +309,11 @@ $VersionMessages{'NonPublic'}->{static} = qq(<hr>
 
 package HNS::Diary::Template;
 $BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%abc";
-#$BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%day"; # 1ÆüÊ¬¤Î¤ß
-$BaseTemplate{static} = "./%year%month.html";		# ÀÅÅªÀ¸À®
+#$BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%day"; # 1æ—¥åˆ†ã®ã¿
+$BaseTemplate{static} = "./%year%month.html";		# é™çš„ç”Ÿæˆ
 $HrefTemplate{dynamic} = "%base&amp;to=%name#%name";
-#$HrefTemplate{dynamic} = "%base#%name";		# to= ¤òÉÕ¤±¤Ê¤¤
-$HrefTemplate{static} = "%base?to=%name#%name";		# ÀÅÅªÀ¸À®
+#$HrefTemplate{dynamic} = "%base#%name";		# to= ã‚’ä»˜ã‘ãªã„
+$HrefTemplate{static} = "%base?to=%name#%name";		# é™çš„ç”Ÿæˆ
 
 package HNS::Diary;
 ################
@@ -323,14 +323,14 @@ package HNS::Diary;
 #  user-variable
 #   %user{VARNAME}	: string as which user-var-format is expanded using
 #			  value of user-variable VARNAME.
-@WeekString = ('<span class="sunday">Æü</span>', '·î', '²Ğ', '¿å', 'ÌÚ', '¶â', '<span class="saturday">ÅÚ</span>');
+@WeekString = ('<span class="sunday">æ—¥</span>', 'æœˆ', 'ç«', 'æ°´', 'æœ¨', 'é‡‘', '<span class="saturday">åœŸ</span>');
 
 $Head{dynamic} = qq(
-<h2><a class="hide" href="%href" name="%name">%yearÇ¯%month·î%dayÆü(%week)</a>
-[<a href="$HNS::System::MyDiaryURI?%month%day">nÇ¯Æüµ­</a>]</h2>
+<h2><a class="hide" href="%href" name="%name">%yearå¹´%monthæœˆ%dayæ—¥(%week)</a>
+[<a href="$HNS::System::MyDiaryURI?%month%day">nå¹´æ—¥è¨˜</a>]</h2>
 );
 $Head{static} = qq(
-<h2><a class="hide" href="%href" name="%name">%yearÇ¯%month·î%dayÆü(%week)</a></h2>
+<h2><a class="hide" href="%href" name="%name">%yearå¹´%monthæœˆ%dayæ—¥(%week)</a></h2>
 );
 
 $UserVar = qq(<div class="uservar">
@@ -340,7 +340,7 @@ $UserVar = qq(<div class="uservar">
 
 # Schedule as User Val
 $YoteiVal = "<li>%value</li>";
-$YoteiHead = "Í½Äê\n<ul>";
+$YoteiHead = "äºˆå®š\n<ul>";
 $YoteiFoot = "</ul>";
 
 $Foot = qq(<hr>\n);
@@ -391,7 +391,7 @@ $EndTemplate = "</div>%boarddata %boardlink<!-- end of RLNEW -->\n";
 
 package HNS::Hnf::Command::SUB;
 $Template = qq(
-<h4><a class="hide" name="%name" title="%name" href="%href">¡÷</a>
+<h4><a class="hide" name="%name" title="%name" href="%href">ï¼ </a>
 %content:</h4> 
 <div class="sub">
 );
@@ -399,7 +399,7 @@ $EndTemplate = "</div><!-- end of SUB -->\n";
 
 package HNS::Hnf::Command::LSUB;
 $Template = qq(
-<h4><a class="hide" name="%name" title="%name" href="%href">¡÷</a>
+<h4><a class="hide" name="%name" title="%name" href="%href">ï¼ </a>
 <a href="%1">%content</a>:</h4> 
 <div class="sub">
 );
@@ -408,7 +408,7 @@ $NumAttr = 1;
 
 package HNS::Hnf::Command::RLSUB;
 $Template = qq(
-<h4><a class="hide" name="%name" title="%name" href="%href">¡÷</a>
+<h4><a class="hide" name="%name" title="%name" href="%href">ï¼ </a>
 <a href="%url%2">%content</a>:</h4> 
 <div class="sub">
 );
@@ -528,20 +528,20 @@ $BaseTemplate{dynamic} = "$HNS::System::MyDiaryURI?%year%month%abc";
 $BaseTemplate{static} = "./%year%month.html";
 $RecentBaseTemplate{dynamic} = "$HNS::System::MyDiaryURI";
 $RecentBaseTemplate{static} = "./recent.html";
-$DayTemplate = qq(<a href="%href" class="hide">%yearÇ¯%month·î%dayÆü</a>);
+$DayTemplate = qq(<a href="%href" class="hide">%yearå¹´%monthæœˆ%dayæ—¥</a>);
 
 package HNS::Tools::HeadLine::New;
-$Template = qq(<b>¡¦</b><a href="%href" title="%para">%content</a>);
+$Template = qq(<b>ãƒ»</b><a href="%href" title="%para">%content</a>);
 
 ################################################################
 # Link to board.cgi
 
 package Board;
-$ReadStr = '¥³¥á¥ó¥È¤òÆÉ¤à(%num)';
+$ReadStr = 'ã‚³ãƒ¡ãƒ³ãƒˆã‚’èª­ã‚€(%num)';
 $SepStr = '|';
-$WriteStr = '¥³¥á¥ó¥È¤¹¤ë';
+$WriteStr = 'ã‚³ãƒ¡ãƒ³ãƒˆã™ã‚‹';
 $LinkStr = '<div class="boardlink" align="right">[ %readstr %sepstr %writestr ]</div>';
-$HeadStr = '<h4 class="comment">¤³¤Îµ­»ö¤Ø¤Î¥³¥á¥ó¥È</h4>';
+$HeadStr = '<h4 class="comment">ã“ã®è¨˜äº‹ã¸ã®ã‚³ãƒ¡ãƒ³ãƒˆ</h4>';
 
 ################################################################
 1;
