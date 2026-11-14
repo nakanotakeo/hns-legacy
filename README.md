@@ -1,6 +1,6 @@
-# HyperNikkiSystem 2.19.9 — Legacy HNF Static Site Generator
+# HyperNikkiSystem 2.19.9-static.1 — Legacy HNF Static Site Generator
 
-This repository contains a modified version of **HyperNikkiSystem (HNS) 2.19.9**, a diary system originally developed by the HyperNikkiSystem Project.
+This repository contains **HyperNikkiSystem (HNS) 2.19.9-static.1**, a modified fork of HNS 2.19.9, a diary system originally developed by the HyperNikkiSystem Project.
 
 The primary purpose of this fork is to preserve existing HNF (HyperNikki Format) diary archives and make them accessible as static HTML pages without running legacy CGI programs on a public web server.
 
