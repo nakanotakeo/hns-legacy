@@ -6,6 +6,14 @@ The primary purpose of this fork is to preserve existing HNF (HyperNikki Format)
 
 The original HNS project is no longer actively maintained. Its former website is available through the [Internet Archive](https://web.archive.org/web/20230801153506/http://www.h14m.org/).
 
+## オリジナルのソースアーカイブ
+
+この改修版は、FreeBSD の ports distfiles キャッシュから入手したオリジナルの `hns-2.19.9.tar.gz` を基にしています。
+
+- ファイル名: `hns-2.19.9.tar.gz`
+- 入手先: https://distcache.FreeBSD.org/ports-distfiles/hns-2.19.9.tar.gz
+- オリジナルのリリース日: 2006年11月5日（同梱の `README.ja` による）
+
 ## 主な変更点
 
 オリジナルの HNS 2.19.9 に対して、以下の修正を加えています。
