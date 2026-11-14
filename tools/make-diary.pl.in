@@ -71,6 +71,21 @@ sub generate {
         print " failed.\n";
         return 0;
     }
+    # Strip CGI-host-dependent tags from generated static HTML.
+    # Work on raw bytes to preserve EUC-JP content.
+    open(my $input, '<', $temporary) or die "Cannot read $temporary: $!\n";
+    my ($filtered_fh, $filtered_path) =
+        tempfile('.make-diary-filtered-XXXXXXXX', DIR => $html_dir, UNLINK => 0);
+    while (my $line = <$input>) {
+        next if $line =~ /<base\s+href\s*=/i;
+        next if $line =~ /<link\s+rel=["']alternate["'][^>]*rss\.cgi/i;
+        print {$filtered_fh} $line or die "Cannot write $filtered_path: $!\n";
+    }
+    close($input) or die "Cannot close $temporary: $!\n";
+    close($filtered_fh) or die "Cannot close $filtered_path: $!\n";
+    unlink $temporary or die "Cannot remove $temporary: $!\n";
+    $temporary = $filtered_path;
+
     if (!rename($temporary, $destination)) {
         warn "Cannot rename $temporary to $destination: $!\n";
         unlink $temporary;
