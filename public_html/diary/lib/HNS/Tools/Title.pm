@@ -200,7 +200,12 @@ sub getFileList($;$) {
     }
 
     if ($self->mode eq 'recent') { # Recent
-	my $date = $HNS::Status->start_time;
+	#	my $date = $HNS::Status->start_time;
+	my $date = "DateTime::Date"->new(
+	    year  => $HNS::Status->start_time->year,
+	    month => $HNS::Status->start_time->month,
+	    day   => $HNS::Status->start_time->day
+	    );
 	if ($num) {
 	    while ($date->year >= $HNS::System::StartYear &&
 		   keys %{$self->files} < $num) {
