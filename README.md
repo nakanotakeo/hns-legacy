@@ -51,7 +51,7 @@ The original HNS project is no longer actively maintained. Its former website is
 本リポジトリを取得し、`perl-5.40` ブランチを使用します。
 
 ```sh
-git clone -b perl-5.40 https://github.com/nakanotakeo/hns-legacy.git
+git clone https://github.com/nakanotakeo/hns-legacy.git
 cd hns-legacy
 ```
 
