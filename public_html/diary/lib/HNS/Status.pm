@@ -4,7 +4,7 @@ package HNS::Status;
 
 =head1 NAME
 
-HNS::Status - ¾õ¶·¥¯¥é¥¹
+HNS::Status - Â¾ÃµÂ¶Â·Â¥Â¯Â¥Ã©Â¥Â¹
 
 =cut
 
@@ -174,7 +174,7 @@ sub initialize($)
     # intelle search
     if ($HNS::Style::UnagiUse eq "ON") {
 	    use HNS::IntelliSearch;
-	    $self->is(HNS::IntelliSearch->new(referer => $self->referer));
+	    $self->is("HNS::IntelliSearch"->new(referer => $self->referer));
 	    $self->is->GetKeyword();
     }
 
