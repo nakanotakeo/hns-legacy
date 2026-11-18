@@ -38,6 +38,9 @@ use HNS::Cache;
 
 require './config.ph';
 
+# Disable Namazu search form in statically generated HTML.
+$HNS::Style::UnagiUse = "OFF" if $ENV{HNS_STATIC_GENERATION};
+
 BEGIN {
     $| = 1;
 #    open(STDERR, ">&STDOUT");
