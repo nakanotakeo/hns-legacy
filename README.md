@@ -48,7 +48,7 @@ The original HNS project is no longer actively maintained. Its former website is
 
 ## インストール
 
-本リポジトリを取得し、`perl-5.40` ブランチを使用します。
+本リポジトリを取得します。標準ブランチの main に、Perl 5.40 対応版と静的 HTML 生成機能が含まれています。
 
 ```sh
 git clone https://github.com/nakanotakeo/hns-legacy.git
