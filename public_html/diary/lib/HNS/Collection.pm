@@ -10,7 +10,7 @@ HNS::Collection   :  diary collection class
 
   use HNS::Collection;
 
-  my $col = HNS::Collection->new();
+  my $col = "HNS::Collection"->new();
   $col->Read($y);
   $col->Print($y, $m, $d);
   #$col->PrintRecent;   # recent
@@ -32,12 +32,12 @@ use HNS::Diary::Template;
 
 =head1 MEMBER VARIABLES
 
- diarys         ∆¸µ≠∑≤
- last_modified  ∫«Ω™ππø∑ª˛πÔ
- mode           •‚°º•…
- start_time     ≥´ªœª˛πÔ
- end_time       Ω™Œªª˛πÔ
- year,month,day «Ø∑Ó∆¸
+ diarys         Êó•Ë®òÁæ§
+ last_modified  ÊúÄÁµÇÊõ¥Êñ∞ÊôÇÂàª
+ mode           „É¢„Éº„Éâ
+ start_time     ÈñãÂßãÊôÇÂàª
+ end_time       ÁµÇ‰∫ÜÊôÇÂàª
+ year,month,day Âπ¥ÊúàÊó•
  prev,next	prev month, next month
 
 =cut
@@ -49,7 +49,7 @@ use vars qw(%FootMessages);
 
 =head1 STATIC VARIABLES
 
- %FootMessage  •’•√•»•·•√•ª°º•∏
+ %FootMessage  „Éï„ÉÉ„Éà„É°„ÉÉ„Çª„Éº„Ç∏
 
 =cut
 
@@ -67,8 +67,8 @@ sub initialize($)
 
 =head2 $c->Read($year, $month, $day);
 
-$year, $month, $day §Œ∆¸µ≠§Ú∆…§ﬂπ˛§‡°£
-$day §œ∆¸…’ªÿƒÍ§Œ§€§´§À°¢∞Ï∑ÂÃ‹ªÿƒÍ°¢Ω‹ªÿƒÍ(a,b,c)§¨§«§≠§Î°£
+$year, $month, $day „ÅÆÊó•Ë®ò„ÇíË™≠„ÅøËæº„ÇÄ„ÄÇ
+$day „ÅØÊó•‰ªòÊåáÂÆö„ÅÆ„Åª„Åã„Å´„ÄÅ‰∏ÄÊ°ÅÁõÆÊåáÂÆö„ÄÅÊó¨ÊåáÂÆö(a,b,c)„Åå„Åß„Åç„Çã„ÄÇ
 
 =cut
 
@@ -99,7 +99,7 @@ sub Read($$$$)
 
 =head2 $c->ReadDay($month, $day);
 
-$month, $day §Œ∆¸µ≠§Ú∆…§ﬂπ˛§‡°£
+$month, $day „ÅÆÊó•Ë®ò„ÇíË™≠„ÅøËæº„ÇÄ„ÄÇ
 
 =cut
 
@@ -121,7 +121,7 @@ sub ReadDay($$$)
     closedir DIR;
 
     foreach my $file (@files) {
-        my $diary = HNS::Diary->new(filename=>"$DiaryDir/$file");
+        my $diary = "HNS::Diary"->new(filename=>"$DiaryDir/$file");
         $file =~ /^d(.*)\.hnf$/;
         $self->diarys->{$1} = $diary;
     }
@@ -133,7 +133,7 @@ sub ReadDay($$$)
         my $ymd = $year . $month . $day;
         if ((-f "$DiaryDir/$year/d$ymd.hnf") && 
 	(!$self->diarys->{$ymd})) { 
-            my $diary = HNS::Diary->new(filename=>
+            my $diary = "HNS::Diary"->new(filename=>
 		"$DiaryDir/$year/d$ymd.hnf"); 
 	    $self->diarys->{$ymd} = $diary;
 	}
@@ -149,7 +149,7 @@ sub ReadDay($$$)
             my $ymd = $year . $month . $day;
             if ((-f "$DiaryDir/$year/d$ymd.hnf") &&
             (!$self->diarys->{$ymd})) {
-                my $diary = HNS::Diary->new(filename=>
+                my $diary = "HNS::Diary"->new(filename=>
                   "$DiaryDir/$year/d$ymd.hnf");
                 $self->diarys->{$ymd} = $diary;
             }
@@ -180,7 +180,7 @@ sub ReadDay($$$)
 
 =head2 $c->ReadRecent($max);
 
-∫«ø∑ $max  ¨§Ú∆…§ﬂπ˛§‡°£
+ÊúÄÊñ∞ $max ÂàÜ„ÇíË™≠„ÅøËæº„ÇÄ„ÄÇ
 
 =cut
 
@@ -263,7 +263,7 @@ sub collect_yearly ($$)
             next unless (-f "$dir/$file" &&	# normal file
                          $file =~ /^($year\d{4})\.xhnf$/ &&
                          !$self->diarys->{$1});
-            my $diary = HNS::Diary->new(filename=>
+            my $diary = "HNS::Diary"->new(filename=>
 			"$HNS::System::DiaryDir/$year/d$1.hnf");
             $self->diarys->{$1} = $diary;
         }
@@ -375,7 +375,7 @@ sub seek_prev_next_month($$$) {
 
 =head2 $c->Print;
 
-…Ωº®§π§Î
+Ë°®Á§∫„Åô„Çã
 
 =cut
 
